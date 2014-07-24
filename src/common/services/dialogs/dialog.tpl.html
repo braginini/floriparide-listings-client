@@ -1,0 +1,8 @@
+<div class="modal-header" ng-if="title">
+    <h4 class="modal-title">{{title}}</h4>
+</div>
+<div class="modal-body" ng-bind-html="message">{{message}}</div>
+<div class="modal-footer" ng-if="isButtons">
+    <button class="btn btn-primary" ng-click="ok()" style="width: 80px">OK</button>
+    <button class="btn btn-default" ng-click="cancel()" style="width: 80px">Отмена</button>
+</div>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>Floripa Ride</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style type="text/css">
+        #loading-mask{
+            background-color:white;
+            height:100%;
+            position:absolute;
+            left:0;
+            top:0;
+            width:100%;
+            z-index:2000;
+        }
+    </style>
+</head>
+<body>
+
+<div ui-view></div>
+
+<toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
+
+<div id="loading-mask" style=""></div>
+
+<!-- compiled CSS -->
+<% styles.forEach( function ( file ) { %>
+<link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+
+<!-- compiled JavaScript -->
+<% scripts.forEach( function ( file ) { %>
+<script type="text/javascript" src="<%= file %>"></script><% }); %>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+.leaflet-bar {
+  box-shadow: none;
+}
+
+@map-control-zoom-in-size: 40px;
+@map-control-zoom-in-border-size: 5px;
+
+a.leaflet-control-zoom-in, a.leaflet-control-zoom-in:hover {
+  height: @map-control-zoom-in-size;
+  width: @map-control-zoom-in-size;
+  line-height: (@map-control-zoom-in-size - 2 * @map-control-zoom-in-border-size);
+  border-radius: ceil((@map-control-zoom-in-size * 0.5)) !important;
+  border: @map-control-zoom-in-border-size solid #3d3d3d;
+  font-size: ceil((@map-control-zoom-in-size * 0.7));
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+@map-control-zoom-out-size: 32px;
+@map-control-zoom-out-border-size: 5px;
+
+a.leaflet-control-zoom-out, a.leaflet-control-zoom-out:hover {
+  height: @map-control-zoom-out-size;
+  width: @map-control-zoom-out-size;
+  line-height: (@map-control-zoom-out-size - 2 * @map-control-zoom-out-border-size);
+  border-radius: ceil((@map-control-zoom-out-size * 0.5)) !important;
+  border: @map-control-zoom-out-border-size solid #3d3d3d !important;
+  font-size: ceil((@map-control-zoom-out-size * 0.7));
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
+  position: relative;
+  left: ceil(((@map-control-zoom-in-size - @map-control-zoom-out-size) / 2));
+  margin-top: 2px;
+}
