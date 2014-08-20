@@ -5,6 +5,7 @@ angular
     'ui.bootstrap.tooltip',
     'ui.bootstrap.tabs',
     'leaflet-directive',
+    'infinite-scroll',
     'templates-app',
     'templates-common',
     'template/tooltip/tooltip-popup.html',
@@ -12,7 +13,9 @@ angular
     'template/tabs/tabset.html',
     'app.config',
     'services.api',
-    'directives.resizable'
+    'services.branches',
+    'directives.resizable',
+    'directives.frames'
   ])
 
   .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -22,6 +25,11 @@ angular
         url: '',
         controller: 'MainCtrl',
         templateUrl: 'main.tpl.html'
+      })
+      .state('main.search', {
+        url: '/search/:query',
+        controller: 'SearchCtrl',
+        templateUrl: 'branches.tpl.html'
       });
 
     $('#loading-mask').remove();
@@ -48,5 +56,13 @@ angular
       $scope.initPoint = config.initPoint;
     });
     $scope.initPoint = {};
+
+    $scope.search = function(q) {
+      $injector.get('$location').path('/search/' + q);
+    };
+  }])
+
+  .controller('SearchCtrl', ['$scope', '$injector', '$stateParams', 'BranchesFeed', function($scope, $injector, $stateParams, BranchesFeed) {
+    $scope.feed = new BranchesFeed($stateParams.query);
   }])
 ;

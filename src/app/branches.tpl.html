@@ -1,0 +1,9 @@
+<div class="frames">
+    <div class="frame">
+        <div class="search-result">
+            <ul infinite-scroll='feed.nextPage()' infinite-scroll-disabled='feed.busy || feed.eof || !feed.query'>
+                <li ng-repeat="b in feed.branches">{{b.name}}</li>
+            </ul>
+        </div>
+    </div>
+</div>
