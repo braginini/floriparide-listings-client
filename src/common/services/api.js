@@ -102,9 +102,13 @@ angular.module('services.api', [
       },
 
       branchSearch: function(params) {
-        params.project_id = 1;
+        params.project_id = config.project.id;
         params.start = 0;
         return me.get('/branch/search', params);
+      },
+
+      projectList: function(params) {
+        return me.get('/project/list', params);
       }
     };
     return me;

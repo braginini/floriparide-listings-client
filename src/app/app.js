@@ -35,6 +35,16 @@ angular
     $('#loading-mask').remove();
   }])
 
+  .run(['api', 'config', function(api, config) {
+    var params = {};
+    api.projectList(params).then(function (res) {
+      if (res && res.items.length) {
+        var project = res.items[0];
+        config.project = project;
+      }
+    });
+  }])
+
   .controller('MainCtrl', ['$scope', '$injector', 'config', function($scope, $injector, config) {
     $scope.layers = {
       baselayers: {
@@ -51,9 +61,9 @@ angular
 
     $scope.defaults = config.map_defaults || {};
 
-    $scope.maxbounds = $injector.get('leafletBoundsHelpers').createBoundsFromArray(config.maxbounds);
+    $scope.maxbounds = $injector.get('leafletBoundsHelpers').createBoundsFromArray(config.project.bounds);
     $injector.get('$interval')(function() {
-      $scope.initPoint = config.initPoint;
+      $scope.initPoint = config.project.default_position;
     });
     $scope.initPoint = {};
 
