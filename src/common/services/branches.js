@@ -22,7 +22,8 @@
 
         var params = {
           q: this.query,
-          limit: this.limit
+          limit: this.limit,
+          start: this.branches.length
         };
 
         this.read(params);
@@ -33,6 +34,7 @@
           this.loadResult(res, params);
         }.bind(this), function (err) {
           this.busy = false;
+          this.eof = true;
           return err;
         }.bind(this));
       };
@@ -43,6 +45,7 @@
           this.eof = true;
         }
         this.branches = this.branches.concat(res.items);
+        this.busy = false;
       };
 
       return Feed;

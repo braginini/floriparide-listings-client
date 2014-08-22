@@ -3,12 +3,22 @@
   angular
     .module('directives.frames', [
     ])
-    .directive('frames', [function () {
+    .directive('frames', ['$timeout', '$window', function ($timeout, $window) {
       return {
         restrict: 'EC',
         replace: false,
         link: function ($scope, element, attrs) {
           frameSetEl = angular.element(element);
+          var el = angular.element(element);
+          var winEl = angular.element($window);
+          var sync_height = function () {
+            var offset = el.offset();
+            var winHeight = winEl.height();
+            el.height(winHeight - offset.top - 20);
+          };
+
+          $timeout(sync_height, 0);
+          winEl.bind('resize', sync_height);
         }
       };
     }])
