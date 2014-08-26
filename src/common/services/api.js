@@ -15,6 +15,8 @@ angular.module('services.api', [
       return promise;
     };
 
+    $rootScope = $injector.get('$rootScope');
+
     var me = {
       getUrl: function(action) {
         return config.endpoints.api + action;
@@ -33,6 +35,7 @@ angular.module('services.api', [
           }
         });
 
+        $rootScope.$broadcast('api.request_start', action, params);
         var d = $q.defer();
         $http(_.assign(opts, {
           url: me.getUrl(action),
@@ -40,8 +43,10 @@ angular.module('services.api', [
         })).success(function(res) {
           if (res.success) {
             d.resolve(res.result);
+            $rootScope.$broadcast('api.request_success', action, res);
           } else {
             d.reject(res.error);
+            $rootScope.$broadcast('api.request_failed', action, res);
           }
         }).error(function(data) {
           if (data.error) {
@@ -49,6 +54,7 @@ angular.module('services.api', [
           } else {
             d.reject();
           }
+          $rootScope.$broadcast('api.request_failed', action, data);
         });
         return extend_promise(d.promise);
       },

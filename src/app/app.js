@@ -59,7 +59,20 @@
       });
     }])
 
-    .controller('MainCtrl', ['$scope', '$injector', 'config', function ($scope, $injector, config) {
+    .controller('MainCtrl', ['$scope', '$rootScope', '$injector', 'config', function ($scope, $rootScope, $injector, config) {
+      $scope.isLoading = false;
+
+      var loadingFactory = function (value) {
+        return function(e, action) {
+          if (action === '/branch/search') {
+            $scope.isLoading = value;
+          }
+        };
+      };
+      $rootScope.$on('api.request_start', loadingFactory(true));
+      $rootScope.$on('api.request_success', loadingFactory(false));
+      $rootScope.$on('api.request_failed', loadingFactory(false));
+
       $scope.layers = {
         baselayers: {
           osm: {

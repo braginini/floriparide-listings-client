@@ -19,7 +19,7 @@
             max: 5,
             step: 1,
             size: 'xs',
-            symbol: '\ue80a',
+            symbol: '\ue805',
             glyphicon: false,
             showCaption: false,
             showClear: false

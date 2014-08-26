@@ -599,6 +599,18 @@ module.exports = function (grunt) {
           livereload: false
         }
       }
+    },
+
+    fontello: {
+      dist: {
+        options: {
+          config  : 'fontello.json',
+          fonts   : 'src/assets/fonts',
+          styles  : 'src/less/icons',
+          scss    : false,
+          force   : true
+        }
+      }
     }
   };
 
