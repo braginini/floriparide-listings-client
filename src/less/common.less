@@ -2,3 +2,44 @@ a:focus {
     outline: none;
     outline-offset: 0;
 }
+
+//bootstrap vertical tabs fix
+.nav-stacked {
+  position: absolute;
+  border-bottom: 0;
+  > li > a {
+    margin-right: 0;
+    border-radius: @nav-pills-border-radius 0 0 @nav-pills-border-radius;
+    border-color: #3d3d3d;
+    background-color: #3d3d3d;
+    cursor: pointer;
+    width: 44px;
+    i {
+      color: @gray-light;
+      font-size: 16px;
+    }
+  }
+
+  > li > a:hover {
+    border-color: #3d3d3d;
+    background-color: #3d3d3d;
+  }
+
+  > li.active > a, > li.active > a:hover {
+    width: 45px;
+    border-color: #fff;
+    cursor: pointer;
+  }
+
+  > li + li {
+    margin-top: 5px;
+  }
+}
+
+div[vertical] {
+  .tab-content {
+    margin-left: 44px;
+    background-color: #fff;
+    border-radius: 0 @border-radius-base @border-radius-base @border-radius-base;
+  }
+}

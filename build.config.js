@@ -75,10 +75,12 @@ module.exports = {
       'vendor/lodash/dist/lodash.js',
       'vendor/AngularJS-Toaster/toaster.js',
       'vendor/leaflet-dist/leaflet-src.js',
-      'vendor/angular-leaflet-directive/dist/angular-leaflet-directive.js'
+      'vendor/angular-leaflet-directive/dist/angular-leaflet-directive.js',
+      'vendor/bootstrap-star-rating/js/star-rating.js'
     ],
     css: [
-      'vendor/leaflet-dist/leaflet.css'
+      'vendor/leaflet-dist/leaflet.css',
+      'vendor/bootstrap-star-rating/css/star-rating.css'
     ],
     assets: [
     ]

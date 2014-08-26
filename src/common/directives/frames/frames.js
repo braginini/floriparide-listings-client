@@ -15,6 +15,7 @@
             var offset = el.offset();
             var winHeight = winEl.height();
             el.height(winHeight - offset.top - 20);
+            el.find('.search-result').height(winHeight - offset.top - 60);
           };
 
           $timeout(sync_height, 0);

@@ -1,10 +1,14 @@
 <div class="branch">
     <div class="branch-icon">
-        <i class="icon-camera"></i>
+        <i ng-class="{'icon-camera': b.photos.length}"></i>
     </div>
     <div class="branch-header">{{b.name}}</div>
     <div class="branch-body">
         <div class="description" ng-if="b.article">{{b.article}}</div>
-        <address>{{b.address}}</address>
+        <address>{{getAddress()}}</address>
+    </div>
+    <div class="branch-footer">
+        <rating rate="b.rating" readonly="readonly"></rating>
+        <div class="reviews">{{b.comments.total}} отзыва</div>
     </div>
 </div>

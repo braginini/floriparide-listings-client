@@ -1,11 +1,28 @@
 <div class="frames">
     <div class="frame" ng-show="feed.branches.length">
-        <div id="branches_container" class="search-result">
-            <div infinite-scroll='feed.nextPage()' infinite-scroll-disabled='feed.busy || feed.eof || !feed.query'
-                infinite-scroll-container="'#branches_container'"
-                infinite-scroll-parent >
-                <div ng-repeat="b in feed.branches" branch="b"></div>
-            </div>
-        </div>
+        <tabset vertical="true">
+            <tab>
+                <tab-heading><i class='icon-search'></i></tab-heading>
+                <div class="frame-content">
+                    <div class="search-header">
+                        <div class="title">Организации</div>
+                        <div class="count">{{feed.total_count}}</div>
+                        <a href="#/" class="btn btn-link close"><i class="icon-cancel"></i></a>
+                    </div>
+                    <div id="branches_container" class="search-result">
+                        <div infinite-scroll='feed.nextPage()'
+                            infinite-scroll-distance="1"
+                            infinite-scroll-disabled='feed.busy || feed.eof || !feed.query'
+                            infinite-scroll-container="'#branches_container'"
+                            infinite-scroll-parent >
+                            <div ng-repeat="b in feed.branches" branch="b"></div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+            <tab>
+                <tab-heading><i class='icon-star'></i></tab-heading>
+            </tab>
+        </tabset>
     </div>
 </div>

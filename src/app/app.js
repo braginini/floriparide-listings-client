@@ -76,15 +76,20 @@
       $scope.defaults = config.map_defaults || {};
 
       $scope.maxbounds = $injector.get('leafletBoundsHelpers').createBoundsFromArray(config.project.bounds);
-//      $injector.get('$interval')(function () {
       $scope.initPoint = config.project.default_position;
-      //});
-      //$scope.initPoint = {};
 
       $state = $injector.get('$state');
       $scope.search = function (q) {
         $state.go('main.search', {query: q});
       };
+
+      $rootScope = $injector.get('$rootScope');
+      $rootScope.$on('$stateChangeSuccess',
+        function(event, toState, toParams, fromState, fromParams) {
+          if (toState.name !== 'main.search') {
+            $scope.query = null;
+          }
+        });
     }])
 
     .controller('SearchCtrl', ['$scope', '$injector', '$stateParams', 'BranchesFeed', function ($scope, $injector, $stateParams, BranchesFeed) {
