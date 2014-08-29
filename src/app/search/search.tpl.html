@@ -1,0 +1,30 @@
+<div class="frames">
+    <div class="frame" ng-show="feed.branches.length">
+        <div class="frame-wrapper">
+            <div class="frame-close">
+                <a href="#/" class="btn btn-link close"><i class="icon-cancel"></i></a>
+            </div>
+            <div class="frame-tabs">
+                <div class="frame-tab shadow-tab"></div>
+                <div class="frame-tab">
+                    <div class="tab-icon"><i class="icon-briefcase"></i></div>
+                    <div class="title">Организации</div>
+                    <div class="count">{{feed.total_count}}</div>
+                </div>
+            </div>
+            <div class="frame-content">
+                <header class="header"></header>
+                <div id="branches_container" class="search-result card-list">
+                    <div infinite-scroll='feed.nextPage()'
+                        infinite-scroll-distance="1"
+                        infinite-scroll-disabled='feed.busy || feed.eof || !feed.query'
+                        infinite-scroll-container="'#branches_container'"
+                        infinite-scroll-parent >
+                        <div ng-repeat="b in feed.branches" class="card" branch="b" ng-click="openBranch(b)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ui-view></div>
+</div>

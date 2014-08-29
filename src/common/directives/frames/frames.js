@@ -1,5 +1,32 @@
 (function () {
   var frameSetEl;
+  var stack = [];
+
+  var fix_styles = function() {
+    angular.forEach(stack, function(frame) {
+      frame.el.removeClass('frame-center');
+    });
+
+    if (stack.length > 1) {
+      stack[stack.length - 1].el.addClass('frame-center');
+    }
+  };
+
+  var add_frame = function(element) {
+    var el = angular.element(element);
+    stack.push({
+      el: el
+    });
+    el.addClass('frame-' + stack.length);
+    fix_styles();
+    return stack.length;
+  };
+
+  var remove_frame = function(index) {
+    stack = stack.slice(0, index - 1);
+    fix_styles();
+  };
+
   angular
     .module('directives.frames', [
     ])
@@ -15,7 +42,8 @@
             var offset = el.offset();
             var winHeight = winEl.height();
             el.height(winHeight - offset.top - 20);
-            el.find('.search-result').height(winHeight - offset.top - 60);
+            el.find('.frame').height(winHeight - offset.top - 20);
+            el.find('.search-result').height(winHeight - offset.top - 56);
           };
 
           $timeout(sync_height, 0);
@@ -26,11 +54,13 @@
 
     .directive('frame', [function () {
       return {
-        restrict: 'EA',
-        template: '<div class="frame"></div>',
-        replace: true,
+        restrict: 'EAC',
+        replace: false,
         link: function ($scope, element, attrs) {
-
+          var index = add_frame(element);
+          $scope.$on('$destroy', function() {
+            remove_frame(index);
+          });
         }
       };
     }])

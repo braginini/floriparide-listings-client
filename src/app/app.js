@@ -14,11 +14,11 @@
       'template/tabs/tab.html',
       'template/tabs/tabset.html',
       'app.config',
+      'services.global',
       'services.api',
       'services.branches',
       'directives.resizable',
-      'directives.frames',
-      'directives.branch'
+      'app.search'
     ])
 
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -36,12 +36,8 @@
         url: '/',
         controller: 'MainCtrl',
         templateUrl: 'main.tpl.html'
-      })
-      .state('main.search', {
-        url: 'search/:query',
-        controller: 'SearchCtrl',
-        templateUrl: 'branches.tpl.html'
       });
+
       $urlRouterProvider.otherwise('/');
     }])
 
@@ -91,7 +87,7 @@
       $scope.maxbounds = $injector.get('leafletBoundsHelpers').createBoundsFromArray(config.project.bounds);
       $scope.initPoint = config.project.default_position;
 
-      $state = $injector.get('$state');
+      var $state = $injector.get('$state');
       $scope.search = function (q) {
         $state.go('main.search', {query: q});
       };
@@ -103,16 +99,6 @@
             $scope.query = null;
           }
         });
-    }])
-
-    .controller('SearchCtrl', ['$scope', '$injector', '$stateParams', 'BranchesFeed', function ($scope, $injector, $stateParams, BranchesFeed) {
-      if (!$stateParams.query) {
-        $injector.get('$location').path('/');
-        return;
-      }
-      $scope.$parent.query = $stateParams.query;
-
-      $scope.feed = new BranchesFeed($stateParams.query);
     }])
   ;
 })();

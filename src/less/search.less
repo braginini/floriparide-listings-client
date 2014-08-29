@@ -1,7 +1,7 @@
 .side_west {
   position: absolute;
-  display: flex;
-  flex-direction: column;
+//  display: flex;
+//  flex-direction: column;
   bottom: 16px;
   top: 16px;
   left: 10px;
@@ -13,9 +13,9 @@
 //  top: 20px;
 //  left:50px;
 //  width:400px;
-//  position: fixed;
+  position: relative;
   margin-left: 36px;
-  flex: 0 0 auto;
+//  flex: 0 0 auto;
   box-shadow: 0 5px 17px -3px rgba(0, 0, 0, 0.5);
   border-radius: @border-radius-base;
 
@@ -57,7 +57,7 @@
 
 .search-input {
   height: 32px;
-  width: 327px !important;
+  width: 406px !important;
   overflow: hidden;
   padding: 5px 28px 3px 12px;
 }
@@ -71,29 +71,6 @@
   }
 }
 
-.search-header {
-  height: 44px;
-  overflow: hidden;
-  .title {
-    font-size: 20px;
-    color: @text-color;
-    padding: 8px 5px 7px 20px;
-    display: inline-block;
-  }
-  .count {
-    color: @gray-light;
-    font-size: 13px;
-    display: inline-block;
-  }
-  .close {
-    float: none;
-    position: absolute;
-    right: 0px;
-    top: 8px;
-    font-weight: lighter;
-  }
-}
-
 .search-result {
   overflow: scroll;
   height: 100%;
@@ -102,7 +79,7 @@
 }
 
 .data-view {
-  flex: 1 1 auto;
+//  flex: 1 1 auto;
   border-radius: @border-radius-base;
   margin-top: 20px;
 }

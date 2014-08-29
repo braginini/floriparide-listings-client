@@ -18,7 +18,7 @@
             min: 0,
             max: 5,
             step: 1,
-            size: 'xs',
+            size: attrs.size || 'xs',
             symbol: '\ue805',
             glyphicon: false,
             showCaption: false,

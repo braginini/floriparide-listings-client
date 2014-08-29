@@ -1,6 +1,7 @@
 (function() {
   var config = {
     endpoints: {
+      api: 'http://162.243.233.204:8888/catalog/1.0',
       tileLayer: 'http://{s}.tiles.floriparide.com.br/v3/mbraginini.map-hvjt7s3e/{z}/{x}/{y}.png'
     },
     initPoint: {

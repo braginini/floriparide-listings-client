@@ -23,7 +23,6 @@
 
 .branch-body {
   margin-left: 30px;
-  padding-top: 5px;
 
   .description {
     padding-bottom: 5px;
@@ -44,12 +43,104 @@
     display: inline-block;
   }
 
-  .rating-value {
-    color: #F77F7C;
-  }
-
   .reviews {
     margin-left: 10px;
     color: @gray-light;
+  }
+}
+
+.rating-value {
+  color: #F77F7C;
+}
+
+.branch-card {
+  margin-right: 24px;
+  margin-left: 24px;
+  font-size: @font-size-large;
+  .card-header {
+    padding-top: 16px;
+    padding-bottom: 11px;
+    width: 100%;
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+  }
+
+  .card-rating {
+    font-size: @font-size-large;
+    padding-bottom: 15px;
+
+    >div {
+      display: inline-block;
+    }
+  }
+
+  .card-description {
+    font-size: @font-size-large;
+    text-align: justify;
+
+    .description-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 65px;
+    }
+
+    .show {
+      overflow: visible;
+      height: auto;
+      max-height: none;
+    }
+
+    button {
+      padding: 0;
+      font-size: @font-size-large;
+      display: none;
+    }
+  }
+
+  address {
+    font-size: @font-size-large;
+    margin-top: 15px;
+  }
+
+  .payment-options {
+    padding: 0;
+    > li {
+      display: inline-block;
+      margin-right: 4px;
+      text-transform: capitalize;
+    }
+
+    > li:after {
+      content: " • ";
+    }
+
+    > li:last-child:after {
+      content: none;
+    }
+  }
+
+  .photos {
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    height: 80px;
+    margin-top: 15px;
+    img {
+      display: inline-block;
+      height: 80px;
+      max-width: 200px;
+    }
+  }
+
+  .photos:after {
+    background-image: linear-gradient(to right, rgba(250, 245, 240, 0) 0px, #faf5f0 95%);
+    bottom: 0;
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
   }
 }

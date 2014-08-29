@@ -112,6 +112,16 @@ angular.module('services.api', [
         return me.get('/branch/search', params);
       },
 
+      branchGet: function(id) {
+        var params = {
+          id: id,
+          project_id: config.project.id
+        };
+        return me.get('/branch', params).then(function (res) {
+          return res.items[0];
+        });
+      },
+
       projectList: function(params) {
         return me.get('/project/list', params);
       }

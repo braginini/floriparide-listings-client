@@ -1,16 +1,105 @@
 .frames {
+  position: absolute;
+  left: 44px;
   width: 400px;
 }
 
 .frame {
 //  background: none repeat scroll 0 0 #fff;
   height: 100%;
-  position: relative;
+  position: absolute;
   transition: bottom 0.3s ease 0s;
   border-radius: @border-radius-base;
 }
 
-.frame-content {
+.frame-wrapper {
   box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 0, 0, 0.05);
   border-radius: @border-radius-base;
+  background-color: #fff;
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.frame-close {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+
+  .close {
+    float: none;
+    line-height: inherit;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.frame-tabs {
+  position: relative;
+  left: -36px;
+  right: 0px;
+}
+
+.frame-tab {
+  height: 36px;
+  left: 0;
+  line-height: 33px;
+  min-width: 36px;
+  background: none repeat scroll 0 0 #fff;
+  border-radius: @border-radius-base @border-radius-base 0;
+  transition: all 0.4s ease-out 0s;
+  position: absolute;
+  > div {
+    display: inline-block;
+  }
+
+  .title {
+    font-size: 20px;
+    color: @text-color;
+    padding-left: 30px;
+  }
+
+  .count {
+    color: @gray-light;
+    font-size: 13px;
+  }
+}
+
+.shadow-tab:before {
+  content: "";
+  display: block;
+  height: 14px;
+  left: 10px;
+  position: absolute;
+  top: 10px;
+  width: 16px;
+  z-index: 1;
+}
+
+.tab-icon {
+  color: @gray-light;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  line-height: 18px;
+  padding:  10px 8px 8px;
+}
+
+.frame-content {
+  position: relative;
+  height: 100%;
+
+  .header {
+    height: 36px;
+  }
+}
+
+.frame-center {
+  .frame-wrapper {
+    left: 60px;
+    position: relative;
+    width: 400px;
+    height: 100%;
+    border-radius: 0 @border-radius-base @border-radius-base 0;
+    background-color: #faf5f0;
+  }
 }

@@ -5,7 +5,7 @@
     <div class="branch-header">{{b.name}}</div>
     <div class="branch-body">
         <div class="description" ng-if="b.article">{{b.article}}</div>
-        <address>{{getAddress()}}</address>
+        <address>{{b.address|formatAddress}}</address>
     </div>
     <div class="branch-footer">
         <div class="rating-value">{{b.rating}}</div>
