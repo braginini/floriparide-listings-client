@@ -12,6 +12,8 @@
     </div>
     <address>{{b.address | formatAddress}}</address>
     <div class="card-hr"></div>
+    <div schedule="b.schedule"></div>
+    <div class="card-hr"></div>
     <ul class="payment-options">
         <li ng-repeat="p in b.payment_options">{{p}}</li>
     </ul>
