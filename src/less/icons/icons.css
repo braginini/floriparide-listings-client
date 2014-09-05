@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icons';
-  src: url('../font/icons.eot?48738680');
-  src: url('../font/icons.eot?48738680#iefix') format('embedded-opentype'),
-       url('../font/icons.woff?48738680') format('woff'),
-       url('../font/icons.ttf?48738680') format('truetype'),
-       url('../font/icons.svg?48738680#icons') format('svg');
+  src: url('../font/icons.eot?2558250');
+  src: url('../font/icons.eot?2558250#iefix') format('embedded-opentype'),
+       url('../font/icons.woff?2558250') format('woff'),
+       url('../font/icons.ttf?2558250') format('truetype'),
+       url('../font/icons.svg?2558250#icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'icons';
-    src: url('../font/icons.svg?48738680#icons') format('svg');
+    src: url('../font/icons.svg?2558250#icons') format('svg');
   }
 }
 */
@@ -85,3 +85,4 @@
 .icon-fax:before { content: '\e820'; } /* '' */
 .icon-skype:before { content: '\e821'; } /* '' */
 .icon-instagramm:before { content: '\e822'; } /* '' */
+.icon-credit-card:before { content: '\e823'; } /* '' */

@@ -34,3 +34,6 @@
 .icon-fax:before { content: '\e820'; } /* '' */
 .icon-skype:before { content: '\e821'; } /* '' */
 .icon-instagramm:before { content: '\e822'; } /* '' */
+.icon-credit-card:before { content: '\e823'; } /* '' */
+.icon-tags:before { content: '\e824'; } /* '' */
+.icon-tag:before { content: '\e825'; } /* '' */

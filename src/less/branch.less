@@ -58,9 +58,13 @@
   margin-left: 24px;
   font-size: @font-size-large;
 
+  .card-icon-container {
+    padding-left: 36px;
+  }
+
   .card-icon {
-    width: 36px;
-    float: left;
+    position: absolute;
+    left: 0;
     color: @gray;
 
     &.active {
@@ -115,7 +119,7 @@
     margin-top: 15px;
   }
 
-  .payment-options {
+  ul.card-list {
     padding: 0;
     > li {
       display: inline-block;
@@ -163,6 +167,14 @@
 
   .branch-contact {
     padding-top: 10px;
+  }
+
+  .attributes {
+    margin-top: 10px;
+  }
+
+  .rubrics {
+    margin-top: 10px;
   }
 }
 

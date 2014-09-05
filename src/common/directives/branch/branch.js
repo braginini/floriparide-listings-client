@@ -39,7 +39,7 @@
             if ($scope.collapseDescr) {
               element.find('.card-description > button').show();
             }
-          }, 200);
+          }, 0);
         }
       };
     }])

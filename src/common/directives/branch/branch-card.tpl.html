@@ -5,12 +5,12 @@
         <rating rate="b.rating" readonly="readonly" size="l"></rating>
         <div class="reviews">{{b.comments.total}} отзыва</div>
     </div>
-    <div class="card-description">
+    <div class="card-description" ng-if="b.description">
         <div class="description-text" ng-class="{show: !collapseDescr}">{{b.description}}</div>
         <button class="btn btn-link" ng-click="collapseDescr=false" ng-show="collapseDescr">Прочесть полностью</button>
         <button class="btn btn-link" ng-click="collapseDescr=true" ng-show="!collapseDescr">Скрыть</button>
     </div>
-    <div class="branch-address">
+    <div class="card-icon-container branch-address" ng-if="b.address">
         <div class="card-icon"><i class="icon-location"></i></div>
         <address>{{b.address | formatAddress}}</address>
     </div>
@@ -20,12 +20,26 @@
         <div branch-contact="contact"></div>
     </div>
     <div class="card-hr"></div>
-    <ul class="payment-options">
-        <li ng-repeat="p in b.payment_options">{{p}}</li>
-    </ul>
+    <div class="card-icon-container" ng-if="b.payment_options">
+        <div class="card-icon"><i class="icon-credit-card"></i></div>
+        <ul class="card-list">
+            <li ng-repeat="p in b.payment_options">{{p}}</li>
+        </ul>
+    </div>
     <div class="photos" ng-if="b.photos.length">
         <a href="#" ng-repeat="photo in b.photos">
             <img ng-src="{{photo}}">
         </a>
     </div>
+    <div class="card-icon-container" ng-if="b.attributes">
+        <div class="card-icon"><i class="icon-tags"></i></div>
+        <ul class="card-list attributes">
+            <li ng-repeat="a in b.attributes">{{a.name}}</li>
+        </ul>
+    </div>
+    <ul class="card-list rubrics" ng-if="b.rubrics">
+        <li ng-repeat="r in b.rubrics">
+            <a href="#">{{r.name}}</a>
+        </li>
+    </ul>
 </div>
