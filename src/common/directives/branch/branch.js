@@ -28,6 +28,7 @@
   angular
     .module('directives.branch', [
       'directives.rating',
+      'directives.contact',
       'ui.bootstrap.tooltip',
       'template/tooltip/tooltip-popup.html',
       'template/tooltip/tooltip-html-unsafe-popup.html'
@@ -109,6 +110,7 @@
           /*****/
           $scope.today = $scope.schedule[today.toLowerCase()];
           $scope.now = 'Закрыто';
+          $scope.isWorking = false;
 
           var now = new Date();
           var beginUpdateNowText = function (waitingTime, eventType) {
@@ -118,7 +120,13 @@
                 $scope.$apply($scope.timeLeft);
                 if ($scope.timeLeft <= 0) {
                   $scope.timeLeft = null;
-                  $scope.now = eventType === 'open' ? 'Открыто' : 'Закрыто';
+                  if (eventType === 'open') {
+                    $scope.isWorking = true;
+                    $scope.now = 'Открыто';
+                  } else {
+                    $scope.isWorking = false;
+                    $scope.now = 'Закрыто';
+                  }
                   $interval.cancel(taskId);
                 }
               }, 60000);
@@ -132,6 +140,7 @@
 
             if (now >= from && now <= to) {
               diff = Math.round((to.getTime() - now.getTime()) / 60000);
+              $scope.isWorking = true;
               if (diff < 60) {
                 $scope.now = 'Закроется через';
                 $scope.timeLeft = diff;

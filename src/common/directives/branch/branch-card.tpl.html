@@ -10,9 +10,15 @@
         <button class="btn btn-link" ng-click="collapseDescr=false" ng-show="collapseDescr">Прочесть полностью</button>
         <button class="btn btn-link" ng-click="collapseDescr=true" ng-show="!collapseDescr">Скрыть</button>
     </div>
-    <address>{{b.address | formatAddress}}</address>
+    <div class="branch-address">
+        <div class="card-icon"><i class="icon-location"></i></div>
+        <address>{{b.address | formatAddress}}</address>
+    </div>
     <div class="card-hr"></div>
     <div schedule="b.schedule"></div>
+    <div ng-if="b.contacts" ng-repeat="contact in b.contacts">
+        <div branch-contact="contact"></div>
+    </div>
     <div class="card-hr"></div>
     <ul class="payment-options">
         <li ng-repeat="p in b.payment_options">{{p}}</li>
