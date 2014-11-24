@@ -35,9 +35,11 @@
           $scope.collapseDescr = true;
           $timeout(function () {
             var el = element.find('.description-text');
-            $scope.collapseDescr = el[0].scrollHeight > el.height();
-            if ($scope.collapseDescr) {
-              element.find('.card-description > button').show();
+            if (el && el.length) {
+              $scope.collapseDescr = el[0].scrollHeight > el.height();
+              if ($scope.collapseDescr) {
+                element.find('.card-description > button').show();
+              }
             }
           }, 0);
         }
