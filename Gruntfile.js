@@ -101,6 +101,17 @@ module.exports = function (grunt) {
           }
         ]
       },
+      build_vendor_images: {
+        files: [
+          {
+            src: [ '<%= vendor_files.images %>' ],
+            dest: '<%= build_dir %>/assets/images/',
+            cwd: '.',
+            expand: true,
+            flatten: true
+          }
+        ]
+      },
       build_appjs: {
         files: [
           {
@@ -460,7 +471,7 @@ module.exports = function (grunt) {
         files: [
           'src/assets/**/*'
         ],
-        tasks: [ 'copy:build_app_assets', 'copy:build_vendor_assets', 'notify:watch' ]
+        tasks: [ 'copy:build_app_assets', 'copy:build_vendor_assets', 'copy:build_vendor_images', 'notify:watch' ]
       },
 
       /**
@@ -554,8 +565,8 @@ module.exports = function (grunt) {
    */
   grunt.registerTask('build', [
     'clean', 'html2js', 'test', 'newer:less:build', 'modernizr',
-    'newer:copy:build_app_assets', 'newer:copy:build_vendor_assets',
-    'newer:copy:build_appjs', 'newer:copy:build_vendorjs', 'newer:copy:build_vendorcss', 'newer:index:build', 'notify:build'
+    'copy:build_app_assets', 'copy:build_vendor_assets', 'copy:build_vendor_images',
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:build_vendorcss', 'index:build', 'notify:build'
   ]);
 
   /**

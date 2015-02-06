@@ -11,7 +11,7 @@
         controller: 'FirmCtrl',
         templateUrl: 'search/firm.tpl.html',
         resolve: {
-          branch: ['$stateParams', 'globalState', 'api', 'config', function($stateParams, globalState, api, config) {
+          branch: ['$stateParams', 'globalState', 'api', 'config', function ($stateParams, globalState, api, config) {
             if (globalState.branch && globalState.branch.id == $stateParams.firm_id) {
               return globalState.branch;
             }
@@ -24,32 +24,41 @@
       });
     }])
 
-    .controller('FirmCtrl', ['$scope', '$state', '$stateParams', 'branch', function ($scope, $state, $stateParams, branch) {
-      $scope.b = branch;
-      $scope.goParent = function () {
-        $state.go('main.search', {query: $stateParams.query});
-      };
+    .controller('FirmCtrl', ['$scope', '$state', '$stateParams', 'globalState', 'branch',
+      function ($scope, $state, $stateParams, globalState, branch) {
+        globalState.branch = branch;
+        $scope.b = branch;
+        $scope.goParent = function () {
+          $state.go('main.search', {query: $stateParams.query});
+        };
 
-      $scope.getAddress = function () {
-        var adr = '', b = $scope.b;
-        if (b.address) {
-          if (b.address.street) {
-            adr = b.address.street;
-          }
+        $scope.$emit('branchSelect', branch);
 
-          if (b.address.street_number) {
-            adr += ' ' + b.address.street_number;
-          }
+        $scope.$on('$destroy', function () {
+          globalState.branch = null;
+          $scope.$emit('branchClose', branch);
+        });
 
-          if (b.address.neighborhood) {
-            if (adr.length) {
-              adr += ',';
+        $scope.getAddress = function () {
+          var adr = '', b = $scope.b;
+          if (b.address) {
+            if (b.address.street) {
+              adr = b.address.street;
             }
-            adr += ' ' + b.address.neighborhood;
+
+            if (b.address.street_number) {
+              adr += ' ' + b.address.street_number;
+            }
+
+            if (b.address.neighborhood) {
+              if (adr.length) {
+                adr += ',';
+              }
+              adr += ' ' + b.address.neighborhood;
+            }
           }
-        }
-        return adr;
-      };
-    }])
+          return adr;
+        };
+      }])
   ;
 })();

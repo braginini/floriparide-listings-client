@@ -20,7 +20,11 @@
                         infinite-scroll-disabled='feed.busy || feed.eof || !feed.query'
                         infinite-scroll-container="'#branches_container'"
                         infinite-scroll-parent >
-                        <div ng-repeat="b in feed.branches" class="card" branch="b" ng-click="openBranch(b)"></div>
+                        <div ng-repeat="b in feed.branches" class="card" branch="b"
+                             ng-click="openBranch(b)"
+                             ng-mouseenter="onMouseEnterBranch(b)"
+                             ng-mouseleave="onMouseLeaveBranch(b)"
+                        ></div>
                     </div>
                 </div>
             </div>

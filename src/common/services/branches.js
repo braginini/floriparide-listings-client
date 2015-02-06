@@ -46,7 +46,14 @@
         }
         this.branches = this.branches.concat(res.items);
         this.busy = false;
+        this.eof = true;
+
+        if (res.markers) {
+          this.onMarkers(res);
+        }
       };
+
+      Feed.prototype.onMarkers = function () {};
 
       return Feed;
     }]);

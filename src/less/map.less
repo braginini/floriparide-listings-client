@@ -30,3 +30,48 @@ a.leaflet-control-zoom-out, a.leaflet-control-zoom-out:hover {
   left: ceil(((@map-control-zoom-in-size - @map-control-zoom-out-size) / 2));
   margin-top: 2px;
 }
+
+.marker {
+  &:hover {
+    background: #cc0000;
+  }
+}
+
+.location-small {
+  font-size: 10px;
+  color: @brand-primary;
+  border-radius: 50%;
+  border: 1px solid #ffffff;
+  background: #007799 none;
+  width: 7px;
+  height: 7px;
+}
+
+.location-medium {
+  font-size: 8px;
+  color: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  background: #007799 none;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.75);
+}
+
+.location-paid {
+  font-size: 10px;
+  color: gold;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  background: #007799 none;
+  line-height: 15px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  box-shadow: 0 0 3px 1px rgba(119, 119, 119, 0.75);
+}
+
+.tooltip-inner {
+  min-width: 100px;
+}

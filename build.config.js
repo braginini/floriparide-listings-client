@@ -76,13 +76,22 @@ module.exports = {
       'vendor/AngularJS-Toaster/toaster.js',
       'vendor/leaflet-dist/leaflet-src.js',
       'vendor/angular-leaflet-directive/dist/angular-leaflet-directive.js',
-      'vendor/bootstrap-star-rating/js/star-rating.js'
+      'vendor/leaflet.markercluster/dist/leaflet.markercluster-src.js',
+      'vendor/bootstrap-star-rating/js/star-rating.js',
+      'vendor/bootstrap/js/tooltip.js',
+      'vendor/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js'
     ],
     css: [
       'vendor/leaflet-dist/leaflet.css',
+      'vendor/leaflet.markercluster/dist/MarkerCluster.css',
+      'vendor/leaflet.markercluster/dist/MarkerCluster.Defaults.css',
       'vendor/bootstrap-star-rating/css/star-rating.css'
     ],
     assets: [
+
+    ],
+    images: [
+      'vendor/Leaflet.awesome-markers/dist/images/*.png'
     ]
   }
 };
