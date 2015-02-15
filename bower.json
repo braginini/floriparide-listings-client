@@ -26,8 +26,7 @@
     "angular-leaflet-directive": "~0.7.9",
     "leaflet-dist": "0.7.2",
     "leaflet.markercluster": "~0.4.0",
-    "bootstrap-star-rating": "~2.5.0",
-    "Leaflet.awesome-markers": "~2.0.2"
+    "bootstrap-star-rating": "~2.5.0"
   },
   "dependencies": {},
   "resolutions": {

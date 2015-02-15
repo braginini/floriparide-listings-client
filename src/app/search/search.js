@@ -44,7 +44,7 @@
           var tmp = [];
           for (var i = 0; i < res_markers.length; i++) {
             m = res_markers[i];
-            marker = L.marker(L.latLng(m.lat, m.lon), {
+            marker = L.marker(L.latLng(m.lat, m.lng), {
               icon: markerIcon
               //title: m.name
             });

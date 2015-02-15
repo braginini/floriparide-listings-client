@@ -1,8 +1,14 @@
-<div class="frame">
-    <div class="frame-wrapper">
-        <div class="frame-close">
-            <a href="#" ng-click="goParent();$event.preventDefault();" class="btn btn-link close"><i class="icon-cancel"></i></a>
-        </div>
-        <div class="frame-content" branch-card="b"></div>
+<div class="frame frame-2 panel panel-success panel-hidden-controls frame-filled frame-outside">
+    <div class="panel-heading">
+        <ul class="panel-controls">
+            <li><a class="panel-collapse" href="#"><span class="icon-down-open"></span></a></li>
+            <li><a class="panel-remove" href="#"><span class="icon-cancel"></span></a></li>
+        </ul>
+        <h3 class="panel-title">
+            {{b.name}}
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div branch-card="b"></div>
     </div>
 </div>

@@ -1,12 +1,31 @@
 .side_west {
-  position: absolute;
-//  display: flex;
-//  flex-direction: column;
   bottom: 16px;
-  top: 16px;
-  left: 10px;
-//  height: 0px;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  left: 44px;
+  position: absolute;
+  top: 16px;
+  width: 0;
+  z-index: 3;
+}
+
+.search {
+  width: 400px;
+
+  input.form-control {
+    &, &:focus, &:active {
+      border: 1px solid @brand-primary;
+      height: 32px;
+      color: #000000;
+      font-size: 14px;
+    }
+  }
+
+  .btn {
+    border: 0;
+    height: 32px;
+  }
 }
 
 .search-bar {
@@ -82,4 +101,8 @@
 //  flex: 1 1 auto;
   border-radius: @border-radius-base;
   margin-top: 20px;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
 }

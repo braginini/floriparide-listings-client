@@ -8,8 +8,6 @@
     .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider) {
       $stateProvider.state('main.search.firm', {
         url: '/firm/:firm_id',
-        controller: 'FirmCtrl',
-        templateUrl: 'search/firm.tpl.html',
         resolve: {
           branch: ['$stateParams', 'globalState', 'api', 'config', function ($stateParams, globalState, api, config) {
             if (globalState.branch && globalState.branch.id == $stateParams.firm_id) {
@@ -20,12 +18,18 @@
               return branch;
             });
           }]
+        },
+        views: {
+          child_frame: {
+            controller: 'FirmCtrl',
+            templateUrl: 'search/firm.tpl.html'
+          }
         }
       });
     }])
 
-    .controller('FirmCtrl', ['$scope', '$state', '$stateParams', 'globalState', 'branch',
-      function ($scope, $state, $stateParams, globalState, branch) {
+    .controller('FirmCtrl', ['$scope', '$state', '$stateParams', '$timeout', 'globalState', 'branch',
+      function ($scope, $state, $stateParams, $timeout, globalState, branch) {
         globalState.branch = branch;
         $scope.b = branch;
         $scope.goParent = function () {
@@ -34,6 +38,8 @@
 
         $scope.$emit('branchSelect', branch);
 
+        //need it to calculate correct header height in frames directive
+        angular.element('.frame-2 .panel-title:first').html(branch.name);
         $scope.$on('$destroy', function () {
           globalState.branch = null;
           $scope.$emit('branchClose', branch);

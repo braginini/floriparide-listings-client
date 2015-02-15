@@ -1,3 +1,76 @@
+/* THEME */
+@body-background: #f5f5f5;
+
+@base-background: #33414E;
+@base-background-active: #273541;
+
+/* TEXT COLORS */
+@base-color: #656D78;
+@base-heading-color: #434A54;
+/* END TEXT COLORS */
+
+@theme-color: #33414E;
+
+/* BASE ELEMENT COLORs */
+@base-primary: #33414E;
+@base-success: #95B75D;
+@base-info: #3FBAE4;
+@base-warning: #FEA223;
+@base-danger: #B64645;
+/* EOF BASE ELEMENT COLORs */
+
+/* START X-NAVIGATION */
+@xn-background: @base-background;
+@xn-background-active: @base-background-active;
+@xn-background-logo: #E34724;//#E34234;
+
+@xn-color: #FFF;
+@xn-color-sub: #CCC;
+@xn-icon-color: @xn-color;
+@xn-icon-color-hover: #FFD559;
+@xn-submenu-width: 220px;
+
+@xn-horizontal-background: @base-background;
+@xn-horizontal-background-hover: lighten(@xn-horizontal-background,5%);
+
+@xn-horizontal-color: @xn-color;
+@xn-horizontal-icon: @xn-color;
+@xn-horizontal-icon-hover: #FFD559;
+/* END X-NAVIGATION */
+
+/* START WIDGETS */
+@widget-primary: @base-primary;
+@widget-success: @base-success;
+@widget-info: @base-info;
+@widget-warning: @base-warning;
+@widget-danger: @base-danger;
+/* END WIDGETS */
+
+/* COMMENTS */
+@bg-comments: #eff7ff;
+/* END COMMENTS */
+
+/* SIDEBAR */
+@sidebar_width: 300px;
+@sidebar_background: #27313C;
+@sidebar_title_background: darken(@sidebar_background,3%);
+@sidebar_title_color: #AABECF;
+@sidebar_tabs_color: #F5F5F5;
+@sidebar_color: #FFF;
+/* END SIDEBAR */
+
+/* EOF THEME */
+
+
+
+
+@btn-bg-hover: #F5F5F5;
+@btn-border-hover: #DDD;
+
+/* PANEL */
+@panel-border: #E5E5E5;
+/* END PANEL */
+
 //
 // Variables
 // --------------------------------------------------
@@ -13,11 +86,11 @@
 @gray-light:             lighten(#000, 60%);   // #999
 @gray-lighter:           lighten(#000, 93.5%); // #eee
 
-@brand-primary:         #428bca;
-@brand-success:         #5cb85c;
-@brand-info:            #5bc0de;
-@brand-warning:         #f0ad4e;
-@brand-danger:          #d9534f;
+@brand-primary:         @base-primary;
+@brand-success:         @base-success;
+@brand-info:            @base-info;
+@brand-warning:         @base-warning;
+@brand-danger:          @base-danger;
 
 
 //== Scaffolding
@@ -25,9 +98,9 @@
 // ## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-@body-bg:               #fff;
+@body-bg:               @base-background;
 //** Global text color on `<body>`.
-@text-color:            @gray-dark;
+@text-color:            @base-color;
 
 //** Global textual link color.
 @link-color:            @brand-primary;
@@ -57,7 +130,7 @@
 @font-size-h6:            ceil((@font-size-base * 0.85)); // ~12px
 
 //** Unit-less `line-height` for use in components like buttons.
-@line-height-base:        1.428571429; // 20/14
+@line-height-base:        1.5; // 20/14
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
 @line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
 
@@ -95,8 +168,8 @@
 @line-height-large:         1.33;
 @line-height-small:         1.5;
 
-@border-radius-base:        4px;
-@border-radius-large:       6px;
+@border-radius-base:        5px;
+@border-radius-large:       7px;
 @border-radius-small:       3px;
 
 //** Global color for active items (e.g., navs or dropdowns).
@@ -139,7 +212,7 @@
 
 @btn-default-color:              #333;
 @btn-default-bg:                 #fff;
-@btn-default-border:             #ccc;
+@btn-default-border:             #ddd;
 
 @btn-primary-color:              #fff;
 @btn-primary-bg:                 @brand-primary;
@@ -176,17 +249,17 @@
 //** Text color for `<input>`s
 @input-color:                    @gray;
 //** `<input>` border color
-@input-border:                   #ccc;
+@input-border:                   #D5D5D5;
 //** `<input>` border radius
 @input-border-radius:            @border-radius-base;
 //** Border color for inputs on focus
-@input-border-focus:             #66afe9;
+@input-border-focus:             @input-border;
 
 //** Placeholder text color
 @input-color-placeholder:        @gray-light;
 
 //** Default `.form-control` height
-@input-height-base:              (@line-height-computed + (@padding-base-vertical * 2) + 2);
+@input-height-base:              (@line-height-computed + (@padding-base-vertical * 2));
 //** Large `.form-control` height
 @input-height-large:             (ceil(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
 //** Small `.form-control` height
@@ -196,7 +269,7 @@
 @legend-border-color:            #e5e5e5;
 
 //** Background color for textual input addons
-@input-group-addon-bg:           @gray-lighter;
+@input-group-addon-bg:           @brand-primary;
 //** Border color for textual input addons
 @input-group-addon-border-color: @input-border;
 
@@ -334,7 +407,7 @@
 @navbar-collapse-max-height:       340px;
 
 @navbar-default-color:             #777;
-@navbar-default-bg:                #3d3d3d;
+@navbar-default-bg:                #f8f8f8;
 @navbar-default-border:            darken(@navbar-default-bg, 6.5%);
 
 // Navbar links
@@ -388,7 +461,7 @@
 //##
 
 //=== Shared nav styles
-@nav-link-padding:                          10px 10px;
+@nav-link-padding:                          10px 15px;
 @nav-link-hover-bg:                         @gray-lighter;
 
 @nav-disabled-link-color:                   @gray-light;
@@ -397,13 +470,13 @@
 @nav-open-link-hover-color:                 #fff;
 
 //== Tabs
-@nav-tabs-border-color:                     #3d3d3d;
+@nav-tabs-border-color:                     #ddd;
 
-@nav-tabs-link-hover-border-color:          #3d3d3d;
+@nav-tabs-link-hover-border-color:          @gray-lighter;
 
-@nav-tabs-active-link-hover-bg:             #fff;
-@nav-tabs-active-link-hover-color:          #fff;
-@nav-tabs-active-link-hover-border-color:   #3d3d3d;
+@nav-tabs-active-link-hover-bg:             @body-bg;
+@nav-tabs-active-link-hover-color:          @gray;
+@nav-tabs-active-link-hover-border-color:   #ddd;
 
 @nav-tabs-justified-link-border-color:            #ddd;
 @nav-tabs-justified-active-link-border-color:     @body-bg;
@@ -488,12 +561,12 @@
 //##
 
 //** Tooltip max width
-@tooltip-max-width:           300px;
+@tooltip-max-width:           200px;
 //** Tooltip text color
 @tooltip-color:               #fff;
 //** Tooltip background color
 @tooltip-bg:                  #000;
-@tooltip-opacity:             .7;
+@tooltip-opacity:             .9;
 
 //** Tooltip arrow width
 @tooltip-arrow-width:         5px;
@@ -639,7 +712,7 @@
 //** Background color on `.list-group-item`
 @list-group-bg:                 #fff;
 //** `.list-group-item` border color
-@list-group-border:             #ddd;
+@list-group-border:             #E5E5E5;
 //** List group border radius
 @list-group-border-radius:      @border-radius-base;
 
