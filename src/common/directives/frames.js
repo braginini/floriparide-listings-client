@@ -40,14 +40,44 @@
             });
           };
 
+          var collapse = function (e) {
+            var frames = el.find('.frame');
+            frames.addClass('opacity0');
+            // waiting animation finish
+            $timeout(function () {
+              frames.addClass('hidden');
+            }, 300);
+            if (e) {
+              e.preventDefault();
+            }
+          };
+
+          var expand = function (e) {
+            var frames = el.find('.frame');
+            frames.removeClass('hidden');
+            $timeout(function () {
+              frames.removeClass('opacity0');
+              syncLayout();
+            }, 20);
+            if (e) {
+              e.preventDefault();
+            }
+          };
+
           syncLayout();
           winEl.on('resize', syncLayout);
+
+          el.on('click', '.pc-collapse', collapse);
+          el.on('click', '.pc-expand', expand);
+          $scope.$on('frameExpand', expand);
+
           $scope.$on('frameAdded', syncLayout);
           $scope.$on('frameRemoved', syncLayout);
           $scope.$on('layoutUpdated', syncLayout);
 
           $scope.$on('$destroy', function () {
             winEl.off('resize', syncLayout);
+            el.off('click');
           });
         }
       };
@@ -70,9 +100,32 @@
           });
           el.attr('data-idx', idx);
 
+          //todo: doing now it to avoid blinking on updating frame content
+          var offset = el.parents('.frames').offset();
+          var winHeight = angular.element($window).height();
+          var headEl = el.find('.panel-heading:first');
+          var bodyEl = el.find('.panel-body:first');
+          bodyEl.height(winHeight - offset.top - 10 - headEl.outerHeight());
+          el.height(winHeight - offset.top - 10);
+
+          $scope.isRight = attrs.frameRight !== undefined;
+
+          el.on('click', '.pc-left', function (e) {
+            e.preventDefault();
+            $scope.isRight = false;
+            $scope.$digest();
+          });
+
+          el.on('click', '.pc-right', function (e) {
+            e.preventDefault();
+            $scope.isRight = true;
+            $scope.$digest();
+          });
+
           $scope.$emit('frameAdded');
           $scope.$on('$destroy', function() {
             $scope.$emit('frameRemoved');
+            el.off('click');
           });
         }
       };

@@ -5,16 +5,64 @@
   position: absolute;
   top: 40px;
   width: @frame-width;
+
+  .pc-expand {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: @border-radius-small;
+    padding: 2px 5px;
+    text-align: center;
+    cursor: pointer;
+
+    [class^="icon-"] {
+      display: block;
+      font-size: 18px;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .count {
+      display: block;
+      font-size: 9px;
+      line-height: 1;
+      margin-top: -1px;
+      color: @brand-warning;
+    }
+  }
 }
 
 .frame {
-//  background: none repeat scroll 0 0 #fff;
-//  height: 100%;
   position: absolute;
   left: @frame-margin-left;
   margin: -2px 0 0 0;
-//  transition: bottom 0.3s ease 0s;
-//  border-radius: @border-radius-base;
+  transition: all 250ms cubic-bezier(0.25, 0.25, 0.75, 0.75) 0s;
+
+  ul.panel-controls {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    > li > a {
+      border: 0;
+      font-size: 20px;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      margin: 0;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      [class^="icon-"]:before {
+        margin: 0;
+      }
+    }
+  }
+
+  .panel-heading {
+    padding-top: 15px;
+  }
   .panel-title {
     float: none;
   }
@@ -46,7 +94,7 @@
   }
 }
 
-.frame-outside {
+.frame-right {
   left: @frame-width
 }
 

@@ -1,8 +1,16 @@
-<div class="frame frame-2 panel panel-success panel-hidden-controls frame-filled frame-outside">
+<div class="frame frame-2 panel panel-success panel-hidden-controls frame-filled frame-right"
+     ng-class="{'frame-right': isRight}"
+     frame-right>
     <div class="panel-heading">
         <ul class="panel-controls">
-            <li><a class="panel-collapse" href="#"><span class="icon-down-open"></span></a></li>
-            <li><a class="panel-remove" href="#"><span class="icon-cancel"></span></a></li>
+            <li class="pc-left" ng-show="isRight">
+                <a href="#"><span class="icon-left"></span></a>
+            </li>
+            <li class="pc-right" ng-show="!isRight">
+                <a href="#"><span class="icon-right"></span></a>
+            </li>
+            <li class="pc-collapse"><a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a></li>
+            <li class="pc-close"><a class="panel-remove" href="#"><span class="icon-times"></span></a></li>
         </ul>
         <h3 class="panel-title">
             {{b.name}}
