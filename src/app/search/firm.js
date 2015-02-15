@@ -33,7 +33,7 @@
         globalState.branch = branch;
         $scope.b = branch;
         $scope.goParent = function () {
-          $state.go('main.search', {query: $stateParams.query});
+          $state.go('main.search');
         };
 
         $scope.$emit('branchSelect', branch);

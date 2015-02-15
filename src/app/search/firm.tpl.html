@@ -10,7 +10,9 @@
                 <a href="#"><span class="icon-right"></span></a>
             </li>
             <li class="pc-collapse"><a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a></li>
-            <li class="pc-close"><a class="panel-remove" href="#"><span class="icon-times"></span></a></li>
+            <li class="pc-close"><a class="panel-remove" href="#" ng-click="$event.preventDefault();goParent()">
+                <span class="icon-times"></span>
+            </a></li>
         </ul>
         <h3 class="panel-title">
             {{b.name}}
