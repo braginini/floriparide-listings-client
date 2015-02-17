@@ -30,6 +30,26 @@
       color: @brand-warning;
     }
   }
+
+  @pc-flow-size: 24px;
+  .pc-flow {
+    border-radius: 50%;
+    background-color: @brand-primary;
+    color: #ffffff;
+    position: absolute;
+    top: calc(50% - (@pc-flow-size / 2));
+    right: ((-1 * @pc-flow-size / 2));
+    width: @pc-flow-size;
+    height: @pc-flow-size;
+    line-height: @pc-flow-size;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+      background-color: @gray-dark;
+    }
+  }
 }
 
 .frame {
@@ -62,9 +82,13 @@
 
   .panel-heading {
     padding-top: 15px;
-  }
-  .panel-title {
-    float: none;
+
+    .panel-title {
+      float: none;
+      margin-left: 25px;
+      font-weight: 500;
+      font-size: 18px;
+    }
   }
   .panel-body {
     padding: 0;
@@ -86,6 +110,10 @@
   .panel-heading {
     background-color: @panel-default-heading-bg;
     border-bottom: 0;
+
+    .panel-title {
+      margin-left: 15px;
+    }
   }
   .panel-body {
     border-top: 0;

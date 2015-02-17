@@ -110,17 +110,9 @@
 
           $scope.isRight = attrs.frameRight !== undefined;
 
-          el.on('click', '.pc-left', function (e) {
-            e.preventDefault();
-            $scope.isRight = false;
-            $scope.$digest();
-          });
-
-          el.on('click', '.pc-right', function (e) {
-            e.preventDefault();
-            $scope.isRight = true;
-            $scope.$digest();
-          });
+          $scope.toggleFlow = function () {
+            $scope.isRight = !$scope.isRight;
+          };
 
           $scope.$emit('frameAdded');
           $scope.$on('$destroy', function() {

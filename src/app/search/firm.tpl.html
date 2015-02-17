@@ -3,12 +3,6 @@
      frame-right>
     <div class="panel-heading">
         <ul class="panel-controls">
-            <li class="pc-left" ng-show="isRight">
-                <a href="#"><span class="icon-left"></span></a>
-            </li>
-            <li class="pc-right" ng-show="!isRight">
-                <a href="#"><span class="icon-right"></span></a>
-            </li>
             <li class="pc-collapse"><a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a></li>
             <li class="pc-close"><a class="panel-remove" href="#" ng-click="$event.preventDefault();goParent()">
                 <span class="icon-times"></span>
@@ -20,5 +14,8 @@
     </div>
     <div class="panel-body">
         <div branch-card="b"></div>
+    </div>
+    <div class="pc-flow" ng-click="toggleFlow()">
+        <span ng-class="{'icon-left-open': isRight, 'icon-right-open': !isRight}"></span>
     </div>
 </div>

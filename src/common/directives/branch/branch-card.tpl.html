@@ -9,18 +9,18 @@
         <button class="btn btn-link" ng-click="collapseDescr=false" ng-show="collapseDescr">Прочесть полностью</button>
         <button class="btn btn-link" ng-click="collapseDescr=true" ng-show="!collapseDescr">Скрыть</button>
     </div>
-    <div class="icon-container branch-address" ng-if="b.address">
+    <div class="icon-container branch-address" ng-if="b.address.street">
         <i class="icon-location left-icon"></i>
         <address>{{b.address | formatAddress}}</address>
     </div>
     <div class="card-hr"></div>
-    <div branch-schedule="b.schedule"></div>
+    <div branch-schedule="b.schedule" class="block-lg"></div>
     <div ng-if="b.contacts" ng-repeat="contact in b.contacts">
-        <div branch-contact="contact"></div>
+        <div branch-contact="contact" class="block-lg"></div>
     </div>
     <div class="card-hr"></div>
-    <div class="icon-container" ng-if="b.payment_options">
-        <div class="card-icon"><i class="icon-credit-card"></i></div>
+    <div class="icon-container" ng-if="b.payment_options.length">
+        <i class="icon-credit-card left-icon"></i>
         <ul class="card-list">
             <li ng-repeat="p in b.payment_options">{{p}}</li>
         </ul>
@@ -30,15 +30,17 @@
             <img ng-src="{{photo}}">
         </a>
     </div>
-    <div class="icon-container" ng-if="b.attributes">
-        <div class="card-icon"><i class="icon-tags"></i></div>
+    <div class="icon-container" ng-if="b.attributes.length">
+        <i class="icon-tags left-icon"></i>
         <ul class="card-list attributes">
             <li ng-repeat="a in b.attributes">{{a.name}}</li>
         </ul>
     </div>
-    <ul class="card-list rubrics" ng-if="b.rubrics">
-        <li ng-repeat="r in b.rubrics">
-            <a href="#">{{r.name}}</a>
-        </li>
-    </ul>
+    <div class="icon-container" ng-if="b.rubrics.length">
+        <ul class="card-list rubrics">
+            <li ng-repeat="r in b.rubrics">
+                <a href="#">{{r.name}}</a>
+            </li>
+        </ul>
+    </div>
 </div>

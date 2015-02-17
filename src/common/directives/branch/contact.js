@@ -38,8 +38,8 @@
         }
 
         var parts = [];
-        for (var i = 2; i < numbers.length; i += 3) {
-          parts.push(numbers.substring(i, i + 3));
+        for (var i = 2; i < numbers.length; i += 4) {
+          parts.push(numbers.substring(i, i + 4));
         }
         return '(' + numbers.substring(0,2) + ')' + parts.join('-');
       };

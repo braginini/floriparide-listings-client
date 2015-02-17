@@ -18,10 +18,13 @@
     return item.from + '-' + item.to;
   };
 
-  var parseTodayTime = function(time) {
+  var parseTodayTime = function(time, checkTomorrow) {
     var parts = time.split(':');
     var date = new Date();
     date.setHours(parts[0], parts[1]);
+    if (checkTomorrow && parts[0] <= 6) {
+      date.setTime(date.getTime() + 24 * 3600 * 1000);
+    }
     return date;
   };
 
@@ -31,15 +34,16 @@
       'template/tooltip/tooltip-popup.html',
       'template/tooltip/tooltip-html-unsafe-popup.html'
     ])
-    .directive('branchSchedule', ['$interval', '$timeout', function ($interval, $timeout) {
+    .directive('branchSchedule', ['$interval', '$timeout', '$parse', function ($interval, $timeout, $parse) {
       return {
         restrict: 'EA',
         templateUrl: 'directives/branch/schedule.tpl.html',
         replace: true,
-        scope: {
-          schedule: '=branchSchedule'
+        link: function ($scope, element, attrs) {
+
         },
-        controller: ['$scope', function($scope) {
+        controller: ['$scope', '$attrs', function($scope, $attrs) {
+          $scope.schedule = $parse($attrs.branchSchedule)($scope);
           var today = days[(new Date()).getDay()];
           if (!$scope.schedule) {
             $scope.schedule = {};
@@ -74,7 +78,7 @@
             $timeout(function() {
               var taskId = $interval(function() {
                 $scope.timeLeft = Math.round((waitingTime - (new Date()).getTime()) / 60000);
-                $scope.$apply($scope.timeLeft);
+                //$scope.$apply($scope.timeLeft);
                 if ($scope.timeLeft <= 0) {
                   $scope.timeLeft = null;
                   if (eventType === 'open') {
@@ -92,7 +96,7 @@
 
           _.each($scope.today.items, function(item) {
             var from = parseTodayTime(item.from),
-              to = parseTodayTime(item.to),
+              to = parseTodayTime(item.to, true),
               diff;
 
             if (now >= from && now <= to) {
@@ -143,7 +147,7 @@
 
           $scope.schedule = [];
           var sch_item;
-          if (_.every(schedule, compare)) {
+          if (_(schedule).groupBy(compare).size() <= 1) {
             sch_item = schedule[0];
             $scope.today = {
               label: 'Ежедневно',
@@ -151,7 +155,9 @@
               to: sch_item.to
             };
           } else {
-            if (_.chain(schedule).first(5).every(compare) && _.chain(schedule).last(2).every(compare)) {
+            if (_(schedule).first(5).groupBy(compare).size() <= 1 &&
+                _(schedule).last(2).groupBy(compare).size() <= 1) {
+
               sch_item = schedule[0];
               $scope.schedule.push({
                 label: 'Будние дни',
