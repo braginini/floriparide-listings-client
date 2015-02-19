@@ -79,7 +79,7 @@
 
       $scope.defaults = config.map_defaults || {};
 
-      $scope.maxbounds = $injector.get('leafletBoundsHelpers').createBoundsFromArray(config.project.bounds);
+      $scope.maxbounds = [];//$injector.get('leafletBoundsHelpers').createBoundsFromArray(config.project.bounds);
       $scope.initPoint = config.project.default_position;
 
       var $state = $injector.get('$state');

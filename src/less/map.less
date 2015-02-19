@@ -35,6 +35,16 @@ a.leaflet-control-zoom-out, a.leaflet-control-zoom-out:hover {
   &:hover {
     background: #cc0000;
   }
+  &.active {
+    z-index: 100000 !important;
+    .location-medium();
+    background: #cc0000;
+  }
+  &.location-paid.active {
+    z-index: 100000 !important;
+    .location-paid();
+    background: #cc0000;
+  }
 }
 
 .location-small {

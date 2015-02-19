@@ -15,9 +15,8 @@
       });
     }])
 
-    .controller('SearchCtrl', function ($scope, $injector, $stateParams, leafletData, flux, BranchActions,
-                                        BranchStore, MarkerStore) {
-
+    .controller('SearchCtrl', function ($scope, $injector, $stateParams, $window, leafletData, flux, $timeout,
+                                        BranchActions, BranchStore, MarkerStore, SelectedBranchStore) {
       if (!$stateParams.query) {
         $injector.get('$location').path('/');
         return;
@@ -30,9 +29,8 @@
       };
 
       var $state = $injector.get('$state');
-      var globalState = $injector.get('globalState');
       $scope.openBranch = function (branch) {
-        globalState.branch = branch;
+        $scope.selectedId = branch.id;
         $state.go('main.search.firm', {firm_id: branch.id});
       };
 
@@ -41,6 +39,7 @@
       $scope.eof = false;
       $scope.count = 0;
       $scope.branches = [];
+      $scope.selectedId = SelectedBranchStore.getSelectedId();
 
       $scope.$listenTo(BranchStore, function () {
         $scope.branches = BranchStore.getBranches();
@@ -51,6 +50,39 @@
       var cluster = new L.BranchClusterGroup({
         singleMarkerMode: false
       });
+
+      var onBranchSelect = _.debounce(function () {
+        $scope.selectedId = SelectedBranchStore.getSelectedId();
+        //angular.element('.marker.active').removeClass('active');
+        if ($scope.selectedId) {
+          cluster.setActiveId($scope.selectedId);
+          var sl = _.find(cluster._layers, {branch_id: $scope.selectedId});
+          if (sl) {
+            var el = angular.element(sl._icon);
+            //el.addClass('active');
+            var pos = el.offset();
+            var winEl = angular.element($window);
+            var frameEl = angular.element('.frame:last');
+            var frameLeft = frameEl.offset().left + frameEl.width();
+            if ((pos.left - frameLeft) <= 20 || (winEl.width() - frameLeft) <= 20 || pos.top < 20 || pos.top > winEl.height() - 20) {
+              leafletData.getMap().then(function (map) {
+                var zoom = map.getZoom();
+                var p = map.project(sl._latlng, zoom);
+                p.x -= 150;
+                //$timeout(function () {
+                map.panTo(map.unproject(p, map.getZoom()));
+                if (zoom < 13) {
+                  map.setZoom(13);
+                }
+                //});
+              });
+            }
+          }
+        }
+        $scope.$digest();
+      }, 100);
+
+      $scope.$listenTo(SelectedBranchStore, onBranchSelect);
 
       cluster.on('click', function(e) {
         var m = e.layer;
@@ -86,6 +118,7 @@
         cluster.addLayers(tmp);
         leafletData.getMap().then(function(map) {
           map.addLayer(cluster);
+          onBranchSelect();
         });
       });
 
@@ -110,6 +143,7 @@
         leafletData.getMap().then(function(map) {
           map.removeLayer(cluster);
         });
+        BranchActions.clear();
         $scope.$emit('search.query', null);
       });
     })

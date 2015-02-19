@@ -33,12 +33,12 @@
     <div class="icon-container" ng-if="b.attributes.length">
         <i class="icon-tags left-icon"></i>
         <ul class="card-list attributes">
-            <li ng-repeat="a in b.attributes">{{a.name}}</li>
+            <li ng-repeat="a in b.attributes track by $index">{{a.name}}</li>
         </ul>
     </div>
     <div class="icon-container" ng-if="b.rubrics.length">
         <ul class="card-list rubrics">
-            <li ng-repeat="r in b.rubrics">
+            <li ng-repeat="r in b.rubrics track by $index">
                 <a href="#">{{r.name}}</a>
             </li>
         </ul>

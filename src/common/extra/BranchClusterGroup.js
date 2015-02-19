@@ -28,8 +28,19 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
     this._maxZoom = 0;
     this._gridClusters = {};
     this._currentShownBounds = null;
+    this._activeId = null;
   },
 
+  setActiveId: function(id) {
+    if (id != this._activeId) {
+      $('.marker.active').removeClass('active');
+    }
+    this._activeId = id;
+    var l = _.find(this._layers, {branch_id: id});
+    if (l && l._icon) {
+      $(l._icon).addClass('active');
+    }
+  },
   //Takes an array of markers and adds them in bulk
   addLayers: function (layersArray) {
     var i, l, m;
@@ -80,6 +91,9 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
   },
 
   updateClusters: function () {
+    if (!this._map) {
+      return;
+    }
     var zoom = this._map.getZoom();
     if (this._zoom !== zoom) {
       var grid, layers;
@@ -135,6 +149,10 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
         }
       }.bind(this));
       this._zoom = zoom;
+    }
+
+    if (this._activeId) {
+      this.setActiveId(this._activeId);
     }
   }
 });

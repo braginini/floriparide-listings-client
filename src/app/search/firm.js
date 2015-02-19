@@ -2,6 +2,7 @@
   angular
     .module('app.firm', [
       'ui.router',
+      'services.branches',
       'directives.branch'
     ])
 
@@ -9,15 +10,9 @@
       $stateProvider.state('main.search.firm', {
         url: '/firm/:firm_id',
         resolve: {
-          branch: ['$stateParams', 'globalState', 'api', 'config', function ($stateParams, globalState, api, config) {
-            if (globalState.branch && globalState.branch.id == $stateParams.firm_id) {
-              return globalState.branch;
-            }
-            return api.branchGet($stateParams.firm_id).then(function (branch) {
-              globalState.branch = branch;
-              return branch;
-            });
-          }]
+          branch: function (config, $stateParams, BranchActions) {
+            return BranchActions.select($stateParams.firm_id);
+          }
         },
         views: {
           child_frame: {
@@ -28,43 +23,47 @@
       });
     }])
 
-    .controller('FirmCtrl', ['$scope', '$state', '$stateParams', '$timeout', 'globalState', 'branch',
-      function ($scope, $state, $stateParams, $timeout, globalState, branch) {
-        globalState.branch = branch;
-        $scope.b = branch;
-        $scope.goParent = function () {
-          $state.go('main.search');
-        };
+    .controller('FirmCtrl', function ($scope, $state, $stateParams, $timeout, branch) {
+      //globalState.branch = branch;
+      $scope.b = branch;
+      $scope.goParent = function () {
+        $state.go('main.search');
+      };
 
-        $scope.$emit('branchSelect', branch);
+      if (!$stateParams.firm_id) {
+        $scope.goParent();
+        return;
+      }
 
-        //need it to calculate correct header height in frames directive
-        angular.element('.frame-2 .panel-title:first').html(branch.name);
-        $scope.$on('$destroy', function () {
-          globalState.branch = null;
-          $scope.$emit('branchClose', branch);
-        });
+      //$scope.$emit('branchSelect', branch);
+      //need it to calculate correct header height in frames directive
+      angular.element('.frame-2 .panel-title:first').html($scope.b.name);
 
-        $scope.getAddress = function () {
-          var adr = '', b = $scope.b;
-          if (b.address) {
-            if (b.address.street) {
-              adr = b.address.street;
-            }
+      //$scope.$on('$destroy', function () {
+      //  globalState.branch = null;
+      //  $scope.$emit('branchClose', branch);
+      //});
 
-            if (b.address.street_number) {
-              adr += ' ' + b.address.street_number;
-            }
-
-            if (b.address.neighborhood) {
-              if (adr.length) {
-                adr += ',';
-              }
-              adr += ' ' + b.address.neighborhood;
-            }
+      $scope.getAddress = function () {
+        var adr = '', b = $scope.b;
+        if (b.address) {
+          if (b.address.street) {
+            adr = b.address.street;
           }
-          return adr;
-        };
-      }])
+
+          if (b.address.street_number) {
+            adr += ' ' + b.address.street_number;
+          }
+
+          if (b.address.neighborhood) {
+            if (adr.length) {
+              adr += ',';
+            }
+            adr += ' ' + b.address.neighborhood;
+          }
+        }
+        return adr;
+      };
+    })
   ;
 })();

@@ -20,8 +20,12 @@
                  infinite-scroll-disabled='isLoading || eof || rror'
                  infinite-scroll-container="'#branches_container'"
                  infinite-scroll-parent >
-                <a ng-repeat="b in branches track by b.id" class="list-group-item card" branch="b" href="#"
-                     ng-click="openBranch(b)">
+                <a ng-repeat="b in branches track by b.id"
+                   class="list-group-item card"
+                   branch="b"
+                   href="#"
+                   ng-class="{active: b.id == selectedId}"
+                   ng-click="openBranch(b)">
                 </a>
             </div>
             <div class="spinner spinner7-1em-primary" ng-if="isLoading"></div>
