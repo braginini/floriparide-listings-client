@@ -75,5 +75,15 @@
         return util.parseUrl(url).host;
       };
     }])
+
+    .filter('query', function() {
+      return function (query, removeSpaces) {
+        if (removeSpaces) {
+          query = query.replace(/\s/g, '');
+        }
+        query = query.replace(/\//g, '%2F');
+        return encodeURIComponent(query);
+      };
+    })
   ;
 })();

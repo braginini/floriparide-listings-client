@@ -22,8 +22,9 @@
         return;
       }
 
+      var query = decodeURIComponent($stateParams.query);
       var params = {
-        q: $stateParams.query,
+        q: query,
         limit: 20,
         start: -20
       };
@@ -34,7 +35,7 @@
         $state.go('main.search.firm', {firm_id: branch.id});
       };
 
-      $scope.$emit('search.query', $stateParams.query);
+      $scope.$emit('search.query', query);
 
       $scope.eof = false;
       $scope.count = 0;
