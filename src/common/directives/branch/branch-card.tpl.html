@@ -15,14 +15,14 @@
     </div>
     <div class="card-hr"></div>
     <div branch-schedule="b.schedule" class="block-lg"></div>
-    <div ng-if="b.contacts" ng-repeat="contact in b.contacts">
+    <div ng-if="b.contacts" ng-repeat="contact in b.contacts track by $index">
         <div branch-contact="contact" class="block-lg"></div>
     </div>
     <div class="card-hr"></div>
     <div class="icon-container" ng-if="b.payment_options.length">
         <i class="icon-credit-card left-icon"></i>
         <ul class="card-list">
-            <li ng-repeat="p in b.payment_options">{{p}}</li>
+            <li ng-repeat="p in b.payment_options track by $index">{{p}}</li>
         </ul>
     </div>
     <div class="photos" ng-if="b.photos.length">
