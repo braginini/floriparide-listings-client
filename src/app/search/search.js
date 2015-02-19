@@ -110,6 +110,7 @@
         leafletData.getMap().then(function(map) {
           map.removeLayer(cluster);
         });
+        $scope.$emit('search.query', null);
       });
     })
   ;

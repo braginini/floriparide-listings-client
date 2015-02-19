@@ -25,6 +25,11 @@
                 </a>
             </div>
             <div class="spinner spinner7-1em-primary" ng-if="isLoading"></div>
+            <div class="alert alert-danger" ng-if="error">
+                <strong>Произошла ошибка!</strong>
+                Мы уже принимаем меры по ее устранению.
+                Попробуйте немного позже.
+            </div>
         </div>
         <div ui-view="child_frame"></div>
     </div>
