@@ -15,64 +15,102 @@
       });
     }])
 
-    .controller('SearchCtrl', ['$scope', '$injector', '$stateParams', 'leafletData', 'BranchesFeed',
-      function ($scope, $injector, $stateParams, leafletData, BranchesFeed) {
+    .controller('SearchCtrl', function ($scope, $injector, $stateParams, leafletData, flux, BranchActions,
+                                        BranchStore, MarkerStore) {
 
-        if (!$stateParams.query) {
-          $injector.get('$location').path('/');
-          return;
+      if (!$stateParams.query) {
+        $injector.get('$location').path('/');
+        return;
+      }
+
+      var params = {
+        q: $stateParams.query,
+        limit: 20,
+        start: -20
+      };
+
+      var $state = $injector.get('$state');
+      var globalState = $injector.get('globalState');
+      $scope.openBranch = function (branch) {
+        globalState.branch = branch;
+        $state.go('main.search.firm', {firm_id: branch.id});
+      };
+
+      $scope.$emit('search.query', $stateParams.query);
+
+      $scope.eof = false;
+      $scope.count = 0;
+      $scope.branches = [];
+
+      $scope.$listenTo(BranchStore, function () {
+        $scope.branches = BranchStore.getBranches();
+        $scope.count = BranchStore.getCount();
+        $scope.eof = BranchStore.isEof();
+      });
+
+      var cluster = new L.BranchClusterGroup({
+        singleMarkerMode: false
+      });
+
+      cluster.on('click', function(e) {
+        var m = e.layer;
+        if (m && m.branch_id) {
+          $state.go('main.search.firm', {firm_id: m.branch_id});
         }
-        $scope.$parent.query = $stateParams.query;
+      });
 
-        $scope.feed = new BranchesFeed($stateParams.query);
-
-        var $state = $injector.get('$state');
-        var globalState = $injector.get('globalState');
-        $scope.openBranch = function (branch) {
-          globalState.branch = branch;
-          $state.go('main.search.firm', {firm_id: branch.id});
-        };
-        var map;
-
-        leafletData.getMap().then(function(m) {
-          map = m;
-        });
-
-        $scope.feed.onMarkers = function(res) {
-          var m, marker, iconEl;
-          var res_markers = res.markers;
-          var tmp = [];
-          for (var i = 0; i < res_markers.length; i++) {
-            m = res_markers[i];
-            marker = L.marker(L.latLng(m.lat, m.lng), {
-              icon: markerIcon
-              //title: m.name
-            });
-            marker.paid = m.paid;
-            marker.branch_id = m.branch_id;
-            marker.html_title = '<div>' + m.name + '</div>';
-            if (m.attributes && m.attributes.length) {
-              var attrs = [];
-              for (var j = 0; j < m.attributes.length && j < 3; j++) {
-                attrs.push(m.attributes[j].name);
-              }
-              marker.html_title += '<ul><li>' + attrs.join('</li><li>') + '</li></ul>';
+      $scope.$listenTo(MarkerStore, function () {
+        var m, marker;
+        var res_markers = MarkerStore.getMarkers();
+        var tmp = [];
+        for (var i = 0; i < res_markers.length; i++) {
+          m = res_markers[i];
+          marker = L.marker(L.latLng(m.lat, m.lng), {
+            icon: markerIcon
+            //title: m.name
+          });
+          marker.paid = m.paid;
+          marker.branch_id = m.branch_id;
+          marker.html_title = '<div>' + m.name + '</div>';
+          if (m.attributes && m.attributes.length) {
+            var attrs = [];
+            for (var j = 0; j < m.attributes.length && j < 3; j++) {
+              attrs.push(m.attributes[j].name);
             }
-            tmp.push(marker);
+            marker.html_title += '<ul><li>' + attrs.join('</li><li>') + '</li></ul>';
           }
-          var group = new L.BranchClusterGroup({
-            singleMarkerMode: false
-          });
-          group.addLayers(tmp);
-          map.addLayer(group);
+          tmp.push(marker);
+        }
 
-          group.on('click', function(e) {
-            var m = e.layer;
-            if (m && m.branch_id) {
-              $state.go('main.search.firm', {firm_id: m.branch_id});
-            }
+        cluster.clearLayers();
+        cluster.addLayers(tmp);
+        leafletData.getMap().then(function(map) {
+          map.addLayer(cluster);
+        });
+      });
+
+      $scope.isLoading = false;
+      $scope.nextPage = function () {
+        if (!$scope.isLoading && !$scope.error) {
+          $scope.isLoading = true;
+          params.start = params.start + params.limit;
+          BranchActions.load(params).then(function (res) {
+            $scope.isLoading = false;
+            return res;
+          }, function (err) {
+            $scope.error = err;
+            $scope.isLoading = false;
+            return err;
           });
-        };
-      }])
+        }
+      };
+
+      $scope.$on('$destroy', function () {
+        cluster.off('click');
+        leafletData.getMap().then(function(map) {
+          map.removeLayer(cluster);
+        });
+      });
+    })
   ;
 })();

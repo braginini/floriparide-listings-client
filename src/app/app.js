@@ -2,6 +2,7 @@
   var initialDefer;
   angular
     .module('app', [
+      'flux',
       'ui.router',
       'ui.bootstrap.dropdown',
       'ui.bootstrap.tooltip',
@@ -56,19 +57,12 @@
       });
     }])
 
-    .controller('MainCtrl', ['$scope', '$rootScope', '$injector', 'config', function ($scope, $rootScope, $injector, config) {
-      $scope.isLoading = false;
+    .controller('MainCtrl', function ($scope, $rootScope, $injector, $stateParams, config) {
 
-      var loadingFactory = function (value) {
-        return function(e, action) {
-          if (action === '/branch/search') {
-            $scope.isLoading = value;
-          }
-        };
-      };
-      $rootScope.$on('api.request_start', loadingFactory(true));
-      $rootScope.$on('api.request_success', loadingFactory(false));
-      $rootScope.$on('api.request_failed', loadingFactory(false));
+      $scope.query = $stateParams.q;
+      $scope.$on('search.query', function (event, query) {
+        $scope.query = query;
+      });
 
       $scope.layers = {
         baselayers: {
@@ -93,13 +87,13 @@
         $state.go('main.search', {query: q});
       };
 
-      $rootScope = $injector.get('$rootScope');
-      $rootScope.$on('$stateChangeSuccess',
-        function(event, toState, toParams, fromState, fromParams) {
-          if (toState.name !== 'main.search') {
-            $scope.query = null;
-          }
-        });
-    }])
+      //$rootScope = $injector.get('$rootScope');
+      //$rootScope.$on('$stateChangeSuccess',
+      //  function(event, toState, toParams, fromState, fromParams) {
+      //    if (toState.name !== 'main.search') {
+      //      $scope.query = null;
+      //    }
+      //  });
+    })
   ;
 })();

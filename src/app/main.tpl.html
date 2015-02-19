@@ -5,26 +5,11 @@
 <div class="side_west">
     <form class="form-inline" ng-submit="search(query)">
         <div class="input-group push-down-10 search">
-            <!--<span class="input-group-addon"><span class="icon-search"></span></span>-->
             <input type="text" class="form-control" placeholder="search name, address or route..." ng-model="query">
             <div class="input-group-btn">
                 <button class="btn btn-primary" type="submit"><span class="icon-search"></span></button>
             </div>
         </div>
     </form>
-    <!--<tabset class="search-bar">-->
-        <!--<tab heading="Справочник">-->
-            <!--<form class="form-inline" ng-submit="search(query)">-->
-                <!--<input class="form-control search-input" placeholder="search name, address or route"-->
-                       <!--ng-model="query">-->
-                <!--<button class="btn btn-primary btn-search">-->
-                    <!--<i ng-class="{'icon-search': !isLoading, 'icon-spin4 animate-spin': isLoading}"></i>-->
-                <!--</button>-->
-            <!--</form>-->
-        <!--</tab>-->
-        <!--<tab heading="Проезд">-->
-            <!--Coming soon!-->
-        <!--</tab>-->
-    <!--</tabset>-->
     <div ui-view class="data-view"></div>
 </div>

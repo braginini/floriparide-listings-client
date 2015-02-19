@@ -78,7 +78,8 @@ module.exports = {
       'vendor/angular-leaflet-directive/dist/angular-leaflet-directive.js',
       'vendor/leaflet.markercluster/dist/leaflet.markercluster-src.js',
       'vendor/bootstrap-star-rating/js/star-rating.js',
-      'vendor/bootstrap/js/tooltip.js'
+      'vendor/bootstrap/js/tooltip.js',
+      'vendor/flux-angular/release/flux-angular.js'
     ],
     css: [
       'vendor/leaflet-dist/leaflet.css',
