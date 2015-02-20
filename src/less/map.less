@@ -36,7 +36,7 @@ a.leaflet-control-zoom-out, a.leaflet-control-zoom-out:hover {
     background: #cc0000;
   }
   &.active {
-    z-index: 100000 !important;
+    z-index: 1000 !important;
     .location-medium();
     background: #cc0000;
   }
@@ -83,5 +83,27 @@ a.leaflet-control-zoom-out, a.leaflet-control-zoom-out:hover {
 }
 
 .tooltip-inner {
-  min-width: 100px;
+  min-width: 200px;
+  //max-width: 250px;
+  width: auto;
+  font-size: ((@font-size-base * 1.1));
+
+  ul.attributes {
+    font-size: ((@font-size-small * 0.9));
+    color: @brand-warning;
+    padding: 0;
+    > li {
+      display: inline-block;
+      margin-right: 2px;
+      text-transform: capitalize;
+    }
+
+    > li:after {
+      content: " • ";
+    }
+
+    > li:last-child:after {
+      content: none;
+    }
+  }
 }

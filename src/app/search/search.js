@@ -110,7 +110,7 @@
             for (var j = 0; j < m.attributes.length && j < 3; j++) {
               attrs.push(m.attributes[j].name);
             }
-            marker.html_title += '<ul><li>' + attrs.join('</li><li>') + '</li></ul>';
+            marker.html_title += '<ul class="attributes"><li>' + attrs.join('</li><li>') + '</li></ul>';
           }
           tmp.push(marker);
         }
