@@ -21,7 +21,8 @@ module.exports = {
    * app's unit tests.
    */
   app_files: {
-    js: [ 'src/**/*.js', 'config.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
+    es6: [ 'src/app/**/*.js' ],
+    js: [ 'config.js', 'src/**/*.js',  '!src/es6/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
     jsunit: [ 'src/**/*.spec.js' ],
 
     coffee: [ 'src/**/*.coffee', '!src/**/*.spec.coffee' ],

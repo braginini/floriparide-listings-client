@@ -11,6 +11,7 @@
     "requireOperatorBeforeLineBreak": true,
     "validateIndentation": 2,
     "validateQuoteMarks": true,
+    "esnext": true,
 
     "disallowMultipleLineStrings": true,
     "disallowMixedSpacesAndTabs": true,

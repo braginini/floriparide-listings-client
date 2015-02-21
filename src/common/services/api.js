@@ -1,11 +1,10 @@
-angular.module('services.api', [
-  'app.config',
-  'services.cache'
-])
-  .factory('api', ['$http', '$q', 'config', 'sessionStorage', '$injector', function($http, $q, config, sessionStorage, $injector) {
-    var cache = sessionStorage;
-    var buffers = {};
+import config from '../../../config.js';
 
+export default angular
+  .module('services.api', [
+    'services.cache'
+  ])
+  .factory('api', function($http, $q, $injector) {
     var extend_promise = function(promise) {
       promise.wait = function(message, title) {
         var modalInstance = $injector.get('dialogs').wait(message, title);
@@ -15,7 +14,7 @@ angular.module('services.api', [
       return promise;
     };
 
-    $rootScope = $injector.get('$rootScope');
+    let $rootScope = $injector.get('$rootScope');
 
     var me = {
       getUrl: function(action) {
@@ -71,42 +70,6 @@ angular.module('services.api', [
         return me.get(action, params, opts);
       },
 
-      getCached: function(action, params, opts) {
-        var url = action;
-        if (params) {
-          url += '?' + $.param(params);
-        }
-
-        var d = $q.defer();
-        if (cache.exists(url) && !(opts && opts.nocache)) {
-          d.resolve(cache.get(url));
-        } else {
-          if (!buffers[url]) {
-            buffers[url] = [];
-
-            me.get(action, params, opts).then(function(result) {
-              cache.put(url, result);
-
-              var defers = buffers[url];
-              for (var i = 0; i < defers.length; i++) {
-                defers[i].resolve(result);
-              }
-              delete buffers[url];
-              return result;
-            }, function(reason) {
-              var defers = buffers[url];
-              for (var i = 0; i < defers.length; i++) {
-                defers[i].reject(reason);
-              }
-              delete buffers[url];
-              return reason;
-            });
-          }
-          buffers[url].push(d);
-        }
-        return extend_promise(d.promise);
-      },
-
       branchSearch: function(params) {
         params.project_id = config.project.id;
         return me.get('/branch/search', params);
@@ -127,5 +90,5 @@ angular.module('services.api', [
       }
     };
     return me;
-  }])
+  })
 ;

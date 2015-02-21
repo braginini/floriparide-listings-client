@@ -32,6 +32,8 @@
 <!-- compiled JavaScript -->
 <% scripts.forEach( function ( file ) { %>
 <script type="text/javascript" src="<%= file %>"></script><% }); %>
-
+<script>
+    System.get('src/app/app.js');
+</script>
 </body>
 </html>

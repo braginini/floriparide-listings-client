@@ -19,9 +19,9 @@
                             // true : ensure whatever is used is consistent
                             // "single" : require single quotes
                             // "double" : require double quotes
-  "undef"         : true,   // Require all non-global variables be declared before they are used.
-  "unused"        : true,   // Warns when you define and never use your variables
-  "strict"        : true,   // Require `use strict` pragma  in every file.
+  "undef"         : false,   // Require all non-global variables be declared before they are used.
+  "unused"        : false,   // Warns when you define and never use your variables
+  "strict"        : false,   // Require `use strict` pragma  in every file.
   "trailing"      : true,   // Prohibit trailing whitespaces.
 
   // Relaxing Options //////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@
   "debug"         : false,  // Allow debugger statements e.g. browser breakpoints.
   "eqnull"        : false,  // Tolerate use of `== null`.
   //"es5"           : true,   // Allow ECMAScript 5 syntax.
-  "esnext"        : false,  // Allow ES.next specific features such as const and let
+  "esnext"        : true,  // Allow ES.next specific features such as const and let
   "evil"          : false,  // Tolerate use of `eval`.
   "expr"          : false,  // Tolerate `ExpressionStatement` as Programs.
   "funcscope"     : false,  // Tolerate declaring variables inside of control structures while accessing them later
@@ -52,11 +52,11 @@
 
   // Environments //////////////////////////////////////////////////////////////
 
-  "browser"       : false,  // Defines globals exposed by modern browsers
+  "browser"       : true,  // Defines globals exposed by modern browsers
   "couch"         : false,  // Defines globals exposed by CouchDB
   "devel"         : false,  // Allow developments statements e.g. `console.log();`.
   "dojo"          : false,  // Defines globals exposed by the Dojo Toolkit
-  "jquery"        : false,  // Defines globals exposed by the jQuery
+  "jquery"        : true,  // Defines globals exposed by the jQuery
   "mootools"      : false,  // Defines globals exposed by the MooTools
   "node"          : true,   // Defines globals exposed when running under Node.JS
   "nonstandard"   : false,  // Defines non-standard but widely adopted globals such as escape and unescape
@@ -74,5 +74,9 @@
 
   // Custom globals ///////////////////////////////////////////////////////////
 
-  "globals"       : {  }
+  "globals"       : {
+    "angular": true,
+    "L": true,
+    "_": true
+  }
 }

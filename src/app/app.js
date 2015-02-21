@@ -1,6 +1,27 @@
-(function() {
-  var initialDefer;
-  angular
+import config from '../../config.js';
+
+import '../common/services/util.js';
+import '../common/services/api.js';
+import '../common/services/branches.js';
+import '../common/services/cache.js';
+import '../common/services/dialogs/dialogs.js';
+
+import '../common/directives/delegate.js';
+import '../common/directives/frames.js';
+import '../common/directives/rating.js';
+import '../common/directives/resizable.js';
+import '../common/directives/branch/branch.js';
+import '../common/directives/branch/contact.js';
+import '../common/directives/branch/schedule.js';
+
+import '../common/extra/BranchClusterGroup.js';
+
+import './search/search.js';
+import './search/firm.js';
+
+var initialDefer;
+
+export var app = angular
     .module('app', [
       'flux',
       'ui.router',
@@ -14,17 +35,15 @@
       'template/tooltip/tooltip-popup.html',
       'template/tabs/tab.html',
       'template/tabs/tabset.html',
-      'app.config',
-      'services.global',
       'services.api',
       'services.branches',
       'directives.resizable',
       'app.search'
     ])
 
-    .config(['$stateProvider', '$urlRouterProvider', '$compileProvider', function ($stateProvider, $urlRouterProvider, $compileProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $compileProvider) {
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|skype):/);
-      var state = function(name, config) {
+      var state = function (name, config) {
         if (!config.resolve) {
           config.resolve = {};
         }
@@ -41,9 +60,9 @@
       });
 
       $urlRouterProvider.otherwise('/');
-    }])
+    })
 
-    .run(['api', 'config', '$q', function (api, config, $q) {
+    .run(function (api, $q) {
       initialDefer = $q.defer();
       api.projectList().then(function (res) {
         if (res && res.items.length) {
@@ -55,9 +74,9 @@
         }
         return res;
       });
-    }])
+    })
 
-    .controller('MainCtrl', function ($scope, $rootScope, $injector, $stateParams, config) {
+    .controller('MainCtrl', function ($scope, $rootScope, $injector, $stateParams) {
 
       $scope.query = $stateParams.q;
       $scope.$on('search.query', function (event, query) {
@@ -86,14 +105,5 @@
       $scope.search = function (q) {
         $state.go('main.search', {query: q});
       };
-
-      //$rootScope = $injector.get('$rootScope');
-      //$rootScope.$on('$stateChangeSuccess',
-      //  function(event, toState, toParams, fromState, fromParams) {
-      //    if (toState.name !== 'main.search') {
-      //      $scope.query = null;
-      //    }
-      //  });
     })
-  ;
-})();
+;

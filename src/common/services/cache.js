@@ -1,6 +1,5 @@
-angular.module('services.cache', [
-  'app.config'
-])
+export default angular
+  .module('services.cache', [])
   .factory('adler32', function() {
     return function(str) {
       var adler = 0,

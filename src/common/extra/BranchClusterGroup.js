@@ -1,16 +1,16 @@
-var smallIcon = L.divIcon({
+export var smallIcon = L.divIcon({
   iconSize:null,
   className: 'location-small marker'
   //html: '<i class="icon-location"></i>'
 });
 
-var markerIcon = L.divIcon({
+export var markerIcon = L.divIcon({
   iconSize:null,
   className: 'location-medium marker'
   //html: '<i class="icon-circle"></i>'
 });
 
-var paidIcon = L.divIcon({
+export var paidIcon = L.divIcon({
   iconSize:null,
   className: 'location-paid marker',
   html: '<i class="icon-star"></i>'
@@ -32,7 +32,7 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
   },
 
   setActiveId: function(id) {
-    if (id != this._activeId) {
+    if (id !== this._activeId) {
       $('.marker.active').removeClass('active');
     }
     this._activeId = id;

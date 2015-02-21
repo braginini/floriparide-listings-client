@@ -257,6 +257,26 @@ module.exports = function (grunt) {
     },
 
     /**
+     * Compile ES6 JS into ES3 JS using Traceur Compiler
+     */
+    traceur: {
+      options: {
+        experimental: true,
+        copyRuntime: 'build/vendor'
+      },
+      build: {
+        files: [
+          {
+            src: [ '<%= app_files.js %>' ],
+            dest: '<%= build_dir %>',
+            cwd: '.',
+            expand: true
+          }
+        ]
+      }
+    },
+
+    /**
      * Minify the sources!
      */
     uglify: {
@@ -314,14 +334,15 @@ module.exports = function (grunt) {
      * nonetheless inside `src/`.
      */
     jshint: {
+      options: {
+        jshintrc: '.jshintrc'
+      },
       src: [
         '<%= app_files.js %>'
       ],
       gruntfile: [
         'Gruntfile.js'
-      ],
-      jshintrc: '.jshintrc'
-      //globals: {}
+      ]
     },
 
     jscs: {
@@ -395,6 +416,7 @@ module.exports = function (grunt) {
       build: {
         dir: '<%= build_dir %>',
         src: [
+          '<%= build_dir %>/vendor/traceur_runtime.js',
           '<%= vendor_files.js %>',
           '<%= build_dir %>/src/**/*.js',
           '<%= build_dir %>/config.js',
@@ -460,7 +482,7 @@ module.exports = function (grunt) {
         files: [
           '<%= app_files.js %>'
         ],
-        tasks: [ 'jshint:src', 'jscs:src', 'copy:build_appjs', 'notify:watch' ]
+        tasks: [ 'jshint:src', 'jscs:src', /*'copy:build_appjs',*/'traceur:build', 'notify:watch' ]
       },
 
       /**
@@ -566,7 +588,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean', 'html2js', 'test', 'newer:less:build', 'modernizr',
     'copy:build_app_assets', 'copy:build_vendor_assets', 'copy:build_vendor_images',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:build_vendorcss', 'index:build', 'notify:build'
+    'traceur:build', 'copy:build_vendorjs', 'copy:build_vendorcss', 'index:build', 'notify:build'
   ]);
 
   /**

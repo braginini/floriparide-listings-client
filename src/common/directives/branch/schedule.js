@@ -1,243 +1,240 @@
-(function () {
-  var days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-  var day_indexes = {
-    monday: 0,
-    tuesday: 1,
-    wednesday: 2,
-    thursday: 3,
-    friday: 4,
-    saturday: 5,
-    sunday: 6
-  };
-  var day_labels = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
+var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+var day_indexes = {
+  monday: 0,
+  tuesday: 1,
+  wednesday: 2,
+  thursday: 3,
+  friday: 4,
+  saturday: 5,
+  sunday: 6
+};
+var day_labels = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
-  var formatSchedule = function(item) {
-    if (!item.from || !item.to) {
-      return 'закрыто';
-    }
-    return item.from + '-' + item.to;
-  };
+var formatSchedule = function (item) {
+  if (!item.from || !item.to) {
+    return 'закрыто';
+  }
+  return item.from + '-' + item.to;
+};
 
-  var parseTodayTime = function(time, checkTomorrow) {
-    var parts = time.split(':');
-    var date = new Date();
-    date.setHours(parts[0], parts[1]);
-    if (checkTomorrow && parts[0] <= 6) {
-      date.setTime(date.getTime() + 24 * 3600 * 1000);
-    }
-    return date;
-  };
+var parseTodayTime = function (time, checkTomorrow) {
+  var parts = time.split(':');
+  var date = new Date();
+  date.setHours(parts[0], parts[1]);
+  if (checkTomorrow && parts[0] <= 6) {
+    date.setTime(date.getTime() + 24 * 3600 * 1000);
+  }
+  return date;
+};
 
-  angular
-    .module('directives.branchSchedule', [
-      'ui.bootstrap.tooltip',
-      'template/tooltip/tooltip-popup.html',
-      'template/tooltip/tooltip-html-unsafe-popup.html'
-    ])
-    .directive('branchSchedule', ['$interval', '$timeout', '$parse', function ($interval, $timeout, $parse) {
-      return {
-        restrict: 'EA',
-        templateUrl: 'directives/branch/schedule.tpl.html',
-        replace: true,
-        link: function ($scope, element, attrs) {
+export default angular
+  .module('directives.branchSchedule', [
+    'ui.bootstrap.tooltip',
+    'template/tooltip/tooltip-popup.html',
+    'template/tooltip/tooltip-html-unsafe-popup.html'
+  ])
+  .directive('branchSchedule', ['$interval', '$timeout', '$parse', function ($interval, $timeout, $parse) {
+    return {
+      restrict: 'EA',
+      templateUrl: 'directives/branch/schedule.tpl.html',
+      replace: true,
+      link: function ($scope, element, attrs) {
 
-        },
-        controller: ['$scope', '$attrs', function($scope, $attrs) {
-          $scope.schedule = $parse($attrs.branchSchedule)($scope);
-          var today = days[(new Date()).getDay()];
-          if (!$scope.schedule) {
-            $scope.schedule = {};
-          }
-          /** normalize schedule */
-          _.each(days, function(day) {
-            var key = day.toLowerCase();
-            var items = $scope.schedule[key];
-            if (!items || !items.length) {
-              $scope.schedule[key] = {
-                day: day,
-                dayIndex: day_indexes[day],
-                items: []
-              };
-            } else {
-              $scope.schedule[key] = {
-                day: day,
-                dayIndex: day_indexes[day],
-                from: items[0].from,
-                to: items[items.length - 1].to,
-                items: items
-              };
-            }
-          });
-          /*****/
-          $scope.today = $scope.schedule[today.toLowerCase()];
-          $scope.now = 'Закрыто';
-          $scope.isWorking = false;
-
-          var now = new Date();
-          var beginUpdateNowText = function (waitingTime, eventType) {
-            $timeout(function() {
-              var taskId = $interval(function() {
-                $scope.timeLeft = Math.round((waitingTime - (new Date()).getTime()) / 60000);
-                //$scope.$apply($scope.timeLeft);
-                if ($scope.timeLeft <= 0) {
-                  $scope.timeLeft = null;
-                  if (eventType === 'open') {
-                    $scope.isWorking = true;
-                    $scope.now = 'Открыто';
-                  } else {
-                    $scope.isWorking = false;
-                    $scope.now = 'Закрыто';
-                  }
-                  $interval.cancel(taskId);
-                }
-              }, 60000);
-            }, 60000 - (now.getSeconds() * 1000 + now.getMilliseconds()));
-          };
-
-          _.each($scope.today.items, function(item) {
-            var from = parseTodayTime(item.from),
-              to = parseTodayTime(item.to, true),
-              diff;
-
-            if (now >= from && now <= to) {
-              diff = Math.round((to.getTime() - now.getTime()) / 60000);
-              $scope.isWorking = true;
-              if (diff > 0 && diff < 60) {
-                $scope.now = 'Закроется через';
-                $scope.timeLeft = diff;
-                beginUpdateNowText(to.getTime(), 'close');
-              } else {
-                $scope.now = 'Открыто';
-              }
-              return false;
-            } else {
-              diff = Math.round((from.getTime() - now.getTime()) / 60000);
-              if (diff > 0 && diff < 60) {
-                $scope.now = 'Откроется через';
-                $scope.timeLeft = diff;
-                beginUpdateNowText(from.getTime(), 'open');
-                return false;
-              }
-            }
-          });
-
-          var schedule = _.chain($scope.schedule)
-              .values()
-              .sortBy(function(item) {
-                return item.dayIndex;
-              })
-              .value()
-            ;
-          var breaks = [];
-          for (var i = 1; i < $scope.today.items.length; i++) {
-            breaks.push({
-              from: $scope.today.items[i - 1].to,
-              to: $scope.today.items[i].from
-            });
-          }
-          $scope.today.label = 'Сегодня';
-          $scope.today.breaks = breaks;
-
-          var compare = function(item) {
-            if (!item.from || !item.to) {
-              return '-';
-            }
-            return item.from + '-' + item.to;
-          };
-
-          $scope.schedule = [];
-          var sch_item;
-          if (_(schedule).groupBy(compare).size() <= 1) {
-            sch_item = schedule[0];
-            $scope.today = {
-              label: 'Ежедневно',
-              from: sch_item.from,
-              to: sch_item.to
+      },
+      controller: ['$scope', '$attrs', function ($scope, $attrs) {
+        $scope.schedule = $parse($attrs.branchSchedule)($scope);
+        var today = days[(new Date()).getDay()];
+        if (!$scope.schedule) {
+          $scope.schedule = {};
+        }
+        /** normalize schedule */
+        _.each(days, function (day) {
+          var key = day.toLowerCase();
+          var items = $scope.schedule[key];
+          if (!items || !items.length) {
+            $scope.schedule[key] = {
+              day: day,
+              dayIndex: day_indexes[day],
+              items: []
             };
           } else {
-            if (_(schedule).first(5).groupBy(compare).size() <= 1 &&
-                _(schedule).last(2).groupBy(compare).size() <= 1) {
+            $scope.schedule[key] = {
+              day: day,
+              dayIndex: day_indexes[day],
+              from: items[0].from,
+              to: items[items.length - 1].to,
+              items: items
+            };
+          }
+        });
+        /*****/
+        $scope.today = $scope.schedule[today.toLowerCase()];
+        $scope.now = 'Закрыто';
+        $scope.isWorking = false;
 
-              sch_item = schedule[0];
-              $scope.schedule.push({
-                label: 'Будние дни',
-                from: sch_item.from,
-                to: sch_item.to
-              });
+        var now = new Date();
+        var beginUpdateNowText = function (waitingTime, eventType) {
+          $timeout(function () {
+            var taskId = $interval(function () {
+              $scope.timeLeft = Math.round((waitingTime - (new Date()).getTime()) / 60000);
+              //$scope.$apply($scope.timeLeft);
+              if ($scope.timeLeft <= 0) {
+                $scope.timeLeft = null;
+                if (eventType === 'open') {
+                  $scope.isWorking = true;
+                  $scope.now = 'Открыто';
+                } else {
+                  $scope.isWorking = false;
+                  $scope.now = 'Закрыто';
+                }
+                $interval.cancel(taskId);
+              }
+            }, 60000);
+          }, 60000 - (now.getSeconds() * 1000 + now.getMilliseconds()));
+        };
 
-              sch_item = schedule[5];
-              $scope.schedule.push({
-                label: 'Суббота, воскресенье',
-                from: sch_item.from,
-                to: sch_item.to
-              });
-              schedule.splice(0);
+        _.each($scope.today.items, function (item) {
+          var from = parseTodayTime(item.from),
+            to = parseTodayTime(item.to, true),
+            diff;
+
+          if (now >= from && now <= to) {
+            diff = Math.round((to.getTime() - now.getTime()) / 60000);
+            $scope.isWorking = true;
+            if (diff > 0 && diff < 60) {
+              $scope.now = 'Закроется через';
+              $scope.timeLeft = diff;
+              beginUpdateNowText(to.getTime(), 'close');
+            } else {
+              $scope.now = 'Открыто';
             }
-            _.each(schedule, function(item) {
-              $scope.schedule.push({
-                label: day_labels[item.dayIndex],
-                from: item.from,
-                to: item.to,
-                items: item.items,
-                dayIndex: item.dayIndex
-              });
+            return false;
+          } else {
+            diff = Math.round((from.getTime() - now.getTime()) / 60000);
+            if (diff > 0 && diff < 60) {
+              $scope.now = 'Откроется через';
+              $scope.timeLeft = diff;
+              beginUpdateNowText(from.getTime(), 'open');
+              return false;
+            }
+          }
+        });
+
+        var schedule = _.chain($scope.schedule)
+          .values()
+          .sortBy(function (item) {
+            return item.dayIndex;
+          })
+          .value();
+        var breaks = [];
+        for (var i = 1; i < $scope.today.items.length; i++) {
+          breaks.push({
+            from: $scope.today.items[i - 1].to,
+            to: $scope.today.items[i].from
+          });
+        }
+        $scope.today.label = 'Сегодня';
+        $scope.today.breaks = breaks;
+
+        var compare = function (item) {
+          if (!item.from || !item.to) {
+            return '-';
+          }
+          return item.from + '-' + item.to;
+        };
+
+        $scope.schedule = [];
+        var sch_item;
+        if (_(schedule).groupBy(compare).size() <= 1) {
+          sch_item = schedule[0];
+          $scope.today = {
+            label: 'Ежедневно',
+            from: sch_item.from,
+            to: sch_item.to
+          };
+        } else {
+          if (_(schedule).first(5).groupBy(compare).size() <= 1 &&
+            _(schedule).last(2).groupBy(compare).size() <= 1) {
+
+            sch_item = schedule[0];
+            $scope.schedule.push({
+              label: 'Будние дни',
+              from: sch_item.from,
+              to: sch_item.to
             });
-          }
-        }]
-      };
-    }])
-    .directive('scheduleTooltipPopup', [function () {
-      return {
-        restrict: 'EA',
-        templateUrl: 'directives/branch/schedule-popup.tpl.html',
-        replace: true,
-        scope: { content: '@', placement: '@', animation: '&', isOpen: '&' },
-        link: function ($scope, element, attrs) {
-          $scope.schedule = angular.fromJson(attrs.content);
-          $scope.todayIndex = (new Date()).getDay() - 1;
-          if ($scope.todayIndex < 0) {
-            $scope.todayIndex = 6;
-          }
-        }
-      };
-    }])
-    .directive( 'scheduleTooltip', [ '$tooltip', function ( $tooltip ) {
-      return $tooltip( 'scheduleTooltip', 'tooltip', 'click' );
-    }])
-    .filter('formatAddress', function() {
-      return function(address) {
-        var adr = '';
-        if (address) {
-          if (address.street) {
-            adr = address.street;
-          }
 
-          if (address.street_number) {
-            adr += ' ' + address.street_number;
+            sch_item = schedule[5];
+            $scope.schedule.push({
+              label: 'Суббота, воскресенье',
+              from: sch_item.from,
+              to: sch_item.to
+            });
+            schedule.splice(0);
           }
+          _.each(schedule, function (item) {
+            $scope.schedule.push({
+              label: day_labels[item.dayIndex],
+              from: item.from,
+              to: item.to,
+              items: item.items,
+              dayIndex: item.dayIndex
+            });
+          });
+        }
+      }]
+    };
+  }])
+  .directive('scheduleTooltipPopup', [function () {
+    return {
+      restrict: 'EA',
+      templateUrl: 'directives/branch/schedule-popup.tpl.html',
+      replace: true,
+      scope: {content: '@', placement: '@', animation: '&', isOpen: '&'},
+      link: function ($scope, element, attrs) {
+        $scope.schedule = angular.fromJson(attrs.content);
+        $scope.todayIndex = (new Date()).getDay() - 1;
+        if ($scope.todayIndex < 0) {
+          $scope.todayIndex = 6;
+        }
+      }
+    };
+  }])
+  .directive('scheduleTooltip', ['$tooltip', function ($tooltip) {
+    return $tooltip('scheduleTooltip', 'tooltip', 'click');
+  }])
+  .filter('formatAddress', function () {
+    return function (address) {
+      var adr = '';
+      if (address) {
+        if (address.street) {
+          adr = address.street;
+        }
 
-          if (address.neighborhood) {
-            if (adr.length) {
-              adr += ',';
-            }
-            adr += ' ' + address.neighborhood;
+        if (address.street_number) {
+          adr += ' ' + address.street_number;
+        }
+
+        if (address.neighborhood) {
+          if (adr.length) {
+            adr += ',';
           }
+          adr += ' ' + address.neighborhood;
         }
-        return adr;
-      };
-    })
-    .filter('formatSchedule', function() {
-      return formatSchedule;
-    })
-    .filter('formatToday', function() {
-      return function(item) {
-        var res = item.label + ': ';
-        res += formatSchedule(item);
-        if (item.breaks && item.breaks.length) {
-          res += ', перерыв с ' + _.map(item.breaks, formatSchedule).join(', ');
-        }
-        return res;
-      };
-    })
-  ;
-})();
+      }
+      return adr;
+    };
+  })
+  .filter('formatSchedule', function () {
+    return formatSchedule;
+  })
+  .filter('formatToday', function () {
+    return function (item) {
+      var res = item.label + ': ';
+      res += formatSchedule(item);
+      if (item.breaks && item.breaks.length) {
+        res += ', перерыв с ' + _.map(item.breaks, formatSchedule).join(', ');
+      }
+      return res;
+    };
+  })
+;
