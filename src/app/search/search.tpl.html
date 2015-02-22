@@ -1,7 +1,7 @@
 <div class="frames">
-    <button class="btn btn-primary pc-expand" ng-click="$scope.$broadcast('frameExpand')" ng-show="count">
+    <button class="btn btn-primary pc-expand" ng-click="$scope.$broadcast('frameExpand')" ng-show="self.count">
         <i class="icon-briefcase"></i>
-        <div class="count" ng-show="count">{{count}}</div>
+        <div class="count" ng-show="self.count">{{self.count}}</div>
     </button>
     <div class="frame frame-1 panel panel-primary panel-hidden-controls">
         <div class="panel-heading">
@@ -10,26 +10,26 @@
                 <li class="pc-close"><a class="panel-remove" href="#/"><span class="icon-times"></span></a></li>
             </ul>
             <h3 class="panel-title">
-                Организации <span class="count" ng-show="count">{{count}}</span>
+                Организации <span class="count" ng-show="self.count">{{self.count}}</span>
             </h3>
         </div>
         <div id="branches_container" class="panel-body">
             <div class="list-group list-group-cards"
-                 infinite-scroll='nextPage()'
+                 infinite-scroll='self.nextPage()'
                  infinite-scroll-distance="0"
-                 infinite-scroll-disabled='isLoading || eof || rror'
+                 infinite-scroll-disabled='self.isLoading || self.eof || self.error'
                  infinite-scroll-container="'#branches_container'"
                  infinite-scroll-parent >
-                <a ng-repeat="b in branches track by b.id"
+                <a ng-repeat="b in self.branches track by b.id"
                    class="list-group-item card"
                    branch="b"
                    href="#"
-                   ng-class="{active: b.id == selectedId}"
-                   ng-click="openBranch(b)">
+                   ng-class="{active: b.id == self.selectedId}"
+                   ng-click="self.openBranch(b)">
                 </a>
             </div>
-            <div class="spinner spinner7-1em-primary" ng-if="isLoading"></div>
-            <div class="alert alert-danger" ng-if="error">
+            <div class="spinner spinner7-1em-primary" ng-if="self.isLoading"></div>
+            <div class="alert alert-danger" ng-if="self.error">
                 <strong>Произошла ошибка!</strong>
                 Мы уже принимаем меры по ее устранению.
                 Попробуйте немного позже.
