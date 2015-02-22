@@ -75,6 +75,11 @@ export default angular
         return me.get('/branch/search', params);
       },
 
+      branchList: function(params) {
+        params.project_id = config.project.id;
+        return me.get('/branch/list', params);
+      },
+
       branchGet: function(id) {
         var params = {
           id: id,

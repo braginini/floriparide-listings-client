@@ -93,10 +93,25 @@ export default
       clear: function () {
         flux.dispatch('branches.clear');
       },
-      load: function (params) {
+      search: function (params) {
         flux.dispatch('branches.load', params);
         var d = $q.defer();
         api.branchSearch(params).then(function (res) {
+          flux.dispatch('branches.load.success', res);
+          d.resolve(res);
+          return res;
+        }, function (err) {
+          flux.dispatch('branches.load.failed', err);
+          d.reject(err);
+          return err;
+        });
+        return d.promise;
+      },
+
+      list: function (params) {
+        flux.dispatch('branches.load', params);
+        var d = $q.defer();
+        api.branchList(params).then(function (res) {
           flux.dispatch('branches.load.success', res);
           d.resolve(res);
           return res;

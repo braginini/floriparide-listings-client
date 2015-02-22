@@ -25,7 +25,7 @@
                    branch="b"
                    href="#"
                    ng-class="{active: b.id == self.selectedId}"
-                   ng-click="self.openBranch(b)">
+                   ng-click="self.openBranch(b.id)">
                 </a>
             </div>
             <div class="spinner spinner7-1em-primary" ng-if="self.isLoading"></div>

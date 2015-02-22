@@ -26,7 +26,7 @@ export default angular
     //globalState.branch = branch;
     $scope.b = branch;
     $scope.goParent = function () {
-      $state.go('main.search');
+      $state.go('^');
     };
 
     if (!$stateParams.firm_id) {

@@ -6,6 +6,7 @@ export class SearchCtrl {
     this.query = $injector.get('$stateParams').query;
     if (!this.query) {
       $injector.get('$location').path('/');
+      this.isLoading = true;
       return;
     }
 
@@ -37,7 +38,7 @@ export class SearchCtrl {
     this.cluster.on('click', e => {
       var m = e.layer;
       if (m && m.branch_id) {
-        this.$get('$state').go('main.search.firm', {firm_id: m.branch_id});
+        this.openBranch(m.branch_id);
       }
     });
 
@@ -82,16 +83,16 @@ export class SearchCtrl {
     return this._winEl;
   }
 
-  openBranch(branch) {
-    this.selectedId = branch.id;
-    this.$get('$state').go('main.search.firm', {firm_id: branch.id});
+  openBranch(id) {
+    this.selectedId = id;
+    this.$get('$state').go('main.search.firm', {firm_id: id});
   }
 
   nextPage() {
     if (!this.isLoading && !this.error) {
       this.isLoading = true;
       this.params.start = this.params.start + this.params.limit;
-      this.branchActions.load(this.params).then(res => {
+      this.branchActions.search(this.params).then(res => {
         this.isLoading = false;
         return res;
       }, err => {
@@ -159,6 +160,42 @@ export class SearchCtrl {
   }
 }
 
+export class RubricCtrl extends SearchCtrl {
+  constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore) {
+    super($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore);
+
+    var rubricId = $injector.get('$stateParams').id;
+    if (!rubricId) {
+      $injector.get('$location').path('/');
+      this.isLoading = true;
+      return;
+    }
+    delete this.params.q;
+    this.params.rubric_id = rubricId;
+  }
+
+  nextPage() {
+    if (!this.isLoading && !this.error) {
+      this.isLoading = true;
+      this.params.start = this.params.start + this.params.limit;
+      this.branchActions.list(this.params).then(res => {
+        this.isLoading = false;
+        return res;
+      }, err => {
+        this.error = err;
+        this.isLoading = false;
+        return err;
+      });
+    }
+  }
+
+  openBranch(id) {
+    this.selectedId = id;
+    this.$get('$state').go('main.rubric.firm', {firm_id: id});
+  }
+
+}
+
 export default angular
   .module('app.search', [
     'ui.router',
@@ -174,7 +211,15 @@ export default angular
       controllerAs: 'self',
       templateUrl: 'search/search.tpl.html'
     });
+
+    $stateProvider.state('main.rubric', {
+      url: 'rubric/{id:int}/:query',
+      controller: 'RubricCtrl',
+      controllerAs: 'self',
+      templateUrl: 'search/search.tpl.html'
+    });
   }])
 
   .controller('SearchCtrl', SearchCtrl)
+  .controller('RubricCtrl', RubricCtrl)
 ;
