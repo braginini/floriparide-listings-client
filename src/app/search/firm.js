@@ -20,6 +20,21 @@ export default angular
         }
       }
     });
+
+    $stateProvider.state('main.rubric.firm', {
+      url: '/firm/:firm_id',
+      resolve: {
+        branch: function (config, $stateParams, BranchActions) {
+          return BranchActions.select($stateParams.firm_id);
+        }
+      },
+      views: {
+        child_frame: {
+          controller: 'FirmCtrl',
+          templateUrl: 'search/firm.tpl.html'
+        }
+      }
+    });
   }])
 
   .controller('FirmCtrl', function ($scope, $state, $stateParams, $timeout, branch) {
