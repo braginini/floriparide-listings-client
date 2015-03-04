@@ -1,7 +1,8 @@
 import {smallIcon, markerIcon, paidIcon} from '../../common/extra/BranchClusterGroup.js';
 
 export class SearchCtrl {
-  constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, TopAttributesStore) {
+  constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, BranchLoadingStore,
+               TopAttributesStore) {
 
     this.query = $injector.get('$stateParams').query;
     if (!this.query) {
@@ -30,7 +31,7 @@ export class SearchCtrl {
     this.branches = [];
     this.attributeGroups = [];
     this.selectedId = SelectedBranchStore.getSelectedId();
-    this.isLoading = false;
+    this.isLoading = BranchLoadingStore.isLoading();
 
     this.cluster = new L.BranchClusterGroup({
       singleMarkerMode: false
@@ -53,6 +54,11 @@ export class SearchCtrl {
 
     $scope.$listenTo(TopAttributesStore, () => {
       this.attributeGroups = TopAttributesStore.getTopAttributes();
+    });
+
+    $scope.$listenTo(BranchLoadingStore, () => {
+      this.isLoading = BranchLoadingStore.isLoading();
+      this.error = BranchLoadingStore.getLastError();
     });
 
     $scope.$listenTo(SelectedBranchStore, this.onBranchSelectDefer);
@@ -95,16 +101,8 @@ export class SearchCtrl {
 
   nextPage() {
     if (!this.isLoading && !this.error) {
-      this.isLoading = true;
       this.params.start = this.params.start + this.params.limit;
-      this.branchActions.search(this.params).then(res => {
-        this.isLoading = false;
-        return res;
-      }, err => {
-        this.error = err;
-        this.isLoading = false;
-        return err;
-      });
+      this.branchActions.search(this.params);
     }
   }
 
@@ -181,16 +179,8 @@ export class RubricCtrl extends SearchCtrl {
 
   nextPage() {
     if (!this.isLoading && !this.error) {
-      this.isLoading = true;
       this.params.start = this.params.start + this.params.limit;
-      this.branchActions.list(this.params).then(res => {
-        this.isLoading = false;
-        return res;
-      }, err => {
-        this.error = err;
-        this.isLoading = false;
-        return err;
-      });
+      this.branchActions.list(this.params);
     }
   }
 

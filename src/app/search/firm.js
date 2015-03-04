@@ -1,3 +1,20 @@
+var branchResolver = function (config, $stateParams, $q, flux, BranchActions, SelectedBranchStore) {
+  var d = $q.defer();
+  var SelectedBranchStoreEmitter = flux.getStore(SelectedBranchStore);
+  var onSelect = function () {
+    var b = SelectedBranchStore.getSelected();
+    if (b && b.id === parseInt($stateParams.firm_id)) {
+      d.resolve(b);
+    } else {
+      d.reject('Invalid branch. Expected id: ' + $stateParams.firm_id + ', actual: ' + b ? b.id : 'unknown');
+    }
+    SelectedBranchStoreEmitter.off('*', onSelect);
+  };
+  SelectedBranchStoreEmitter.on('*', onSelect);
+  BranchActions.select($stateParams.firm_id);
+  return d.promise;
+};
+
 export default angular
   .module('app.firm', [
     'ui.router',
@@ -9,9 +26,7 @@ export default angular
     $stateProvider.state('main.search.firm', {
       url: '/firm/:firm_id',
       resolve: {
-        branch: function (config, $stateParams, BranchActions) {
-          return BranchActions.select($stateParams.firm_id);
-        }
+        branch: branchResolver
       },
       views: {
         child_frame: {
@@ -24,9 +39,7 @@ export default angular
     $stateProvider.state('main.rubric.firm', {
       url: '/firm/:firm_id',
       resolve: {
-        branch: function (config, $stateParams, BranchActions) {
-          return BranchActions.select($stateParams.firm_id);
-        }
+        branch: branchResolver
       },
       views: {
         child_frame: {

@@ -98,6 +98,42 @@ export default
     };
   })
 
+  .store('BranchLoadingStore', function () {
+    return {
+      _isLoading: false,
+      _lastError: null,
+
+      handlers: {
+        'branches.load': 'onBranchesLoad',
+        'branches.load.success': 'onBranchesLoadSuccess',
+        'branches.load.failed': 'onBranchesLoadFailed'
+      },
+      onBranchesLoad: function () {
+        this._isLoading = true;
+        this._lastError = null;
+        this.emitChange();
+      },
+      onBranchesLoadSuccess: function () {
+        this._isLoading = false;
+        this._lastError = null;
+        this.emitChange();
+      },
+      onBranchesLoadFailed: function (e) {
+        this._isLoading = false;
+        this._lastError = e;
+        this.emitChange();
+      },
+      exports: {
+        isLoading: function () {
+          return this._isLoading;
+        },
+        getLastError: function () {
+          return this._lastError;
+        }
+      }
+    };
+  })
+
   .store('SelectedBranchStore', function () {
     return {
       selected: null,
@@ -127,64 +163,50 @@ export default
       },
       search: function (params) {
         flux.dispatch('branches.load', params);
-        var d = $q.defer();
         api.branchSearch(params).then(function (res) {
           flux.dispatch('branches.load.success', {
             params: params,
             data: res
           });
-          d.resolve(res);
           return res;
         }, function (err) {
           flux.dispatch('branches.load.failed', err);
-          d.reject(err);
           return err;
         });
-        return d.promise;
       },
 
       list: function (params) {
         flux.dispatch('branches.load', params);
-        var d = $q.defer();
         api.branchList(params).then(function (res) {
           flux.dispatch('branches.load.success', {
             params: params,
             data: res
           });
-          d.resolve(res);
           return res;
         }, function (err) {
           flux.dispatch('branches.load.failed', err);
-          d.reject(err);
           return err;
         });
-        return d.promise;
       },
 
       select: function (id) {
-        var d = $q.defer();
         if (id === null) {
           flux.dispatch('branches.select.success', null);
-          d.resolve(null);
           return;
         }
         id = parseInt(id);
         var b = _.find(BranchStore.getBranches(), {id: id});
         if (b) {
           flux.dispatch('branches.select.success', b);
-          d.resolve(b);
         } else {
           api.branchGet(id).then(function (b) {
-            d.resolve(b);
             flux.dispatch('branches.select.success', b);
             return b;
           }, function (err) {
-            d.reject(err);
             flux.dispatch('branches.select.failed', err);
             return err;
           });
         }
-        return d.promise;
       },
 
       filter(filters, update = true) {
