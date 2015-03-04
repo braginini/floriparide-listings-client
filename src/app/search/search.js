@@ -1,7 +1,7 @@
 import {smallIcon, markerIcon, paidIcon} from '../../common/extra/BranchClusterGroup.js';
 
 export class SearchCtrl {
-  constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore) {
+  constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, TopAttributesStore) {
 
     this.query = $injector.get('$stateParams').query;
     if (!this.query) {
@@ -28,6 +28,7 @@ export class SearchCtrl {
     this.eof = false;
     this.count = 0;
     this.branches = [];
+    this.attributeGroups = [];
     this.selectedId = SelectedBranchStore.getSelectedId();
     this.isLoading = false;
 
@@ -48,6 +49,10 @@ export class SearchCtrl {
       this.branches = BranchStore.getBranches();
       this.count = BranchStore.getCount();
       this.eof = BranchStore.isEof();
+    });
+
+    $scope.$listenTo(TopAttributesStore, () => {
+      this.attributeGroups = TopAttributesStore.getTopAttributes();
     });
 
     $scope.$listenTo(SelectedBranchStore, this.onBranchSelectDefer);
@@ -201,6 +206,7 @@ export default angular
     'ui.router',
     'directives.frames',
     'directives.branch',
+    'directives.branchFilter',
     'app.firm'
   ])
 

@@ -256,3 +256,36 @@
     }
   }
 }
+
+.attribute-group-filter {
+  background-color: @gray-light;
+  background-color: @panel-default-heading-bg;
+  padding: 5px;
+
+  .filter-checkbox-container {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .filter-checkbox {
+     flex: auto;
+    display: inline-block;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    /* http://stackoverflow.com/questions/16129657/fitting-as-many-divs-as-possible-horizontally-in-html-and-filling-the-line-widt */
+    .btn {
+      padding: 6px;
+      width: 100%;
+      line-height: 1;
+    }
+  }
+
+  .filter-slider {
+    margin-bottom: 15px;
+    margin-right: 15px;
+    margin-left: 15px;
+    .title {
+      color: @btn-default-color;
+      font-size: @font-size-base;
+    }
+  }
+}

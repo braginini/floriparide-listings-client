@@ -49,8 +49,16 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
       m = layersArray[i];
       this.addLayer(m);
     }
+    this.updateClusters();
 
     return this;
+  },
+
+  //Removes all layers from the MarkerClusterGroup
+  clearLayers: function () {
+    this._gridClusters = {};
+    this._zoom = 0;
+    L.FeatureGroup.prototype.clearLayers.call(this);
   },
 
   //Overrides FeatureGroup.onAdd
@@ -80,13 +88,7 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
           title: l.html_title
         });
         iconEl.tooltip('show');
-
-        //iconEl.addClass('active');
       });
-
-      //l.on('mouseout', function () {
-      //  l.removeClass('active');
-      //});
     }, this);
   },
 

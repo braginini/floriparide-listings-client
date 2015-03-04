@@ -587,8 +587,8 @@ module.exports = function (grunt) {
    */
   grunt.registerTask('build', [
     'clean', 'html2js', 'test', 'newer:less:build', 'modernizr',
-    'copy:build_app_assets', 'copy:build_vendor_assets', 'copy:build_vendor_images',
-    'traceur:build', 'copy:build_vendorjs', 'copy:build_vendorcss', 'index:build', 'notify:build'
+    'newer:copy:build_app_assets', 'newer:copy:build_vendor_assets', 'newer:copy:build_vendor_images',
+    'newer:traceur:build', 'newer:copy:build_vendorjs', 'newer:copy:build_vendorcss', 'index:build', 'notify:build'
   ]);
 
   /**

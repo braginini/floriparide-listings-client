@@ -23,6 +23,7 @@
     "AngularJS-Toaster": "0.4.7",
     "bootstrap": "~3.3.0",
     "bootstrap-star-rating": "~2.5.0",
+    "ion.rangeSlider": "^2.0.6",
     "leaflet-dist": "0.7.2",
     "leaflet.markercluster": "~0.4.0",
     "lodash": "~2.4.1",

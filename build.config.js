@@ -72,6 +72,7 @@ module.exports = {
       'vendor/angular-cookie/angular-cookie.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
       'vendor/angular-animate/angular-animate.js',
+      'vendor/ion.rangeSlider/js/ion.rangeSlider.js',
       'vendor/ngInfiniteScroll/build/ng-infinite-scroll.js',
       'vendor/lodash/dist/lodash.js',
       'vendor/AngularJS-Toaster/toaster.js',
@@ -86,7 +87,8 @@ module.exports = {
       'vendor/leaflet-dist/leaflet.css',
       //'vendor/leaflet.markercluster/dist/MarkerCluster.css',
       //'vendor/leaflet.markercluster/dist/MarkerCluster.Defaults.css',
-      'vendor/bootstrap-star-rating/css/star-rating.css'
+      'vendor/bootstrap-star-rating/css/star-rating.css',
+      'vendor/ion.rangeSlider/css/ion.rangeSlider.css'
     ],
     assets: [
 

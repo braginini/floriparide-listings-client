@@ -1,0 +1,10 @@
+<div class="attribute-group-filter">
+    <div class="filter-checkbox-container">
+        <div class="filter-checkbox" ng-repeat="a in groups.checkbox" >
+            <div attribute-checkbox="a"></div>
+        </div>
+    </div>
+    <div class="filter-slider" ng-repeat="a in groups.slider" ng-if="groups.slider.length">
+        <div attribute-slider="a"></div>
+    </div>
+</div>

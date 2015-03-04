@@ -10,9 +10,11 @@ import '../common/directives/delegate.js';
 import '../common/directives/frames.js';
 import '../common/directives/rating.js';
 import '../common/directives/resizable.js';
+import '../common/directives/range-slider.js';
 import '../common/directives/branch/branch.js';
 import '../common/directives/branch/contact.js';
 import '../common/directives/branch/schedule.js';
+import '../common/directives/branch-filter/branch-filter.js';
 
 import '../common/extra/BranchClusterGroup.js';
 
@@ -25,6 +27,7 @@ export var app = angular
     .module('app', [
       'flux',
       'ui.router',
+      'ui.bootstrap.buttons',
       'ui.bootstrap.dropdown',
       'ui.bootstrap.tooltip',
       'ui.bootstrap.tabs',
