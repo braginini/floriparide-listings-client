@@ -26,6 +26,7 @@ a:active, a:focus {
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
   background-color: @btn-bg-hover;
   border-color: @btn-border-hover;
+  color: @btn-color-hover;
 }
 
 .btn {
@@ -313,17 +314,17 @@ label.error, label.valid {
   }
 }
 
-.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
-  background: @brand-primary;
-  border-color: @brand-primary;
-}
-
-.list-group-item {
-  border-color: @list-group-border;
-}
+//.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+//  background: @brand-primary;
+//  border-color: @brand-primary;
+//}
+//
+//.list-group-item {
+//  border-color: @list-group-border;
+//}
 
 .list-group-item:hover, .list-group-item:focus {
-  background: #F9F9F9;
+  background: @list-group-hover-bg;//#F9F9F9;
   cursor: pointer;
 }
 
@@ -349,10 +350,16 @@ label.error, label.valid {
       margin-bottom: 0;
       line-height: 20px;
     }
-    &.active {
-      background: @list-group-hover-bg;
-      border-color: @list-group-border;
-      color: @base-color;
+    &.active, &.focus {
+//      background: @list-group-hover-bg;
+      border-color: @list-group-active-border;
+//      color: @base-color;
+      header {
+        color: @list-group-active-color;
+      }
+      .has-photo i {
+        border-color: @list-group-active-color;
+      }
     }
   }
 }
@@ -580,7 +587,7 @@ label.error, label.valid {
     color: @base-heading-color;
   }
   .panel-footer {
-    background: #F5F5F5;
+    background: @panel-default-heading-bg;
     border: 0;
     border-top: 1px solid #E3E3E3;
     line-height: 30px;
@@ -592,8 +599,8 @@ label.error, label.valid {
 .panel-default .panel-heading, .panel-primary .panel-heading,
 .panel-success .panel-heading, .panel-info .panel-heading,
 .panel-warning .panel-heading, .panel-danger .panel-heading {
-  background: #F5F5F5;
-  border-color: #E5E5E5;
+  background: @panel-default-heading-bg;
+  border-color: @panel-default-border;
 }
 
 .panel-fullscreen-wrap {

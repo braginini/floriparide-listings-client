@@ -12,9 +12,9 @@
             <h3 class="panel-title">
                 Организации <span class="count" ng-show="self.count">{{self.count}}</span>
             </h3>
+            <div attribute-group-filters="self.attributeGroups[0]" ng-if="self.attributeGroups.length"></div>
         </div>
         <div id="branches_container" class="panel-body">
-            <div attribute-group-filters="self.attributeGroups[0]" ng-if="self.attributeGroups.length"></div>
             <div class="list-group list-group-cards"
                  infinite-scroll='self.nextPage()'
                  infinite-scroll-distance="0"

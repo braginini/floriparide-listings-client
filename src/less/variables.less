@@ -63,12 +63,14 @@
 
 
 
+@default-bg: #efefef;
 
-@btn-bg-hover: #F5F5F5;
+@btn-bg-hover: @component-active-bg;//#F5F5F5;
 @btn-border-hover: #DDD;
+@btn-color-hover: #fff;
 
 /* PANEL */
-@panel-border: #E5E5E5;
+@panel-border: #dfdfdf;
 /* END PANEL */
 
 @raiting-color: #F77F7C;
@@ -179,7 +181,7 @@
 //** Global color for active items (e.g., navs or dropdowns).
 @component-active-color:    #fff;
 //** Global background color for active items (e.g., navs or dropdowns).
-@component-active-bg:       @brand-primary;
+@component-active-bg:       #57a9a8;//@brand-primary;
 
 //** Width of the `border` for generating carets that indicator dropdowns.
 @caret-width-base:          4px;
@@ -702,7 +704,7 @@
 //##
 
 //** Background color of the whole progress component
-@progress-bg:                 #f5f5f5;
+@progress-bg:                 @default-bg;//#f5f5f5;
 //** Progress bar text color
 @progress-bar-color:          #fff;
 //** Variable for setting rounded corners on progress bar.
@@ -727,12 +729,12 @@
 //** Background color on `.list-group-item`
 @list-group-bg:                 #fff;
 //** `.list-group-item` border color
-@list-group-border:             #E5E5E5;
+@list-group-border:             @default-bg;//#E5E5E5;
 //** List group border radius
 @list-group-border-radius:      @border-radius-base;
 
 //** Background color of single list elements on hover
-@list-group-hover-bg:           #f5f5f5;
+@list-group-hover-bg:           lighten(@component-active-bg, 40%);//#f5f5f5;
 //** Text color of active list elements
 @list-group-active-color:       @component-active-color;
 //** Background color of active list elements
@@ -768,8 +770,8 @@
 @panel-footer-bg:             #f5f5f5;
 
 @panel-default-text:          @gray-dark;
-@panel-default-border:        #ddd;
-@panel-default-heading-bg:    #f5f5f5;
+@panel-default-border:        @panel-border;
+@panel-default-heading-bg:    @default-bg;//#f5f5f5;
 
 @panel-primary-text:          #fff;
 @panel-primary-border:        @brand-primary;
