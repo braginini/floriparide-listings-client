@@ -7,7 +7,8 @@ export default
       markers: [],
       handlers: {
         'branches.load.success': 'onBranchesLoadSuccess',
-        'branches.clear': 'onBranchesClear'
+        'branches.clear': 'onBranchesClear',
+        'branches.data.clear': 'onBranchesClear'
       },
       onBranchesLoadSuccess: function (res) {
         if (res.data.markers) {
@@ -61,7 +62,8 @@ export default
 
       handlers: {
         'branches.load.success': 'onBranchesLoadSuccess',
-        'branches.clear': 'onBranchesClear'
+        'branches.clear': 'onBranchesClear',
+        'branches.data.clear': 'onBranchesClear'
       },
       onBranchesLoadSuccess: function (res) {
         var data = res.data;
@@ -161,6 +163,9 @@ export default
       clear: function () {
         flux.dispatch('branches.clear');
       },
+      clearData: function () {
+        flux.dispatch('branches.data.clear');
+      },
       search: function (params) {
         flux.dispatch('branches.load', params);
         api.branchSearch(params).then(function (res) {
@@ -211,17 +216,17 @@ export default
 
       filter(filters, update = true) {
         var params = update ? BranchStore.getParams() : {};
-        if (!params.filter) {
-          params.filter = {};
+        if (!params.filters) {
+          params.filters = {};
         }
         _.forEach(filters, (value, key) => {
           if (value === false) {
-            delete params.filter[key];
+            delete params.filters[key];
           } else {
-            params.filter[key] = value;
+            params.filters[key] = value;
           }
         });
-        this.clear();
+        this.clearData();
         this.search(params);
       }
     };

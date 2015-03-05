@@ -164,8 +164,10 @@ export class SearchCtrl {
 }
 
 export class RubricCtrl extends SearchCtrl {
-  constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore) {
-    super($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore);
+  constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, BranchLoadingStore,
+               TopAttributesStore) {
+    super($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, BranchLoadingStore,
+      TopAttributesStore);
 
     var rubricId = $injector.get('$stateParams').id;
     if (!rubricId) {
@@ -194,6 +196,7 @@ export class RubricCtrl extends SearchCtrl {
 export default angular
   .module('app.search', [
     'ui.router',
+    'services.branches',
     'directives.frames',
     'directives.branch',
     'directives.branchFilter',
