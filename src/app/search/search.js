@@ -46,7 +46,7 @@ export class SearchCtrl {
 
     this.onBranchSelectDefer = _.debounce(this.onBranchSelect.bind(this), 100, this);
 
-    $scope.$listenTo(BranchStore, () => {
+    $scope.$listenTo(BranchStore, 'branches', () => {
       this.branches = BranchStore.getBranches();
       this.count = BranchStore.getCount();
       this.eof = BranchStore.isEof();

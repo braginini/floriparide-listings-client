@@ -3,7 +3,7 @@ export default angular
     'directives.rangeSlider',
     'services.branches'
   ])
-  .directive('attributeGroupFilters', function () {
+  .directive('attributeGroupFilters', function (BranchActions, BranchStore, leafletData) {
     return {
       restrict: 'EA',
       templateUrl: 'directives/branch-filter/attribute-group-filters.tpl.html',
@@ -11,11 +11,60 @@ export default angular
       scope: {
         g: '=attributeGroupFilters'
       },
-      link: function ($scope, element, attrs) {
-
-      },
-      controller: function ($scope) {
+      controller ($scope) {
         $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
+
+        $scope.filters = {
+          visible: false,
+          open: false
+        };
+        $scope.sort = {
+          rating: false
+        };
+
+        $scope.$listenTo(BranchStore, 'params', function () {
+          var params = BranchStore.getParams();
+          var filters = params.filters || {};
+          $scope.filters = _.mapValues($scope.filters, (value, key) => {
+            return filters[key] ? true : false;
+          });
+        });
+
+        leafletData.getMap().then(map => {
+          var doFilter = function () {
+            BranchActions.filter(_.mapValues($scope.filters, (value, key) => {
+              switch (key) {
+                case 'visible':
+                  if (value) {
+                    let bounds = map.getBounds();
+                    let nw = bounds.getNorthWest();
+                    let se = bounds.getSouthEast();
+                    return [nw.lat, nw.lng, se.lat, se.lng];
+                  }
+                  break;
+              }
+              return Boolean(value);
+            }));
+          };
+          var filterVisible = _.debounce(() => {
+            if ($scope.filters.visible) {
+              doFilter();
+            }
+          }, 500);
+
+          $scope.$watch('filters', doFilter, true);
+          map.on('moveend', filterVisible);
+          map.on('zoomend', filterVisible);
+
+          $scope.$on('$destroy', function () {
+            map.off('moveend', filterVisible);
+            map.off('zoomend', filterVisible);
+          });
+        });
+
+        $scope.$watch('sort.raiting', function () {
+          BranchActions.sort('raiting', Boolean($scope.sort.raiting));
+        });
       }
     };
   })

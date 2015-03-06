@@ -11,8 +11,8 @@ export default
         'branches.data.clear': 'onBranchesClear'
       },
       onBranchesLoadSuccess: function (res) {
-        if (res.data.markers) {
-          this.markers = res.data.markers;
+        if (res.markers) {
+          this.markers = res.markers;
           this.emitChange();
         }
       },
@@ -36,8 +36,8 @@ export default
         'branches.clear': 'onBranchesClear'
       },
       onBranchesLoadSuccess: function (res) {
-        if (res.data.top_attributes) {
-          this.attributes = res.data.top_attributes;
+        if (res.top_attributes) {
+          this.attributes = res.top_attributes;
           this.emitChange();
         }
       },
@@ -61,19 +61,22 @@ export default
       params: {},
 
       handlers: {
+        'branches.load': 'onBranchesLoad',
         'branches.load.success': 'onBranchesLoadSuccess',
         'branches.clear': 'onBranchesClear',
         'branches.data.clear': 'onBranchesClear'
       },
+      onBranchesLoad: function (params) {
+        this.params = params;
+        this.emit('params');
+      },
       onBranchesLoadSuccess: function (res) {
-        var data = res.data;
-        this.params = res.params;
-        this.totalCount = data.total;
-        this.branches = this.branches.concat(data.items);
-        if (this.branches.length >= this.totalCount || !data.items.length) {
+        this.totalCount = res.total;
+        this.branches = this.branches.concat(res.items);
+        if (this.branches.length >= this.totalCount || !res.items.length) {
           this.eof = true;
         }
-        this.emitChange();
+        this.emit('branches');
       },
       onBranchesClear: function () {
         this.state = null;
@@ -158,7 +161,7 @@ export default
     };
   })
 
-  .factory('BranchActions', function (api, flux, $q, BranchStore) {
+  .factory('BranchActions', function (api, flux, $q, BranchStore, BranchLoadingStore) {
     return {
       clear: function () {
         flux.dispatch('branches.clear');
@@ -167,12 +170,12 @@ export default
         flux.dispatch('branches.data.clear');
       },
       search: function (params) {
+        if (BranchLoadingStore.isLoading()) {
+          return;
+        }
         flux.dispatch('branches.load', params);
         api.branchSearch(params).then(function (res) {
-          flux.dispatch('branches.load.success', {
-            params: params,
-            data: res
-          });
+          flux.dispatch('branches.load.success', res);
           return res;
         }, function (err) {
           flux.dispatch('branches.load.failed', err);
@@ -183,10 +186,7 @@ export default
       list: function (params) {
         flux.dispatch('branches.load', params);
         api.branchList(params).then(function (res) {
-          flux.dispatch('branches.load.success', {
-            params: params,
-            data: res
-          });
+          flux.dispatch('branches.load.success', res);
           return res;
         }, function (err) {
           flux.dispatch('branches.load.failed', err);
@@ -214,20 +214,45 @@ export default
         }
       },
 
-      filter(filters, update = true) {
+      filter(new_filters, update = true) {
         var params = update ? BranchStore.getParams() : {};
-        if (!params.filters) {
-          params.filters = {};
-        }
-        _.forEach(filters, (value, key) => {
+        var old = params.filters ? params.filters : {};
+        var filters = _.clone(old);
+        _.forEach(new_filters, (value, key) => {
           if (value === false) {
-            delete params.filters[key];
+            delete filters[key];
           } else {
-            params.filters[key] = value;
+            filters[key] = value;
           }
         });
-        this.clearData();
-        this.search(params);
+
+        if (!_.isEqual(filters, old)) {
+          params.filters = filters;
+          _.forEach(params, (value, key) => {
+            if (!_.isNumber(value) && _.isEmpty(value)) {
+              delete params[key];
+            }
+          });
+          this.clearData();
+          this.search(params);
+        }
+      },
+
+      sort(field, order) {
+        var params = BranchStore.getParams();
+        var sortParam = {};
+        if (order !== false) {
+          sortParam[field] = order;
+        }
+        if (!_.isEqual(sortParam, params.sort || {})) {
+          if (order === false) {
+            delete params.sort;
+          } else {
+            params.sort = sortParam;
+          }
+          this.clearData();
+          this.search(params);
+        }
       }
     };
   })
