@@ -8,6 +8,7 @@ import '../common/services/dialogs/dialogs.js';
 
 import '../common/directives/delegate.js';
 import '../common/directives/frames.js';
+import '../common/directives/scrollbar.js';
 import '../common/directives/rating.js';
 import '../common/directives/resizable.js';
 import '../common/directives/range-slider.js';
@@ -41,6 +42,7 @@ export var app = angular
       'services.api',
       'services.branches',
       'directives.resizable',
+      'directives.scrollbar',
       'app.search'
     ])
 

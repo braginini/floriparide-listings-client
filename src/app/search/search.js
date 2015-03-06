@@ -50,6 +50,7 @@ export class SearchCtrl {
       this.branches = BranchStore.getBranches();
       this.count = BranchStore.getCount();
       this.eof = BranchStore.isEof();
+      $scope.$broadcast('layoutUpdated');
     });
 
     $scope.$listenTo(TopAttributesStore, () => {

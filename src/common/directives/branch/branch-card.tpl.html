@@ -25,7 +25,7 @@
             <li ng-repeat="p in b.payment_options track by $index">{{p}}</li>
         </ul>
     </div>
-    <div class="photos" ng-if="::b.photos.length">
+    <div class="photos" ng-class="{'more': b.photos.length > 5}" ng-if="::b.photos.length">
         <a href="#" ng-repeat="photo in b.photos">
             <img ng-src="{{::photo}}">
         </a>

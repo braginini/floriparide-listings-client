@@ -81,14 +81,16 @@ module.exports = {
       'vendor/leaflet.markercluster/dist/leaflet.markercluster-src.js',
       'vendor/bootstrap-star-rating/js/star-rating.js',
       'vendor/bootstrap/js/tooltip.js',
-      'vendor/flux-angular/release/flux-angular.js'
+      'vendor/flux-angular/release/flux-angular.js',
+      'vendor/perfect-scrollbar/js/perfect-scrollbar.js'
     ],
     css: [
       'vendor/leaflet-dist/leaflet.css',
       //'vendor/leaflet.markercluster/dist/MarkerCluster.css',
       //'vendor/leaflet.markercluster/dist/MarkerCluster.Defaults.css',
       'vendor/bootstrap-star-rating/css/star-rating.css',
-      'vendor/ion.rangeSlider/css/ion.rangeSlider.css'
+      'vendor/ion.rangeSlider/css/ion.rangeSlider.css',
+      'vendor/perfect-scrollbar/css/perfect-scrollbar.css'
     ],
     assets: [
 

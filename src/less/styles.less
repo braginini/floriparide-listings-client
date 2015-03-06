@@ -1,3 +1,15 @@
+body {
+  overflow: hidden;
+};
+
+/* SCROLBARS */
+.ps-container > .ps-scrollbar-y-rail {
+  &, & > .ps-scrollbar-y {
+    z-index: 100;
+  }
+}
+/* END SCROLBARS */
+
 /* HELPERS */
 .background-colorful {
   background: linear-gradient(left,@brand-danger 0%,@brand-warning 50%,@brand-success 100%);
@@ -23,7 +35,7 @@ a:active, a:focus {
 }
 
 /* BUTTONS */
-.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+.btn-default:hover, /*.btn-default:focus,*/ .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
   background-color: @btn-bg-hover;
   border-color: @btn-border-hover;
   color: @btn-color-hover;
@@ -335,6 +347,7 @@ label.error, label.valid {
     border-bottom: 2px solid @list-group-border;
     border-radius: 0;
     padding: 10px;
+    min-height: 90px;
     img {
       border: 2px solid @list-group-hover-bg;
       border-radius: 50%;
@@ -350,7 +363,7 @@ label.error, label.valid {
       margin-bottom: 0;
       line-height: 20px;
     }
-    &.active, &.focus {
+    &.active {
 //      background: @list-group-hover-bg;
       border-color: @list-group-active-border;
 //      color: @base-color;
@@ -359,7 +372,14 @@ label.error, label.valid {
       }
       .has-photo i {
         border-color: @list-group-active-color;
+        color: @list-group-active-color;
       }
+      &:hover {
+        border-color: @list-group-active-border;
+      }
+    }
+    &:hover {
+      border-color: @list-group-hover-bg;
     }
   }
 }

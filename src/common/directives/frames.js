@@ -37,6 +37,7 @@ export default angular
             }
           });
         };
+        var syncLayoutDefer = _.debounce(syncLayout, 10);
 
         var collapse = function (e) {
           var frames = el.find('.frame');
@@ -64,17 +65,19 @@ export default angular
 
         syncLayout();
         winEl.on('resize', syncLayout);
+        winEl.on('resize', syncLayoutDefer);
 
         el.on('click', '.pc-collapse', collapse);
         el.on('click', '.pc-expand', expand);
         $scope.$on('frameExpand', expand);
 
-        $scope.$on('frameAdded', syncLayout);
-        $scope.$on('frameRemoved', syncLayout);
-        $scope.$on('layoutUpdated', syncLayout);
+        $scope.$on('frameAdded', syncLayoutDefer);
+        $scope.$on('frameRemoved', syncLayoutDefer);
+        $scope.$on('layoutUpdated', syncLayoutDefer);
 
         $scope.$on('$destroy', function () {
           winEl.off('resize', syncLayout);
+          winEl.off('resize', syncLayoutDefer);
           el.off('click');
         });
       }
