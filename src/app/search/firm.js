@@ -16,7 +16,7 @@ var branchResolver = function (config, $stateParams, $q, flux, BranchActions, Se
 };
 
 export default angular
-  .module('app.firm', [
+  .module('app.search.firm', [
     'ui.router',
     'services.branches',
     'directives.branch'

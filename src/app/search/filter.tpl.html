@@ -1,0 +1,16 @@
+<div class="frame frame-2 panel panel-success panel-hidden-controls frame-filled frame-right active">
+    <div class="panel-heading">
+        <ul class="panel-controls">
+            <li class="pc-collapse"><a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a></li>
+            <li class="pc-close"><a class="panel-remove" href="#" ng-click="$event.preventDefault();goParent()">
+                <span class="icon-times"></span>
+            </a></li>
+        </ul>
+        <h3 class="panel-title">Расширенный поиск</h3>
+    </div>
+    <div class="panel-body padding-0" scrollbar>
+        <div class="attribute-group-filter-wrapper" ng-repeat="g in attributeGroups track by g.id">
+            <div attribute-group-filters="g" show-header="true"></div>
+        </div>
+    </div>
+</div>

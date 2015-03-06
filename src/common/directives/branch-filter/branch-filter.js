@@ -3,17 +3,27 @@ export default angular
     'directives.rangeSlider',
     'services.branches'
   ])
-  .directive('attributeGroupFilters', function (BranchActions, BranchStore, leafletData) {
+  .directive('attributeGroupFilters', function () {
     return {
       restrict: 'EA',
       templateUrl: 'directives/branch-filter/attribute-group-filters.tpl.html',
       replace: true,
       scope: {
-        g: '=attributeGroupFilters'
+        g: '=attributeGroupFilters',
+        showHeader: '@'
       },
-      controller ($scope) {
+      controller ($scope, util) {
+        $scope.bShowHeader = util.parseBoolean($scope.showHeader);
         $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
-
+      }
+    };
+  })
+  .directive('generalAttributeGroupFilters', function (BranchActions, BranchStore, leafletData) {
+    return {
+      restrict: 'EA',
+      templateUrl: 'directives/branch-filter/general-attribute-group-filters.tpl.html',
+      replace: true,
+      controller ($scope) {
         $scope.filters = {
           visible: false,
           open: false

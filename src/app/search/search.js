@@ -25,6 +25,8 @@ export class SearchCtrl {
       start: -20
     };
 
+    this.showFilters = false;
+
     this._leafletData = null;
     this.eof = false;
     this.count = 0;
@@ -98,6 +100,10 @@ export class SearchCtrl {
   openBranch(id) {
     this.selectedId = id;
     this.$get('$state').go('main.search.firm', {firm_id: id});
+  }
+
+  openFilter() {
+    this.$get('$state').go('main.search.filter');
   }
 
   nextPage() {
@@ -201,7 +207,8 @@ export default angular
     'directives.frames',
     'directives.branch',
     'directives.branchFilter',
-    'app.firm'
+    'app.search.firm',
+    'app.search.filter'
   ])
 
   .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider) {

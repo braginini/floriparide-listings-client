@@ -34,6 +34,13 @@ export default angular
         };
       },
 
+      parseBoolean (value) {
+        if (value === 0  || value === '0' || value === false || value.toLowerCase() === 'false') {
+          return false;
+        }
+        return true;
+      },
+
       extractUrls: function(text) {
         return text.match(urlPattern);
       },

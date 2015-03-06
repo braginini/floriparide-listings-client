@@ -21,6 +21,7 @@ import '../common/extra/BranchClusterGroup.js';
 
 import './search/search.js';
 import './search/firm.js';
+import './search/filter.js';
 
 var initialDefer;
 
@@ -82,7 +83,6 @@ export var app = angular
     })
 
     .controller('MainCtrl', function ($scope, $rootScope, $injector, $stateParams) {
-
       $scope.query = $stateParams.q;
       $scope.$on('search.query', function (event, query) {
         $scope.query = query;

@@ -1,13 +1,5 @@
 <div class="attribute-group-filter">
-    <div class="filter-checkbox-container">
-        <div class="filter-checkbox btn-group">
-            <button class="btn btn-default btn-150" btn-checkbox ng-model="filters.visible">Видимые на карте</button>
-            <button class="btn btn-default btn-90" btn-checkbox ng-model="sort.raiting">Рейтинг</button>
-        </div>
-        <div class="filter-checkbox">
-            <button class="btn btn-default" btn-checkbox ng-model="filters.open">Открыто</button>
-        </div>
-    </div>
+    <div class="filter-header" ng-if="bShowHeader">{{::g.name}}</div>
     <div class="filter-checkbox-container">
         <div class="filter-checkbox" ng-repeat="a in groups.checkbox" >
             <div attribute-checkbox="a"></div>

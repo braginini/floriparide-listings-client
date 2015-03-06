@@ -90,6 +90,13 @@
       font-size: 18px;
     }
   }
+  .btn-filter {
+    font-size: @font-size-small;
+    line-height: 1;
+    padding: 0;
+    margin-left: 30px;
+    border-bottom: 1px dotted @link-color;
+  }
   .panel-body {
     padding: 0;
     overflow-y: auto;
@@ -98,7 +105,7 @@
   .count {
     font-size: @font-size-small;
     position: absolute;
-    margin-left: 5px;
+//    margin-left: 5px;
     top: 6px;
   }
   &.active {
@@ -123,6 +130,9 @@
     border-top: 0;
     background-color: @panel-default-heading-bg;
     padding: 0 10px 0 25px;
+    &.padding-0 {
+      padding: 0;
+    }
   }
 }
 

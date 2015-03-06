@@ -261,6 +261,17 @@
 //  background-color: @gray-light;
   background-color: @panel-default-heading-bg;
   padding: 5px;
+//  padding: 0;
+  margin: 5px;
+  border-bottom: 1px dashed @text-color;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .filter-header {
+    color: #000000;
+  }
 
   .filter-checkbox-container {
     display: flex;
@@ -287,11 +298,27 @@
 
   .filter-slider {
 //    margin-bottom: 15px;
-    margin-right: 15px;
-    margin-left: 15px;
+    margin-right: 10px;
+    margin-left: 5px;
     .title {
       color: @btn-default-color;
       font-size: @font-size-base;
     }
+  }
+}
+
+.attribute-group-filter-wrapper {
+  margin-left: 10px;
+  margin-right: 15px;
+//  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed @text-color;
+  &:last-child, .last {
+    border-bottom: none;
+  }
+
+  .attribute-group-filter {
+    margin: 0;
+    padding: 0;
   }
 }
