@@ -207,7 +207,6 @@ export class RubricCtrl extends SearchCtrl {
 export default angular
   .module('app.search', [
     'ui.router',
-    'cgBusy',
     'services.branches',
     'directives.frames',
     'directives.branch',

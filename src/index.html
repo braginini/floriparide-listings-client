@@ -15,6 +15,149 @@
             width:100%;
             z-index:2000;
         }
+
+        .loading-wrapper {
+            display: block;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            -webkit-transform: translateY(-50%) translateX(-50%);
+            -ms-transform: translateY(-50%) translateX(-50%);
+            transform: translateY(-50%) translateX(-50%);
+        }
+
+        .loading-title {
+            position: absolute;
+            top: 70px;
+            width: 60px;
+            text-align: center;
+        }
+
+        .loading {
+            bottom: 0;
+            left: 50%;
+            min-height: 100px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+        }
+
+        .loading::after {
+            -webkit-animation: 500ms linear 0s normal none infinite running preloader;
+            animation: 500ms linear 0s normal none infinite running preloader;
+            background: none repeat scroll 0 0 #57a9a8;
+            border-radius: 3px;
+            content: "";
+            height: 50px;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 50px;
+        }
+
+        .loading::before {
+            -webkit-animation: 500ms linear 0s normal none infinite running preloader-shadow;
+            animation: 500ms linear 0s normal none infinite running preloader-shadow;
+            background: none repeat scroll 0 0 #000;
+            border-radius: 50%;
+            content: "";
+            height: 5px;
+            left: 0;
+            opacity: 0.1;
+            position: absolute;
+            top: 59px;
+            width: 50px;
+        }
+
+        @-webkit-keyframes preloader {
+            17% {
+                border-bottom-right-radius: 3px;
+            }
+            25% {
+                -webkit-transform: translateY(9px) rotate(22.5deg);
+                transform: translateY(9px) rotate(22.5deg);
+            }
+            50% {
+                border-bottom-right-radius: 40px;
+                -webkit-transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+                transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+            }
+            75% {
+                -webkit-transform: translateY(9px) rotate(67.5deg);
+                transform: translateY(9px) rotate(67.5deg);
+            }
+            100% {
+                -webkit-transform: translateY(0px) rotate(90deg);
+                transform: translateY(0px) rotate(90deg);
+            }
+        }
+
+        @keyframes preloader {
+            17% {
+                border-bottom-right-radius: 3px;
+            }
+            25% {
+                -webkit-transform: translateY(9px) rotate(22.5deg);
+                transform: translateY(9px) rotate(22.5deg);
+            }
+            50% {
+                border-bottom-right-radius: 40px;
+                -webkit-transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+                transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+            }
+            75% {
+                -webkit-transform: translateY(9px) rotate(67.5deg);
+                transform: translateY(9px) rotate(67.5deg);
+            }
+            100% {
+                -webkit-transform: translateY(0px) rotate(90deg);
+                transform: translateY(0px) rotate(90deg);
+            }
+        }
+
+        @keyframes preloader {
+            17% {
+                border-bottom-right-radius: 3px;
+            }
+            25% {
+                -webkit-transform: translateY(9px) rotate(22.5deg);
+                transform: translateY(9px) rotate(22.5deg);
+            }
+            50% {
+                border-bottom-right-radius: 40px;
+                -webkit-transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+                transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+            }
+            75% {
+                -webkit-transform: translateY(9px) rotate(67.5deg);
+                transform: translateY(9px) rotate(67.5deg);
+            }
+            100% {
+                -webkit-transform: translateY(0px) rotate(90deg);
+                transform: translateY(0px) rotate(90deg);
+            }
+        }
+
+        @-webkit-keyframes preloader-shadow {
+            50% {
+                -webkit-transform: scale(1.2, 1);
+                transform: scale(1.2, 1);
+            }
+        }
+
+        @keyframes preloader-shadow {
+            50% {
+                -webkit-transform: scale(1.2, 1);
+                transform: scale(1.2, 1);
+            }
+        }
+
+        @keyframes preloader-shadow {
+            50% {
+                -webkit-transform: scale(1.2, 1);
+                transform: scale(1.2, 1);
+            }
+        }
     </style>
 </head>
 <body>
@@ -23,7 +166,12 @@
 
 <toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
 
-<div id="loading-mask" style=""></div>
+<div id="loading-mask" style="">
+    <div class="loading-wrapper">
+        <div class="loading"></div>
+        <div class="loading-title">Loading ...</div>
+    </div>
+</div>
 
 <!-- compiled CSS -->
 <% styles.forEach( function ( file ) { %>
