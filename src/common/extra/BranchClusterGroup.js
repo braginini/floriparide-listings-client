@@ -13,7 +13,7 @@ export var markerIcon = L.divIcon({
 export var paidIcon = L.divIcon({
   iconSize:null,
   className: 'location-paid marker',
-  html: '<i class="icon-star"></i>'
+  html: '<i class="icon-crown"></i>'
 });
 
 L.BranchClusterGroup = L.FeatureGroup.extend({

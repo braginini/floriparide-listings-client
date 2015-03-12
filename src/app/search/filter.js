@@ -28,7 +28,7 @@ export default angular
 
   .controller('FilterCtrl', function ($scope, $state, TopAttributesStore) {
     var getGroups = function () {
-      return _.filter(TopAttributesStore.getTopAttributes() || [], g => {
+      return _.filter((TopAttributesStore.getTopAttributes() || []).slice(1), g => {
         return g.attributes && g.attributes.length > 0;
       });
     };

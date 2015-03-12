@@ -19,10 +19,10 @@
                 Организации <span class="count" ng-show="self.count">{{self.count}}</span>
                 <button class="btn btn-link btn-filter" ng-click="self.openFilter()">Расширенный поиск</button>
             </h3>
-            <div general-attribute-group-filters ng-if="!self.showFilter"></div>
+            <div general-attribute-group-filters></div>
             <div attribute-group-filters="self.attributeGroups[0]"
                  show-header="false"
-                 ng-if="self.attributeGroups.length && !self.showFilter">
+                 ng-if="self.attributeGroups.length">
             </div>
         </div>
         <div id="branches_container" class="panel-body" scrollbar>
