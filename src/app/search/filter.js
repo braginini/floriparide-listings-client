@@ -26,12 +26,17 @@ export default angular
     });
   }])
 
-  .controller('FilterCtrl', function ($scope, TopAttributesStore) {
+  .controller('FilterCtrl', function ($scope, $state, TopAttributesStore) {
     var getGroups = function () {
       return _.filter(TopAttributesStore.getTopAttributes() || [], g => {
         return g.attributes && g.attributes.length > 0;
       });
     };
+
+    $scope.goParent = function () {
+      $state.go('^');
+    };
+
     $scope.attributeGroups = getGroups();
     $scope.$listenTo(TopAttributesStore, function () {
       $scope.attributeGroups = getGroups();
