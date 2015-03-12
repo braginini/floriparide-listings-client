@@ -7,8 +7,7 @@ export default
       markers: [],
       handlers: {
         'branches.load.success': 'onBranchesLoadSuccess',
-        'branches.clear': 'onBranchesClear',
-        'branches.data.clear': 'onBranchesClear'
+        'branches.clear': 'onBranchesClear'
       },
       onBranchesLoadSuccess: function (res) {
         if (res.markers) {
@@ -32,8 +31,8 @@ export default
     return {
       attributes: [],
       handlers: {
-        'branches.load.success': 'onBranchesLoadSuccess',
-        'branches.clear': 'onBranchesClear'
+        'branches.load.success': 'onBranchesLoadSuccess'
+        //'branches.clear': 'onBranchesClear'
       },
       onBranchesLoadSuccess: function (res) {
         if (res.top_attributes) {
@@ -42,7 +41,7 @@ export default
         }
       },
       onBranchesClear: function () {
-        this.markers = [];
+        this.attributes = [];
         this.emitChange();
       },
       exports: {
@@ -63,8 +62,7 @@ export default
       handlers: {
         'branches.load': 'onBranchesLoad',
         'branches.load.success': 'onBranchesLoadSuccess',
-        'branches.clear': 'onBranchesClear',
-        'branches.data.clear': 'onBranchesClear'
+        'branches.clear': 'onBranchesClear'
       },
       onBranchesLoad: function (params) {
         this.params = params;
@@ -83,7 +81,7 @@ export default
         this.branches = [];
         this.totalCount = 0;
         this.eof = false;
-        this.params = {};
+        //this.params = {};
         this.emitChange();
       },
       exports: {
@@ -161,34 +159,39 @@ export default
     };
   })
 
-  .factory('BranchActions', function (api, flux, $q, BranchStore, BranchLoadingStore) {
+  .factory('BranchActions', function (api, flux, $q, BranchStore/*, BranchLoadingStore*/) {
     return {
       clear: function () {
         flux.dispatch('branches.clear');
       },
-      clearData: function () {
-        flux.dispatch('branches.data.clear');
-      },
-      search: function (params) {
-        if (BranchLoadingStore.isLoading()) {
-          return;
+      search: function (params, clear=false) {
+        //if (BranchLoadingStore.isLoading()) {
+        //  return;
+        //}
+        var oldParams = BranchStore.getParams();
+        // we need full_response to get attributes
+        delete params.send_attrs;
+        var method = 'branchSearch';
+        if (params.rubric_id >= 0) {
+          method = 'branchList';
+          delete params.q;
+          if (params.rubric_id !== oldParams.rubric_id) {
+            params.send_attrs = true;
+          }
+        } else {
+          if (params.q !== oldParams.q) {
+            params.send_attrs = true;
+          }
         }
-        flux.dispatch('branches.load', params);
-        api.branchSearch(params).then(function (res) {
-          flux.dispatch('branches.load.success', res);
-          return res;
-        }, function (err) {
-          flux.dispatch('branches.load.failed', err);
-          return err;
-        });
-      },
 
-      list: function (params) {
         flux.dispatch('branches.load', params);
-        api.branchList(params).then(function (res) {
+        api[method](params).then(res => {
+          if (clear) {
+            this.clear();
+          }
           flux.dispatch('branches.load.success', res);
           return res;
-        }, function (err) {
+        }, err => {
           flux.dispatch('branches.load.failed', err);
           return err;
         });
@@ -233,8 +236,7 @@ export default
               delete params[key];
             }
           });
-          this.clearData();
-          this.search(params);
+          this.search(params, true);
         }
       },
 
@@ -250,8 +252,7 @@ export default
           } else {
             params.sort = sortParam;
           }
-          this.clearData();
-          this.search(params);
+          this.search(params, true);
         }
       }
     };

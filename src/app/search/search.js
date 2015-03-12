@@ -25,7 +25,7 @@ export class SearchCtrl {
       start: -20
     };
 
-    this.showFilters = false;
+    this.showFilter = false;
 
     this._leafletData = null;
     this.eof = false;
@@ -68,6 +68,14 @@ export class SearchCtrl {
     $scope.$listenTo(MarkerStore, this.onMarkers.bind(this));
 
     $scope.$emit('search.query', this.query);
+
+    $scope.$on('filter.show', () => {
+      this.showFilter = true;
+    });
+
+    $scope.$on('filter.hide', () => {
+      this.showFilter = false;
+    });
 
     $scope.$on('$destroy', () => {
       this.cluster.off('click');
@@ -184,13 +192,6 @@ export class RubricCtrl extends SearchCtrl {
     }
     delete this.params.q;
     this.params.rubric_id = rubricId;
-  }
-
-  nextPage() {
-    if (!this.isLoading && !this.error) {
-      this.params.start = this.params.start + this.params.limit;
-      this.branchActions.list(this.params);
-    }
   }
 
   openBranch(id) {

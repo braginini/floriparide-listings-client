@@ -36,5 +36,10 @@ export default angular
     $scope.$listenTo(TopAttributesStore, function () {
       $scope.attributeGroups = getGroups();
     });
+
+    $scope.$emit('filter.show');
+    $scope.$on('$destroy', () => {
+      $scope.$emit('filter.hide');
+    });
   })
 ;
