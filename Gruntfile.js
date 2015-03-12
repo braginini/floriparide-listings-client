@@ -228,6 +228,12 @@ module.exports = function (grunt) {
       options: {
         browsers: ['last 2 versions', 'ie 9', 'android 2.3', 'android 4', 'opera 12']
       },
+      build: {
+        options: {
+          map: false
+        },
+        src: '<%= build_dir %>/assets/css/<%= pkg.name %>-<%= pkg.version %>.css'
+      },
       compile: {
         options: {
           map: false
@@ -521,6 +527,11 @@ module.exports = function (grunt) {
       less: {
         files: [ 'src/**/*.less' ],
         tasks: [ 'less:build', 'notify:watch' ]
+      },
+
+      autoprefixer: {
+        files: [ '<%= build_dir %>/assets/css/<%= pkg.name %>-<%= pkg.version %>.css' ],
+        tasks: [ 'autoprefixer:build', 'notify:watch' ]
       }
     },
 
@@ -588,7 +599,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean', 'html2js', 'test', 'newer:less:build', 'modernizr',
     'newer:copy:build_app_assets', 'newer:copy:build_vendor_assets', 'newer:copy:build_vendor_images',
-    'newer:traceur:build', 'newer:copy:build_vendorjs', 'newer:copy:build_vendorcss', 'index:build', 'notify:build'
+    'newer:traceur:build', 'newer:copy:build_vendorjs', 'newer:copy:build_vendorcss', 'newer:autoprefixer:build', 'index:build', 'notify:build'
   ]);
 
   /**

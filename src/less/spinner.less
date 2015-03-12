@@ -113,6 +113,26 @@
   }
 }
 
+.spinner-wrapper {
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  transform-style: preserve-3d;
+
+  .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-100%) translateX(-50%);
+  }
+}
+
 .spinner1-3em {
   .spinner1-helper(spin1-3em, 3em);
 }
@@ -127,6 +147,10 @@
 
 .spinner7-1em-primary {
   .spinner7-helper(spin7-1em-primary, 1em, @brand-warning);
+}
+
+.spinner7-2em-warning {
+  .spinner7-helper(spin7-2em-primary, 2em, @brand-warning);
 }
 
 .spinner8-3em {

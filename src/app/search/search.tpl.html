@@ -4,6 +4,12 @@
         <div class="count" ng-show="self.count">{{self.count}}</div>
     </button>
     <div class="frame frame-1 panel panel-primary panel-hidden-controls">
+        <!--<div class="cg-busy-default-wrapper"-->
+             <!--cg-busy="{promise:self.isLoading, backdrop: true, templateUrl: 'search/loader.tpl.html'}">-->
+        <!--</div>-->
+        <div class="spinner-wrapper" ng-if="self.isLoading || self.isFirstTimeSpinnerShow">
+            <div class="spinner spinner7-2em-warning"></div>
+        </div>
         <div class="panel-heading">
             <ul class="panel-controls">
                 <li class="pc-collapse"><a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a></li>
@@ -34,7 +40,6 @@
                    ng-click="self.openBranch(b.id)">
                 </a>
             </div>
-            <div class="spinner spinner7-1em-primary" ng-if="self.isLoading"></div>
             <div class="alert alert-danger" ng-if="self.error">
                 <strong>Произошла ошибка!</strong>
                 Мы уже принимаем меры по ее устранению.

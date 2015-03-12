@@ -47,7 +47,9 @@ export var app = angular
       'app.search'
     ])
 
-    .config(function ($stateProvider, $urlRouterProvider, $compileProvider) {
+    .config(($stateProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
+        fluxProvider.useCloning(false);
+
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|skype):/);
       var state = function (name, config) {
         if (!config.resolve) {

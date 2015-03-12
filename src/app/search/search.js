@@ -34,6 +34,8 @@ export class SearchCtrl {
     this.attributeGroups = [];
     this.selectedId = SelectedBranchStore.getSelectedId();
     this.isLoading = BranchLoadingStore.isLoading();
+    // have to add additional field because of nextPage method
+    this.isFirstTimeSpinnerShow = true;
 
     this.cluster = new L.BranchClusterGroup({
       singleMarkerMode: false
@@ -60,6 +62,7 @@ export class SearchCtrl {
     });
 
     $scope.$listenTo(BranchLoadingStore, () => {
+      this.isFirstTimeSpinnerShow = false;
       this.isLoading = BranchLoadingStore.isLoading();
       this.error = BranchLoadingStore.getLastError();
     });
@@ -204,6 +207,7 @@ export class RubricCtrl extends SearchCtrl {
 export default angular
   .module('app.search', [
     'ui.router',
+    'cgBusy',
     'services.branches',
     'directives.frames',
     'directives.branch',
