@@ -67,6 +67,7 @@ module.exports = {
       'vendor/jquery/dist/jquery.js',
       'vendor/modernizr/modernizr.js',
       'vendor/angular/angular.js',
+      'vendor/angular-fullscreen/src/angular-fullscreen.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-sanitize/angular-sanitize.js',
       'vendor/angular-cookie/angular-cookie.js',

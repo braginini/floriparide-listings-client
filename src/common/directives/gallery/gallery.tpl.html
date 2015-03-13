@@ -1,0 +1,40 @@
+<div class="modal-body gallery modal-content" fullscreen only-watched-property>
+    <div class="spinner-wrapper">
+        <div class="spinner7-3em"></div>
+    </div>
+    <div class="modal-media" ng-show="readyUI">
+        <button type="button" class="flow-icon close" data-dismiss="modal" aria-hidden="true"
+                ng-click="cancel()">&times;</button>
+        <button type="button" class="flow-icon btn-fs btn-bg" data-dismiss="modal" aria-hidden="true"
+                ng-click="toggleFullScreen()"><i class="icon-resize-full"></i></button>
+        <div class="flow-icon gallery-index" ng-if="images.length > 1 && !isLoading">{{(index + 1) + '/' + images.length}}</div>
+        <div class="flow-icon gallery-index" ng-if="isLoading">
+            <div class="spinner7"></div>
+        </div>
+        <div class="spinner-wrapper">
+            <div class="spinner7-3em"></div>
+        </div>
+        <div class="media-wrapper">
+            <img ng-src="{{current.src}}"
+                 ng-load="onImgLoad()"
+                 ng-error="onImgLoadError()"/>
+        </div>
+        <div class="nav-block nav-prev" ng-if="images.length > 1" ng-click="showPrev()">
+            <div class="nav-handle">
+                <button type="button" class="flow-icon btn-bg">
+                    <i class="icon-left-open"></i>
+                </button>
+            </div>
+        </div>
+        <div class="nav-block nav-next" ng-if="images.length > 1" ng-click="showNext()">
+            <div class="nav-handle">
+                <button type="button" class="flow-icon btn-bg">
+                    <i class="icon-right-open"></i>
+                </button>
+            </div>
+        </div>
+        <div class="preload">
+            <img ng-src="{{p.src}}" ng-load="onPreloadImgLoad($index, $event)" ng-repeat="p in preloads track by $index">
+        </div>
+    </div>
+</div>

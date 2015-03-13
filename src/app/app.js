@@ -8,6 +8,7 @@ import '../common/services/dialogs/dialogs.js';
 
 import '../common/directives/delegate.js';
 import '../common/directives/frames.js';
+import '../common/directives/ng-load.js';
 import '../common/directives/scrollbar.js';
 import '../common/directives/rating.js';
 import '../common/directives/resizable.js';
@@ -16,6 +17,7 @@ import '../common/directives/branch/branch.js';
 import '../common/directives/branch/contact.js';
 import '../common/directives/branch/schedule.js';
 import '../common/directives/branch-filter/branch-filter.js';
+import '../common/directives/gallery/gallery.js';
 
 import '../common/extra/BranchClusterGroup.js';
 
@@ -40,6 +42,8 @@ export var app = angular
       'template/tooltip/tooltip-popup.html',
       'template/tabs/tab.html',
       'template/tabs/tabset.html',
+      'template/modal/backdrop.html',
+      'template/modal/window.html',
       'services.api',
       'services.branches',
       'directives.resizable',
@@ -70,13 +74,15 @@ export var app = angular
       $urlRouterProvider.otherwise('/');
     })
 
-    .run(function (api, $q) {
+    .run(function (api, $q, $timeout) {
       initialDefer = $q.defer();
       api.projectList().then(function (res) {
         if (res && res.items.length) {
           config.project = res.items[0];
           initialDefer.resolve(config);
-          $('#loading-mask').remove();
+          $timeout(() => {
+            $('#loading-mask').remove();
+          }, 300);
         } else {
           initialDefer.reject();
         }

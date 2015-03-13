@@ -7,7 +7,8 @@ export default angular
   .module('directives.branch', [
     'directives.rating',
     'directives.contact',
-    'directives.branchSchedule'
+    'directives.branchSchedule',
+    'directives.gallery'
   ])
   .directive('branch', [function () {
     return {
@@ -46,7 +47,7 @@ export default angular
       }
     };
   }])
-  .controller('BranchCardCtrl', ['$scope', function($scope) {
+  .controller('BranchCardCtrl', function($scope, Gallery) {
     $scope.b = $scope.branchCard;
     var attrGroups = $scope.b.attribute_groups || [];
     $scope.attrGroups = _(attrGroups).groupBy(g => {
@@ -58,5 +59,9 @@ export default angular
     }).mapValues(items => {
       return _(items).pluck('attributes').flatten().value();
     }).value();
-  }])
+
+    $scope.showGallery = function (index) {
+      Gallery.create($scope.b.photos, index);
+    };
+  })
 ;

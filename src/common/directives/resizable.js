@@ -10,7 +10,9 @@ export default angular
 
       angular.element($window).bind('resize', function () {
         $scope.initializeWindowSize();
-        $scope.$apply();
+        if ( !$scope.$$phase ) {
+          $scope.$apply();
+        }
       });
 
       // Initiate the resize function default values

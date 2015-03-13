@@ -20,7 +20,7 @@
     </div>
     <div class="card-hr"></div>
     <div class="photos" ng-class="{'more': b.photos.length > 5}" ng-if="::b.photos.length">
-        <a href="#" ng-repeat="photo in b.photos">
+        <a href="#" ng-repeat="photo in b.photos" ng-click="$event.preventDefault();showGallery($index);">
             <img ng-src="{{::photo}}">
         </a>
     </div>
