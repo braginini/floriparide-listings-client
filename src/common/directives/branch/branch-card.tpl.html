@@ -19,21 +19,15 @@
         <div branch-contact="contact" class="block-lg"></div>
     </div>
     <div class="card-hr"></div>
-    <div class="icon-container" ng-if="b.payment_options.length">
-        <i class="icon-credit-card left-icon"></i>
-        <ul class="card-list">
-            <li ng-repeat="p in b.payment_options track by $index">{{p}}</li>
-        </ul>
-    </div>
     <div class="photos" ng-class="{'more': b.photos.length > 5}" ng-if="::b.photos.length">
         <a href="#" ng-repeat="photo in b.photos">
             <img ng-src="{{::photo}}">
         </a>
     </div>
-    <div class="icon-container" ng-if="::b.attributes.length">
-        <i class="icon-tags left-icon"></i>
+    <div class="icon-container" ng-repeat="(name, attributes) in ::attrGroups" ng-if="::attrGroups">
+        <i ng-class="'icon-' + name + ' left-icon'"></i>
         <ul class="card-list attributes">
-            <li ng-repeat="a in b.attributes track by $index">{{a.name}}</li>
+            <li ng-repeat="a in attributes track by $index">{{a.name}}</li>
         </ul>
     </div>
     <div class="icon-container" ng-if="::b.rubrics.length">

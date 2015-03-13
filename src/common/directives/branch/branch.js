@@ -1,3 +1,8 @@
+export const DisplayGroupIds = {
+  'infra':1,
+  'payment': 1
+};
+
 export default angular
   .module('directives.branch', [
     'directives.rating',
@@ -43,5 +48,15 @@ export default angular
   }])
   .controller('BranchCardCtrl', ['$scope', function($scope) {
     $scope.b = $scope.branchCard;
+    var attrGroups = $scope.b.attribute_groups || [];
+    $scope.attrGroups = _(attrGroups).groupBy(g => {
+      if (DisplayGroupIds[g.icon]) {
+        return g.icon;
+      } else {
+        return 'tags';
+      }
+    }).mapValues(items => {
+      return _(items).pluck('attributes').flatten().value();
+    }).value();
   }])
 ;
