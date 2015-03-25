@@ -17,6 +17,7 @@ import '../common/directives/branch/branch.js';
 import '../common/directives/branch/contact.js';
 import '../common/directives/branch/schedule.js';
 import '../common/directives/branch-filter/branch-filter.js';
+import '../common/directives/dashboard/dashboard.js';
 import '../common/directives/gallery/gallery.js';
 
 import '../common/extra/BranchClusterGroup.js';
@@ -37,6 +38,7 @@ export var app = angular
       'ui.bootstrap.tabs',
       'leaflet-directive',
       'infinite-scroll',
+      'angularMoment',
       'templates-app',
       'templates-common',
       'template/tooltip/tooltip-popup.html',
@@ -48,8 +50,14 @@ export var app = angular
       'services.branches',
       'directives.resizable',
       'directives.scrollbar',
+      'directives.dashboard',
       'app.search'
     ])
+
+    .constant('angularMomentConfig', {
+      //preprocess: 'unix', // optional
+      //timezone: 'America/Sao_Paulo' // optional
+    })
 
     .config(($stateProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
         fluxProvider.useCloning(false);
@@ -74,7 +82,8 @@ export var app = angular
       $urlRouterProvider.otherwise('/');
     })
 
-    .run(function (api, $q, $timeout) {
+    .run(function (api, $q, $timeout, amMoment) {
+      amMoment.changeLocale('pt-br');
       initialDefer = $q.defer();
       api.projectList().then(function (res) {
         if (res && res.items.length) {
@@ -90,10 +99,27 @@ export var app = angular
       });
     })
 
-    .controller('MainCtrl', function ($scope, $rootScope, $injector, $stateParams) {
+    .controller('MainCtrl', function ($scope, $rootScope, $stateParams, $state) {
       $scope.query = $stateParams.q;
+      $scope.showDashboard = $state.is('main');
+      $scope.showDashboardButton = false;
       $scope.$on('search.query', function (event, query) {
         $scope.query = query;
+      });
+
+      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        if (toState.name === 'main') {
+          $scope.showDashboard = true;
+          $scope.showDashboardButton = false;
+        } else {
+          $scope.showDashboard = false;
+          $scope.showDashboardButton = false;
+        }
+      });
+
+      $scope.$on('dashboard.close', function () {
+        $scope.showDashboard = false;
+        $scope.showDashboardButton = true;
       });
 
       $scope.layers = {
@@ -111,12 +137,17 @@ export var app = angular
 
       $scope.defaults = config.map_defaults || {};
 
-      $scope.maxbounds = [];//$injector.get('leafletBoundsHelpers').createBoundsFromArray(config.project.bounds);
+      $scope.maxbounds = [];
       $scope.initPoint = config.project.default_position;
 
-      var $state = $injector.get('$state');
       $scope.search = function (q) {
         $state.go('main.search', {query: q});
+      };
+
+      $scope.goHome = function () {
+        $state.go('main');
+        $scope.showDashboard = true;
+        $scope.showDashboardButton = false;
       };
     })
 ;

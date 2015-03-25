@@ -15,11 +15,11 @@ export default angular
       },
       controller: ['$scope', '$sce', function($scope, $sce) {
         if (_.contains(['website', 'facebook', 'twitter', 'instagram'], $scope.c.contact)) {
-          $scope.c.url = $sce.trustAsResourceUrl($scope.c.value);
+          $scope.c.url = $sce.trustAsUrl($scope.c.value);
         }
 
         if ('skype' === $scope.c.contact) {
-          $scope.c.url = $sce.trustAsResourceUrl('skype:' + $scope.c.value + '?chat');
+          $scope.c.url = $sce.trustAsUrl('skype:' + $scope.c.value + '?chat');
         }
       }]
     };

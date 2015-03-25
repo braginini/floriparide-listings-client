@@ -11,5 +11,12 @@
             </div>
         </div>
     </form>
+    <div data-dashboard ng-show="showDashboard"></div>
     <div ui-view class="data-view"></div>
+</div>
+
+<div class="footer-items">
+    <button class="footer-item btn btn-primary" ng-show="showDashboardButton" ng-click="goHome()">
+        <i class="fa fa-building-o"></i>  Florianópolis
+    </button>
 </div>

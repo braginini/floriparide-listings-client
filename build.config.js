@@ -66,6 +66,9 @@ module.exports = {
     js: [
       'vendor/jquery/dist/jquery.js',
       'vendor/modernizr/modernizr.js',
+      'vendor/moment/moment.js',
+      'vendor/moment/locale/pt-br.js',
+      //'vendor/moment-timezone/builds/moment-timezone-with-data.min.js',
       'vendor/angular/angular.js',
       'vendor/angular-fullscreen/src/angular-fullscreen.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
@@ -73,6 +76,7 @@ module.exports = {
       'vendor/angular-cookie/angular-cookie.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
       'vendor/angular-animate/angular-animate.js',
+      'vendor/angular-moment/angular-moment.js',
       'vendor/ion.rangeSlider/js/ion.rangeSlider.js',
       'vendor/ngInfiniteScroll/build/ng-infinite-scroll.js',
       'vendor/lodash/dist/lodash.js',

@@ -1,0 +1,57 @@
+<div class="dashboard">
+   <div class="city">
+       <div class="city_name">Florianópolis</div>
+       <div class="city_time">{{currentTime|amDateFormat:'HH:mm, DD MMMM, dddd'}}</div>
+       <button class="close" ng-click="close()"><i class="icon-times"></i></button>
+   </div>
+   <ul class="rubrics" ng-click="search($event)">
+       <li class="rubric">
+           <div class="rubric-icon">
+               <i class="icon fa fa-cutlery"></i>
+           </div>
+           <div class="caption">Onde comer</div>
+       </li>
+       <li class="rubric">
+           <div class="rubric-icon">
+               <i class="icon fa fa-glass"></i>
+           </div>
+           <div class="caption">Beber</div>
+       </li>
+       <li class="rubric">
+           <div class="rubric-icon">
+               <i class="icon fa fa-bed"></i>
+           </div>
+           <div class="caption">Alojamiento</div>
+       </li>
+       <li class="rubric">
+           <div class="rubric-icon">
+               <i class="icon fa fa-plus"></i>
+           </div>
+           <div class="caption">Farmacias</div>
+       </li>
+       <li class="rubric">
+           <div class="rubric-icon">
+               <i class="icon fa fa-building-o"></i>
+           </div>
+           <div class="caption">Lançamentos</div>
+       </li>
+       <li class="rubric">
+           <div class="rubric-icon">
+               <i class="icon fa fa-wifi"></i>
+           </div>
+           <div class="caption">Banda larga</div>
+       </li>
+       <li class="rubric">
+           <div class="rubric-icon">
+               <i class="icon fa fa-credit-card"></i>
+           </div>
+           <div class="caption">ATM</div>
+       </li>
+       <li class="rubric">
+           <div class="rubric-icon">
+               <i class="icon fa fa-bed"></i>
+           </div>
+           <div class="caption">Todas as categorias</div>
+       </li>
+   </ul>
+</div>
