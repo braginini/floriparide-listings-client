@@ -48,7 +48,7 @@ export default angular
             $rootScope.$broadcast('api.request_failed', action, res);
           }
         }).error(function(data) {
-          if (data.error) {
+          if (data && data.error) {
             d.reject(data.error);
           } else {
             d.reject();
@@ -92,6 +92,16 @@ export default angular
 
       projectList: function(params) {
         return me.get('/project/list', params);
+      },
+
+      postFeedback: function(feedback) {
+        var params = {
+          project_id: config.project.id
+        };
+        return me.post('/auth/feedback', params, {
+          data: $.param(feedback),
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        });
       }
     };
     return me;

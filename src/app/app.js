@@ -19,6 +19,7 @@ import '../common/directives/branch/schedule.js';
 import '../common/directives/branch-filter/branch-filter.js';
 import '../common/directives/dashboard/dashboard.js';
 import '../common/directives/gallery/gallery.js';
+import '../common/directives/feedback/feedback.js';
 
 import '../common/extra/BranchClusterGroup.js';
 
@@ -51,6 +52,7 @@ export var app = angular
       'directives.resizable',
       'directives.scrollbar',
       'directives.dashboard',
+      'directives.feedback',
       'app.search'
     ])
 

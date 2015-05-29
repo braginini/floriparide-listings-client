@@ -1,0 +1,67 @@
+<div>
+    <button class="btn btn-primary"
+            ng-class="rootClassName"
+            ng-click="toggleForm()"
+            ng-show="!isFormVisible">
+        <i class="fa fa-comment"></i>
+    </button>
+    <div class="panel panel-feedback" ng-show="isFormVisible">
+        <div class="panel-heading">
+            <h3 class="panel-title">Оставить отзыв</h3>
+            <button class="close" ng-click="toggleForm()"><i class="icon-times"></i></button>
+        </div>
+        <form class="panel-body" role="form" ng-submit="onSubmit()">
+            <ul class="feedback-ratings">
+                <li class="feedback-rating" ng-class="{'active': model.rating==1}" ng-click="model.rating = 1;">
+                    <div class="feedback-rating-icon">
+                        <i class="icon icon-emo-unhappy"></i>
+                    </div>
+                    <div class="caption">Mal</div>
+                </li>
+                <li class="feedback-rating" ng-class="{'active': model.rating==2}" ng-click="model.rating = 2;">
+                    <div class="feedback-rating-icon">
+                        <i class="icon icon-emo-displeased"></i>
+                    </div>
+                    <div class="caption">Não é bom</div>
+                </li>
+                <li class="feedback-rating" ng-class="{'active': model.rating==3}" ng-click="model.rating = 3;">
+                    <div class="feedback-rating-icon">
+                        <i class="icon icon-emo-happy"></i>
+                    </div>
+                    <div class="caption">Normal</div>
+                </li>
+                <li class="feedback-rating" ng-class="{'active': model.rating==4}" ng-click="model.rating = 4;">
+                    <div class="feedback-rating-icon">
+                        <i class="icon icon-emo-grin"></i>
+                    </div>
+                    <div class="caption">Tá bom</div>
+                </li>
+                <li class="feedback-rating" ng-class="{'active': model.rating==5}" ng-click="model.rating = 5;">
+                    <div class="feedback-rating-icon">
+                        <i class="icon icon-emo-thumbsup"></i>
+                    </div>
+                    <div class="caption">Ótimo</div>
+                </li>
+            </ul>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="model.name" placeholder="Имя">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" ng-model="model.email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" rows="5" ng-model="model.body" placeholder="Ваши пожелания и предложения по улучшению сервиса"></textarea>
+            </div>
+            <button type="submit" class="btn btn-info pull-right" ng-disabled="!model.body.length">Отправить</button>
+        </form>
+    </div>
+    <div class="panel panel-feedback" ng-if="showSuccessPanel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Спасибо за сообщение</h3>
+            <button class="close" ng-click="closeSuccessPanel()"><i class="icon-times"></i></button>
+        </div>
+        <div class="panel-body">
+            Мы внимательно рассмотрим ваш отзыв и учтем в своей работе. Оставайтесь с нами!
+        </div>
+    </div>
+</div>

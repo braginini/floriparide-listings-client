@@ -45,3 +45,9 @@
 .icon-crown:before { content: '\e82b'; } /* '' */
 .icon-location:before { content: '\e82c'; } /* '' */
 .icon-filter:before { content: '\e82d'; } /* '' */
+.icon-emo-unhappy:before { content: '\e82e'; } /* '' */
+.icon-emo-displeased:before { content: '\e82f'; } /* '' */
+.icon-emo-happy:before { content: '\e830'; } /* '' */
+.icon-emo-grin:before { content: '\e831'; } /* '' */
+.icon-emo-thumbsup:before { content: '\e832'; } /* '' */
+.icon-emo-shoot:before { content: '\e833'; } /* '' */
