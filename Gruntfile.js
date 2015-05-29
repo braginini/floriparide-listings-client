@@ -268,7 +268,10 @@ module.exports = function (grunt) {
     traceur: {
       options: {
         experimental: true,
-        copyRuntime: 'build/vendor'
+        copyRuntime: 'build/vendor',
+        moduleNaming: {
+          stripPrefix: 'build'
+        }
       },
       build: {
         files: [

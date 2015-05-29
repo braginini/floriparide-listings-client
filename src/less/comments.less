@@ -1,0 +1,119 @@
+/* MESSAGES */
+.messages {
+  width: 100%;
+  float: left;
+  .item {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+    margin-left: -5px;
+    opacity: 0;
+    transition: all 200ms ease;
+    .text {
+      background: #FFF;
+      padding: 3px;
+      border-radius: 3px;
+      border: 1px solid #D5D5D5;
+      .heading {
+        width: 100%;
+        margin-bottom: 5px;
+        a {
+          text-decoration: none;
+          font-size: 12px;
+          color: @base-primary;
+          font-weight: 600;
+          line-height: 20px;
+        }
+        .date {
+          float: right;
+          line-height: 20px;
+          font-size: 11px;
+          color: @gray;
+          font-weight: 400;
+        }
+      }
+      &:hover {
+        border-color: #BBB;
+      }
+    }
+    &:nth-child(2n) .text {
+      background: #F6F6F6;
+    }
+    &.item-visible {
+      opacity: 1;
+    }
+  }
+  &.messages-img {
+    .item {
+      .image {
+        float: left;
+        width: 40px;
+        img {
+          border: 2px solid #F5F5F5;
+          border-radius: 50%;
+          width: 40px;
+        }
+      }
+      .text {
+        margin-left: 45px;
+        position: relative;
+        &:after, &:before {
+          right: 100%;
+          top: 20px;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none;
+        }
+        &:after {
+          border-color: rgba(255, 255, 255, 0);
+          border-right-color: #FFF;
+          border-width: 5px;
+          margin-top: -5px;
+        }
+        &:before {
+          border-color: rgba(213, 213, 213, 0);
+          border-right-color: #D5D5D5;
+          border-width: 6px;
+          margin-top: -6px;
+        }
+      }
+      .text:hover {
+        &:before {
+          border-right-color: #BBB;
+        }
+      }
+      &.in {
+        .image {
+          float: right;
+        }
+        .text {
+          margin-left: 0;
+          margin-right: 50px;
+          &:after, &:before {
+            right: auto;
+            left: 100%;
+          }
+          &:after {
+            border-right-color: transparent;
+            border-left-color: #FFF;
+          }
+          &:before {
+            border-right-color: transparent;
+            border-left-color: #D5D5D5;
+          }
+        }
+        .text:hover {
+          &:before {
+            border-left-color: #BBB;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+/* END MESSAGES */

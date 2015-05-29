@@ -37,4 +37,22 @@
             </li>
         </ul>
     </div>
+    <div class="card-hr" ng-if="::b.comments.total"></div>
+    <h4 ng-if="::b.comments.total">Отзывы</h4>
+    <div class="messages messages-img" ng-if="::b.comments.total">
+      <div class="item item-visible" ng-repeat="c in b.comments.items">
+        <div class="image">
+          <!--<img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/v/t1.0-1/c85.142.704.704/s100x100/941152_537524936282818_1482258660_n.jpg?oh=7669e08297414a11f3a1e39ad77d770d&oe=560BB497&__gda__=1438688172_97965cf6838aef95f9d8dae23417d735">-->
+          <img ng-src="{{::c.user.photo}}">
+        </div>
+        <div class="text">
+          <div class="heading">
+            <a>{{::c.user.name}}</a>
+            <span class="date" am-time-ago="c.created"></span>
+            <rating rate="c.rating"></rating>
+          </div>
+          {{::c.text}}
+        </div>
+      </div>
+    </div>
 </div>
