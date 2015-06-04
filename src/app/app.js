@@ -3,6 +3,7 @@ import config from '../../config.js';
 import '../common/services/util.js';
 import '../common/services/api.js';
 import '../common/services/branches.js';
+import '../common/services/rubrics.js';
 import '../common/services/cache.js';
 import '../common/services/dialogs/dialogs.js';
 

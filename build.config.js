@@ -79,7 +79,7 @@ module.exports = {
       'vendor/angular-moment/angular-moment.js',
       'vendor/ion.rangeSlider/js/ion.rangeSlider.js',
       'vendor/ngInfiniteScroll/build/ng-infinite-scroll.js',
-      'vendor/lodash/dist/lodash.js',
+      'vendor/lodash/lodash.js',
       'vendor/AngularJS-Toaster/toaster.js',
       'vendor/leaflet-dist/leaflet-src.js',
       'vendor/angular-leaflet-directive/dist/angular-leaflet-directive.js',

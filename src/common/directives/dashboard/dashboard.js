@@ -21,7 +21,11 @@ export default angular
           var el = angular.element(e.target).parents('li');
           var div = el.find('> div')[1];
           if (div) {
-            $state.go('main.search', {query: div.innerHTML});
+            if (angular.element(div).attr('data-rubrics') !== undefined) {
+              $state.go('main.rubrics');
+            } else {
+              $state.go('main.search', {query: div.innerHTML});
+            }
           }
         };
 

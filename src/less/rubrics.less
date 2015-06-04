@@ -1,0 +1,35 @@
+.rubric-card {
+  > div, > footer, > header {
+    margin-left: 25px;
+  }
+  .has-photo {
+    float: left;
+    position: absolute;
+    margin: 0;
+    top: 0;
+    i {
+      color: @brand-info;
+      display: block;
+      position: absolute;
+      top: 15px;
+    }
+
+    .no-photos {
+      border: 2px solid @brand-info;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  header {
+    color: @brand-primary;
+    font-size: @font-size-large;
+  }
+}
+
+.list-group-cards {
+  .rubric-card {
+    min-height: 40px;
+  }
+}

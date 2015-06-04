@@ -29,7 +29,7 @@
     "font-awesome": "^4.3.0",
     "leaflet-dist": "0.7.2",
     "leaflet.markercluster": "~0.4.0",
-    "lodash": "~2.4.1",
+    "lodash": "^3.9.3",
     "moment-timezone": "^0.3.1",
     "ngInfiniteScroll": "~1.1.0",
     "flux-angular": "^2.3.2",

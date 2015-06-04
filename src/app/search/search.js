@@ -204,10 +204,62 @@ export class RubricCtrl extends SearchCtrl {
 
 }
 
+export class RubricsCtrl {
+  constructor($scope, RubricStore, RubricActions, $injector) {
+    this.$injector = $injector;
+    this.items = [];
+    this.rubrics = RubricStore.getRubrics();
+    if (!this.rubrics.length) {
+      RubricActions.load();
+    } else {
+      this.applyRubrics();
+    }
+    $scope.$listenTo(RubricStore, ()=> {
+      this.rubrics = RubricStore.getRubrics();
+      this.applyRubrics();
+    });
+  }
+
+  applyRubrics() {
+    var pId = this.$injector.get('$stateParams').parent;
+    if (pId === undefined || pId === null) {
+      pId = null;
+    } else {
+      pId = parseInt(pId);
+    }
+    this.items = _.filter(this.rubrics, r => r.parent_id === pId);
+    this.items = _.each(this.items, item => {
+      item.childs = _(this.rubrics)
+        .filter(r => r.parent_id === item.id)
+        .take(3)
+        .map(r => r.name)
+        .value();
+    });
+  }
+
+  openRubric(id, name, e = null) {
+    if (e) {
+      e.preventDefault();
+    }
+    let $state = this.$injector.get('$state');
+    if (_.find(this.rubrics, r => r.parent_id === id)) {
+      $state.go('main.rubrics', {
+        parent: id
+      });
+    } else {
+      $state.go('main.rubric', {
+        id: id,
+        query: name
+      });
+    }
+  }
+}
+
 export default angular
   .module('app.search', [
     'ui.router',
     'services.branches',
+    'services.rubrics',
     'directives.frames',
     'directives.branch',
     'directives.branchFilter',
@@ -215,7 +267,7 @@ export default angular
     'app.search.filter'
   ])
 
-  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider) {
+  .config(($stateProvider) => {
     $stateProvider.state('main.search', {
       url: 'search/:query',
       controller: 'SearchCtrl',
@@ -229,8 +281,22 @@ export default angular
       controllerAs: 'self',
       templateUrl: 'search/search.tpl.html'
     });
-  }])
+
+    $stateProvider.state('main.rubrics', {
+      url: 'rubrics/{parent:int}',
+      controller: 'RubricsCtrl',
+      controllerAs: 'self',
+      templateUrl: 'search/rubrics.tpl.html',
+      params: {
+        parent: {
+          value: null,
+          squash: true
+        }
+      }
+    });
+  })
 
   .controller('SearchCtrl', SearchCtrl)
   .controller('RubricCtrl', RubricCtrl)
+  .controller('RubricsCtrl', RubricsCtrl)
 ;

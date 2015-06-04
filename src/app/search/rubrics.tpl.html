@@ -1,0 +1,40 @@
+<div class="frames">
+    <button class="btn btn-primary pc-expand" ng-click="$scope.$broadcast('frameExpand')" ng-show="self.count">
+        <i class="icon-briefcase"></i>
+        <div class="count" ng-show="self.count">{{self.count}}</div>
+    </button>
+    <div class="frame frame-1 panel panel-primary panel-hidden-controls">
+        <div class="spinner-wrapper" ng-if="self.isLoading || self.isFirstTimeSpinnerShow">
+            <div class="spinner spinner7-2em-warning"></div>
+        </div>
+        <div class="panel-heading">
+            <ul class="panel-controls">
+                <li class="pc-collapse"><a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a></li>
+                <li class="pc-close"><a class="panel-remove" href="#/"><span class="icon-times"></span></a></li>
+            </ul>
+            <h3 class="panel-title">
+                Рубрики <span class="count" ng-show="self.count">{{self.count}}</span>
+            </h3>
+        </div>
+        <div id="branches_container" class="panel-body" scrollbar>
+            <div class="list-group list-group-cards">
+                <a ng-repeat="r in self.items track by r.id"
+                   class="list-group-item card rubric-card"
+                   href="#"
+                   ng-click="self.openRubric(r.id, r.name, $event)">
+                    <div class="has-photo">
+                        <i class="no-photos"></i>
+                    </div>
+                    <header>{{r.name}}</header>
+                    <footer>{{r.childs.join(' , ')}}</footer>
+                </a>
+            </div>
+            <div class="alert alert-danger" ng-if="self.error">
+                <strong>Произошла ошибка!</strong>
+                Мы уже принимаем меры по ее устранению.
+                Попробуйте немного позже.
+            </div>
+        </div>
+        <div ui-view="child_frame"></div>
+    </div>
+</div>

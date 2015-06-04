@@ -21,7 +21,7 @@ export default angular
         return config.endpoints.api + action;
       },
 
-      get: function(action, params, opts) {
+      doRequest: function(action, params, opts) {
         opts = _.assign({
           auth: true,
           refresh: false,
@@ -58,26 +58,30 @@ export default angular
         return extend_promise(d.promise);
       },
 
-      post: function(action, params, opts) {
-        opts = opts || {};
-        opts.method = 'POST';
-        return me.get(action, params, opts);
+      doGet: function() {
+        return me.doRequest.apply(this, arguments);
       },
 
-      del: function(action, params, opts) {
+      doPost: function(action, params, opts) {
+        opts = opts || {};
+        opts.method = 'POST';
+        return me.doRequest(action, params, opts);
+      },
+
+      doDelete: function(action, params, opts) {
         opts = opts || {};
         opts.method = 'DELETE';
-        return me.get(action, params, opts);
+        return me.doGet(action, params, opts);
       },
 
       branchSearch: function(params) {
         params.project_id = config.project.id;
-        return me.get('/branch/search', params);
+        return me.doGet('/branch/search', params);
       },
 
       branchList: function(params) {
         params.project_id = config.project.id;
-        return me.get('/branch/list', params);
+        return me.doGet('/branch/list', params);
       },
 
       branchGet: function(id) {
@@ -85,20 +89,27 @@ export default angular
           id: id,
           project_id: config.project.id
         };
-        return me.get('/branch', params).then(function (res) {
+        return me.doGet('/branch', params).then(function (res) {
           return res.items[0];
         });
       },
 
       projectList: function(params) {
-        return me.get('/project/list', params);
+        return me.doGet('/project/list', params);
+      },
+
+      rubricList: function() {
+        var params = {
+          project_id: config.project.id
+        };
+        return me.doGet('/rubric/list', params);
       },
 
       postFeedback: function(feedback) {
         var params = {
           project_id: config.project.id
         };
-        return me.post('/auth/feedback', params, {
+        return me.doPost('/auth/feedback', params, {
           data: $.param(feedback),
           headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         });
