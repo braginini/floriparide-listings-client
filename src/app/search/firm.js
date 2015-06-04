@@ -78,6 +78,10 @@ export default angular
       if (branch.address.street_number) {
         name += branch.address.street_number;
       }
+      name = name
+        .trim()
+        .replace(/\s+-\s+/, ' ')
+        .replace(/\s/g, '-');
       $state.transitionTo($state.current.name, {name: name}, {
         location: true,
         inherit: true,
