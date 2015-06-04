@@ -73,6 +73,7 @@ module.exports = {
       'vendor/angular-fullscreen/src/angular-fullscreen.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-sanitize/angular-sanitize.js',
+      'vendor/angular-seo/angular-seo.js',
       'vendor/angular-cookie/angular-cookie.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
       'vendor/angular-animate/angular-animate.js',

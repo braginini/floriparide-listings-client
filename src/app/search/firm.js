@@ -22,11 +22,17 @@ export default angular
     'directives.branch'
   ])
 
-  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider) {
-    $stateProvider.state('main.search.firm', {
-      url: '/firm/:firm_id',
+  .config(($stateProvider) => {
+    var stateConfig = {
+      url: '/firm/:firm_id/:name',
       resolve: {
         branch: branchResolver
+      },
+      params: {
+        name: {
+          value: null,
+          squash: true
+        }
       },
       views: {
         child_frame: {
@@ -34,27 +40,28 @@ export default angular
           templateUrl: 'search/firm.tpl.html'
         }
       }
-    });
+    };
 
-    $stateProvider.state('main.rubric.firm', {
-      url: '/firm/:firm_id',
-      resolve: {
-        branch: branchResolver
-      },
-      views: {
-        child_frame: {
-          controller: 'FirmCtrl',
-          templateUrl: 'search/firm.tpl.html'
-        }
-      }
+    $stateProvider.state('main.frames', {
+      url: 'firm',
+      template: '<div class="frames"><div ui-view="child_frame"></div></div>',
     });
-  }])
+    $stateProvider.state('main.frames.firm', _.assign({}, stateConfig, {
+      url: '/:firm_id/:name'
+    }));
+    $stateProvider.state('main.search.firm', _.clone(stateConfig));
+    $stateProvider.state('main.rubric.firm', _.clone(stateConfig));
+  })
 
   .controller('FirmCtrl', function ($scope, $state, $stateParams, $timeout, branch) {
     //globalState.branch = branch;
     $scope.b = branch;
     $scope.goParent = function () {
-      $state.go('^');
+      if ($scope.isRoot) {
+        $state.go('main');
+      } else {
+        $state.go('^');
+      }
     };
 
     if (!$stateParams.firm_id) {
@@ -62,9 +69,32 @@ export default angular
       return;
     }
 
+    console.log('FirmCtrl ' + branch.id);
+    if (!$stateParams.name) {
+      var name = branch.name + ' ';
+      if (branch.address.street) {
+        name += branch.address.street + ' ';
+      }
+      if (branch.address.street_number) {
+        name += branch.address.street_number;
+      }
+      $state.transitionTo($state.current.name, {name: name}, {
+        location: true,
+        inherit: true,
+        notify: false
+      });
+    }
+
+    $scope.isRoot = $state.$current.parent.self.name === 'main.frames';
+    if ($scope.isRoot) {
+      $scope.isRight = false;
+    }
+    $scope.frameClass = $scope.isRoot ? 'frame-1' : 'frame-2';
+
     //$scope.$emit('branchSelect', branch);
     //need it to calculate correct header height in frames directive
-    angular.element('.frame-2 .panel-title:first').html($scope.b.name);
+    angular.element($scope.frameClass + ' .panel-title:first').html($scope.b.name);
+    $scope.htmlReady();
 
     //$scope.$on('$destroy', function () {
     //  globalState.branch = null;

@@ -32,6 +32,7 @@ var initialDefer;
 
 export var app = angular
     .module('app', [
+      'seo',
       'flux',
       'ui.router',
       'ui.bootstrap.buttons',
@@ -62,8 +63,11 @@ export var app = angular
       //timezone: 'America/Sao_Paulo' // optional
     })
 
-    .config(($stateProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
-        fluxProvider.useCloning(false);
+    .config(($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
+      fluxProvider.useCloning(false);
+      $locationProvider
+        .html5Mode(false)
+        .hashPrefix('!');
 
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|skype):/);
       var state = function (name, config) {

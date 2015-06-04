@@ -1,9 +1,12 @@
-<div class="frame frame-2 panel panel-success panel-hidden-controls frame-filled frame-right active"
-     ng-class="{'frame-right': isRight}"
+<div class="frame panel panel-success panel-hidden-controls frame-filled active"
+     ng-class="{'frame-right': !isRoot, 'frame-1': isRoot, 'frame-2': !isRoot}"
+     ng-class="frameClass"
      frame-right>
     <div class="panel-heading">
         <ul class="panel-controls">
-            <li class="pc-collapse"><a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a></li>
+            <li class="pc-collapse" ng-if="!isRoot">
+                <a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a>
+            </li>
             <li class="pc-close"><a class="panel-remove" href="#" ng-click="$event.preventDefault();goParent()">
                 <span class="icon-times"></span>
             </a></li>
@@ -15,7 +18,7 @@
     <div class="panel-body" scrollbar>
         <div branch-card="b"></div>
     </div>
-    <div class="pc-flow" ng-click="toggleFlow()">
+    <div class="pc-flow" ng-click="toggleFlow()" ng-if="!isRoot">
         <span ng-class="{'icon-left-open': isRight, 'icon-right-open': !isRight}"></span>
     </div>
 </div>

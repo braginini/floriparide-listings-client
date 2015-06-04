@@ -153,8 +153,8 @@ export default angular
             to: sch_item.to
           };
         } else {
-          if (_(schedule).first(5).groupBy(compare).size() <= 1 &&
-            _(schedule).last(2).groupBy(compare).size() <= 1) {
+          if (_(schedule).take(5).groupBy(compare).size() <= 1 &&
+            _(schedule).takeRight(2).groupBy(compare).size() <= 1) {
 
             sch_item = schedule[0];
             $scope.schedule.push({
