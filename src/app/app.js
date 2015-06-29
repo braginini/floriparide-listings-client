@@ -55,7 +55,8 @@ export var app = angular
       'directives.scrollbar',
       'directives.dashboard',
       'directives.feedback',
-      'app.search'
+      'app.search',
+      'app.search.filter'
     ])
 
     .constant('angularMomentConfig', {

@@ -1,5 +1,5 @@
-<div class="frame panel panel-success panel-hidden-controls frame-filled active"
-     ng-class="{'frame-right': !isRoot, 'frame-1': isRoot, 'frame-2': !isRoot}"
+<div class="frame panel panel-success panel-hidden-controls frame-filled frame-right active"
+     ng-class="{'frame-right': isRight, 'frame-1': isRoot, 'frame-2': !isRoot}"
      ng-class="frameClass"
      frame-right>
     <div class="panel-heading">
@@ -12,7 +12,7 @@
             </a></li>
         </ul>
         <h3 class="panel-title">
-            {{::b.name}}
+            {{::b.fullname}}
         </h3>
     </div>
     <div class="panel-body" scrollbar>

@@ -29,7 +29,6 @@ export default angular
         };
 
         $scope.onSubmit = () => {
-          console.log($scope.model);
           api.postFeedback($scope.model).then(() => {
             $scope.isFormVisible = false;
             $scope.showSuccessPanel = true;

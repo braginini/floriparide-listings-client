@@ -2,9 +2,9 @@
     <div class="card-rating">
         <div class="rating-value">{{::b.rating}}</div>
         <rating rate="::b.rating" readonly="readonly" size="l"></rating>
-        <div class="reviews">{{::b.comments.total}} отзыва</div>
+        <!--<div class="reviews">{{::b.comments.total}} отзыва</div>-->
     </div>
-    <div class="icon-container card-description" ng-if="b.description">
+    <div class="card-description" ng-if="b.description">
         <div class="description-text" ng-class="{show: !collapseDescr}">{{b.description}}</div>
         <button class="btn btn-link" ng-click="collapseDescr=false" ng-show="collapseDescr">Прочесть полностью</button>
         <button class="btn btn-link" ng-click="collapseDescr=true" ng-show="!collapseDescr">Скрыть</button>
@@ -14,20 +14,20 @@
         <address>{{::b.address | formatAddress}}</address>
     </div>
     <div class="card-hr"></div>
-    <div branch-schedule="b.schedule" class="block-lg"></div>
+    <div branch-schedule="b.schedule" class="block-lg" ng-if="::b.schedule.length"></div>
     <div ng-if="b.contacts" ng-repeat="contact in b.contacts track by $index">
         <div branch-contact="contact" class="block-lg"></div>
     </div>
     <div class="card-hr"></div>
-    <div class="photos" ng-class="{'more': b.photos.length > 5}" ng-if="::b.photos.length">
+    <div class="photos" ng-class="{'more': b.photos.length > 3}" ng-if="::b.photos.length">
         <a href="#" ng-repeat="photo in b.photos" ng-click="$event.preventDefault();showGallery($index);">
-            <img ng-src="{{::photo}}">
+            <img ng-src="{{::photo.src}}">
         </a>
     </div>
     <div class="icon-container" ng-repeat="(name, attributes) in ::attrGroups" ng-if="::attrGroups">
         <i ng-class="'icon-' + name + ' left-icon'"></i>
         <ul class="card-list attributes">
-            <li ng-repeat="a in attributes track by $index">{{a.name}}</li>
+            <li ng-repeat="a in attributes track by $index" itemprop="{{::a.item}}">{{::a|formatAttribute}}</li>
         </ul>
     </div>
     <div class="icon-container" ng-if="::b.rubrics.length">
@@ -37,22 +37,22 @@
             </li>
         </ul>
     </div>
-    <div class="card-hr" ng-if="::b.comments.total"></div>
-    <h4 ng-if="::b.comments.total">Отзывы</h4>
-    <div class="messages messages-img" ng-if="::b.comments.total">
-      <div class="item item-visible" ng-repeat="c in b.comments.items">
-        <div class="image">
-          <!--<img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/v/t1.0-1/c85.142.704.704/s100x100/941152_537524936282818_1482258660_n.jpg?oh=7669e08297414a11f3a1e39ad77d770d&oe=560BB497&__gda__=1438688172_97965cf6838aef95f9d8dae23417d735">-->
-          <img ng-src="{{::c.user.photo}}">
-        </div>
-        <div class="text">
-          <div class="heading">
-            <a>{{::c.user.name}}</a>
-            <span class="date" am-time-ago="c.created"></span>
-            <rating rate="c.rating"></rating>
-          </div>
-          {{::c.text}}
-        </div>
-      </div>
-    </div>
+    <!--<div class="card-hr" ng-if="::b.comments.total"></div>-->
+    <!--<h4 ng-if="::b.comments.total">Отзывы</h4>-->
+    <!--<div class="messages messages-img" ng-if="::b.comments.total">-->
+      <!--<div class="item item-visible" ng-repeat="c in b.comments.items">-->
+        <!--<div class="image">-->
+          <!--&lt;!&ndash;<img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/v/t1.0-1/c85.142.704.704/s100x100/941152_537524936282818_1482258660_n.jpg?oh=7669e08297414a11f3a1e39ad77d770d&oe=560BB497&__gda__=1438688172_97965cf6838aef95f9d8dae23417d735">&ndash;&gt;-->
+          <!--<img ng-src="{{::c.user.photo}}">-->
+        <!--</div>-->
+        <!--<div class="text">-->
+          <!--<div class="heading">-->
+            <!--<a>{{::c.user.name}}</a>-->
+            <!--<span class="date" am-time-ago="c.created"></span>-->
+            <!--<rating rate="c.rating"></rating>-->
+          <!--</div>-->
+          <!--{{::c.text}}-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
 </div>

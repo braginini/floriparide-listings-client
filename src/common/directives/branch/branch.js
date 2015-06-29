@@ -1,6 +1,7 @@
 export const DisplayGroupIds = {
   'infra':1,
-  'payment': 1
+  'payment': 1,
+  'cusine': 1
 };
 
 export default angular
@@ -35,20 +36,30 @@ export default angular
       },
       link: function ($scope, element) {
         $scope.collapseDescr = true;
-        $timeout(function () {
+
+        var initDescrState = () => {
           var el = element.find('.description-text');
           if (el && el.length) {
-            $scope.collapseDescr = el[0].scrollHeight > el.height();
+            $scope.collapseDescr = (el[0].scrollHeight - el.height()) > 5;
             if ($scope.collapseDescr) {
               element.find('.card-description > button').show();
             }
           }
-        }, 0);
+        };
+        initDescrState();
+        $timeout(initDescrState, 0);
       }
     };
   }])
   .controller('BranchCardCtrl', function($scope, Gallery) {
     $scope.b = $scope.branchCard;
+    if ($scope.b.photos && $scope.b.photos.length) {
+      $scope.b.photos = _.map($scope.b.photos, p => {
+        p.width = p.w;
+        p.height = p.h;
+        return p;
+      });
+    }
     var attrGroups = $scope.b.attribute_groups || [];
     $scope.attrGroups = _(attrGroups).groupBy(g => {
       if (DisplayGroupIds[g.icon]) {
@@ -62,6 +73,21 @@ export default angular
 
     $scope.showGallery = function (index) {
       Gallery.create($scope.b.photos, index);
+    };
+  })
+
+  .filter('formatAttribute', function () {
+    return function(a) {
+      var res = a.name;
+      if (a.value === false) {
+        return null;
+      }
+      if (a.value) {
+        if (a.value !== true) {
+          res += ' ' + a.value;
+        }
+      }
+      return res;
     };
   })
 ;

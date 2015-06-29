@@ -69,7 +69,6 @@ export default angular
       return;
     }
 
-    console.log('FirmCtrl ' + branch.id);
     if (!$stateParams.name) {
       var name = branch.name + ' ';
       if (branch.address.street) {

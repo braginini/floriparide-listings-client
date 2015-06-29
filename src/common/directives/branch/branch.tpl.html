@@ -2,7 +2,7 @@
     <div class="has-photo">
         <i ng-class="{'icon-camera': b.photos.length, 'no-photos': !b.photos.length}"></i>
     </div>
-    <header>{{b.name}}</header>
+    <header>{{b.fullname}}</header>
     <div class="branch-body">
         <div class="description" ng-if="b.article">{{b.article}}</div>
         <address>{{b.address|formatAddress}}</address>
@@ -10,6 +10,6 @@
     <footer>
         <div class="rating-value">{{b.rating}}</div>
         <rating rate="b.rating" readonly="readonly"></rating>
-        <div class="reviews">{{b.comments.total}} отзыва</div>
+        <!--<div class="reviews">{{b.comments.total}} отзыва</div>-->
     </footer>
 </div>

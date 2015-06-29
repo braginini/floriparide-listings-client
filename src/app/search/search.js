@@ -202,6 +202,9 @@ export class RubricCtrl extends SearchCtrl {
     this.$get('$state').go('main.rubric.firm', {firm_id: id});
   }
 
+  openFilter() {
+    this.$get('$state').go('main.rubric.filter');
+  }
 }
 
 export class RubricsCtrl {

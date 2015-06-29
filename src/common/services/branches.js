@@ -1,3 +1,11 @@
+var mapBranch = b => {
+  b.fullname = b.name;
+  if (b.headline) {
+    b.fullname += ', ' + b.headline;
+  }
+  return b;
+};
+
 export default
   angular.module('services.branches', [
     'services.api'
@@ -70,7 +78,7 @@ export default
       },
       onBranchesLoadSuccess: function (res) {
         this.totalCount = res.total;
-        this.branches = this.branches.concat(res.items);
+        this.branches = this.branches.concat(_.map(res.items, mapBranch));
         if (this.branches.length >= this.totalCount || !res.items.length) {
           this.eof = true;
         }
@@ -209,7 +217,7 @@ export default
         } else {
           api.branchGet(id).then(function (b) {
             flux.dispatch('branches.select.success', b);
-            return b;
+            return mapBranch(b);
           }, function (err) {
             flux.dispatch('branches.select.failed', err);
             return err;

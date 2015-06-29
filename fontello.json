@@ -247,6 +247,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "30b79160618d99ce798e4bd11cafe3fe",
+      "css": "food",
+      "code": 59444,
+      "src": "fontawesome"
+    },
+    {
       "uid": "ede2ea0a583f662b79fbb181b428c20d",
       "css": "building-filled",
       "code": 59412,
@@ -298,6 +304,12 @@
       "uid": "492fe0ef4cb41d4e4de8502897685399",
       "css": "cafe",
       "code": 59411,
+      "src": "maki"
+    },
+    {
+      "uid": "d27bcf5c8638e4078aaadae1d49b6909",
+      "css": "fast-food",
+      "code": 59445,
       "src": "maki"
     },
     {
