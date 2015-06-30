@@ -16,8 +16,8 @@
                 <li class="pc-close"><a class="panel-remove" href="#!/"><span class="icon-times"></span></a></li>
             </ul>
             <h3 class="panel-title">
-                Организации <span class="count" ng-show="self.count">{{self.count}}</span>
-                <button class="btn btn-link btn-filter" ng-click="self.openFilter();">Расширенный поиск</button>
+                {{'common.organizations' | i18n}} <span class="count" ng-show="self.count">{{self.count}}</span>
+                <button class="btn btn-link btn-filter" ng-click="self.openFilter();">{{'common.extendedSearch' | i18n}}</button>
             </h3>
             <div general-attribute-group-filters></div>
             <div attribute-group-filters="self.attributeGroups[0]"
@@ -41,9 +41,8 @@
                 </a>
             </div>
             <div class="alert alert-danger" ng-if="self.error">
-                <strong>Произошла ошибка!</strong>
-                Мы уже принимаем меры по ее устранению.
-                Попробуйте немного позже.
+                <strong>{{'common.errorHeader' | i18n}}</strong>
+                {{'common.unknownErrorMessage' | i18n}}
             </div>
         </div>
         <div ui-view="child_frame"></div>

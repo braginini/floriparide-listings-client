@@ -7,7 +7,7 @@
     </button>
     <div class="panel panel-feedback" ng-show="isFormVisible">
         <div class="panel-heading">
-            <h3 class="panel-title">Оставить отзыв</h3>
+            <h3 class="panel-title">{{'feedback.keepFeedback' | i18n}}</h3>
             <button class="close" ng-click="toggleForm()"><i class="icon-times"></i></button>
         </div>
         <form class="panel-body" role="form" ng-submit="onSubmit()">
@@ -16,52 +16,50 @@
                     <div class="feedback-rating-icon">
                         <i class="icon icon-emo-unhappy"></i>
                     </div>
-                    <div class="caption">Mal</div>
+                    <div class="caption">{{'feedback.bad' | i18n}}</div>
                 </li>
                 <li class="feedback-rating" ng-class="{'active': model.rating==2}" ng-click="model.rating = 2;">
                     <div class="feedback-rating-icon">
                         <i class="icon icon-emo-displeased"></i>
                     </div>
-                    <div class="caption">Não é bom</div>
+                    <div class="caption">{{'feedback.notGood' | i18n}}</div>
                 </li>
                 <li class="feedback-rating" ng-class="{'active': model.rating==3}" ng-click="model.rating = 3;">
                     <div class="feedback-rating-icon">
                         <i class="icon icon-emo-happy"></i>
                     </div>
-                    <div class="caption">Normal</div>
+                    <div class="caption">{{'feedback.normal' | i18n}}</div>
                 </li>
                 <li class="feedback-rating" ng-class="{'active': model.rating==4}" ng-click="model.rating = 4;">
                     <div class="feedback-rating-icon">
                         <i class="icon icon-emo-grin"></i>
                     </div>
-                    <div class="caption">Tá bom</div>
+                    <div class="caption">{{'feedback.good' | i18n}}</div>
                 </li>
                 <li class="feedback-rating" ng-class="{'active': model.rating==5}" ng-click="model.rating = 5;">
                     <div class="feedback-rating-icon">
                         <i class="icon icon-emo-thumbsup"></i>
                     </div>
-                    <div class="caption">Ótimo</div>
+                    <div class="caption">{{'feedback.excellent' | i18n}}</div>
                 </li>
             </ul>
             <div class="form-group">
-                <input type="text" class="form-control" ng-model="model.name" placeholder="Имя">
+                <input type="text" class="form-control" ng-model="model.name" placeholder={{'feedback.name'|i18n}} >
             </div>
             <div class="form-group">
                 <input type="email" class="form-control" ng-model="model.email" placeholder="Email">
             </div>
             <div class="form-group">
-                <textarea class="form-control" rows="5" ng-model="model.body" placeholder="Ваши пожелания и предложения по улучшению сервиса"></textarea>
+                <textarea class="form-control" rows="5" ng-model="model.body" placeholder="{{'feedback.wishes'|i18n}}"></textarea>
             </div>
-            <button type="submit" class="btn btn-info pull-right" ng-disabled="!model.body.length">Отправить</button>
+            <button type="submit" class="btn btn-info pull-right" ng-disabled="!model.body.length">{{'feedback.send'|i18n}}</button>
         </form>
     </div>
     <div class="panel panel-feedback" ng-if="showSuccessPanel">
         <div class="panel-heading">
-            <h3 class="panel-title">Спасибо за сообщение</h3>
+            <h3 class="panel-title">{{'feedback.successTitle'|i18n}}</h3>
             <button class="close" ng-click="closeSuccessPanel()"><i class="icon-times"></i></button>
         </div>
-        <div class="panel-body">
-            Мы внимательно рассмотрим ваш отзыв и учтем в своей работе. Оставайтесь с нами!
-        </div>
+        <div class="panel-body">{{'feedback.successBody'|i18n}}</div>
     </div>
 </div>

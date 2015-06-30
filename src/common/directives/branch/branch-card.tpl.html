@@ -6,28 +6,28 @@
     </div>
     <div class="card-description" ng-if="b.description">
         <div class="description-text" ng-class="{show: !collapseDescr}">{{b.description}}</div>
-        <button class="btn btn-link" ng-click="collapseDescr=false" ng-show="collapseDescr">Прочесть полностью</button>
-        <button class="btn btn-link" ng-click="collapseDescr=true" ng-show="!collapseDescr">Скрыть</button>
+        <button class="btn btn-link" ng-click="collapseDescr=false" ng-show="collapseDescr">{{'common.readMore' | i18n}}</button>
+        <button class="btn btn-link" ng-click="collapseDescr=true" ng-show="!collapseDescr">{{'common.hide' | i18n}}</button>
     </div>
     <div class="icon-container branch-address" ng-if="::b.address.street">
         <i class="icon-location left-icon"></i>
         <address>{{::b.address | formatAddress}}</address>
     </div>
     <div class="card-hr"></div>
-    <div branch-schedule="b.schedule" class="block-lg" ng-if="::b.schedule.length"></div>
+    <div branch-schedule="b.schedule" class="block-lg" ng-if="::b.schedule | isNonEmpty"></div>
     <div ng-if="b.contacts" ng-repeat="contact in b.contacts track by $index">
         <div branch-contact="contact" class="block-lg"></div>
     </div>
     <div class="card-hr"></div>
     <div class="photos" ng-class="{'more': b.photos.length > 3}" ng-if="::b.photos.length">
         <a href="#" ng-repeat="photo in b.photos" ng-click="$event.preventDefault();showGallery($index);">
-            <img ng-src="{{::photo.src}}">
+            <img ng-src="{{::photo.src}}" width="{{::photo.width}}" height="{{::photo.height}}">
         </a>
     </div>
     <div class="icon-container" ng-repeat="(name, attributes) in ::attrGroups" ng-if="::attrGroups">
         <i ng-class="'icon-' + name + ' left-icon'"></i>
         <ul class="card-list attributes">
-            <li ng-repeat="a in attributes track by $index" itemprop="{{::a.item}}">{{::a|formatAttribute}}</li>
+            <li ng-repeat="a in attributes track by $index" itemprop="{{::a.itemprop}}">{{::a|formatAttribute}}</li>
         </ul>
     </div>
     <div class="icon-container" ng-if="::b.rubrics.length">

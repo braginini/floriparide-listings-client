@@ -142,6 +142,16 @@ module.exports = function (grunt) {
           }
         ]
       },
+      build_languages: {
+        files: [
+          {
+            src: [ 'languages/**/*.lang.json' ],
+            dest: '<%= build_dir %>/',
+            cwd: './src/',
+            expand: true
+          }
+        ]
+      },
       compile_assets: {
         files: [
           {
@@ -602,7 +612,8 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean', 'html2js', 'test', 'newer:less:build', 'modernizr',
     'newer:copy:build_app_assets', 'newer:copy:build_vendor_assets', 'newer:copy:build_vendor_images',
-    'newer:traceur:build', 'newer:copy:build_vendorjs', 'newer:copy:build_vendorcss', 'newer:autoprefixer:build', 'index:build', 'notify:build'
+    'newer:traceur:build', 'newer:copy:build_vendorjs', 'newer:copy:build_vendorcss', 'newer:copy:build_languages',
+    'newer:autoprefixer:build', 'index:build', 'notify:build'
   ]);
 
   /**

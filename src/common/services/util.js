@@ -67,6 +67,18 @@ export default angular
     return me;
   }])
 
+  .filter('isEmpty', function () {
+    return function(value) {
+      return _.isEmpty(value);
+    };
+  })
+
+  .filter('isNonEmpty', function () {
+    return function(value) {
+      return !_.isEmpty(value);
+    };
+  })
+
   .filter('htmlize', ['util', function(util) {
     return function (value) {
       if (value) {

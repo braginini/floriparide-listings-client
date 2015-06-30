@@ -8,14 +8,14 @@ var day_indexes = {
   saturday: 5,
   sunday: 6
 };
-var day_labels = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
+var day_labels = ['1ª', '2ª', '3ª', '4ª', '5ª', '6ª', '7ª'];
 
-var formatSchedule = function (item) {
+var formatSchedule = _.curry(function (locale, item) {
   if (!item.from || !item.to) {
-    return 'закрыто';
+    return locale.getString('common.close');
   }
   return item.from + '-' + item.to;
-};
+});
 
 var parseTodayTime = function (time, checkTomorrow) {
   var parts = time.split(':');
@@ -33,7 +33,7 @@ export default angular
     'template/tooltip/tooltip-popup.html',
     'template/tooltip/tooltip-html-unsafe-popup.html'
   ])
-  .directive('branchSchedule', ['$interval', '$timeout', '$parse', function ($interval, $timeout, $parse) {
+  .directive('branchSchedule', function ($interval, $timeout, $parse, locale) {
     return {
       restrict: 'EA',
       templateUrl: 'directives/branch/schedule.tpl.html',
@@ -69,7 +69,7 @@ export default angular
         });
         /*****/
         $scope.today = $scope.schedule[today.toLowerCase()];
-        $scope.now = 'Закрыто';
+        $scope.now = locale.getString('common.close');
         $scope.isWorking = false;
 
         var now = new Date();
@@ -82,10 +82,10 @@ export default angular
                 $scope.timeLeft = null;
                 if (eventType === 'open') {
                   $scope.isWorking = true;
-                  $scope.now = 'Открыто';
+                  $scope.now = locale.getString('common.open');
                 } else {
                   $scope.isWorking = false;
-                  $scope.now = 'Закрыто';
+                  $scope.now = locale.getString('common.close');
                 }
                 $interval.cancel(taskId);
               }
@@ -102,17 +102,17 @@ export default angular
             diff = Math.round((to.getTime() - now.getTime()) / 60000);
             $scope.isWorking = true;
             if (diff > 0 && diff < 60) {
-              $scope.now = 'Закроется через';
+              $scope.now = locale.getString('common.closeIn');
               $scope.timeLeft = diff;
               beginUpdateNowText(to.getTime(), 'close');
             } else {
-              $scope.now = 'Открыто';
+              $scope.now = locale.getString('common.open');
             }
             return false;
           } else {
             diff = Math.round((from.getTime() - now.getTime()) / 60000);
             if (diff > 0 && diff < 60) {
-              $scope.now = 'Откроется через';
+              $scope.now = locale.getString('common.openIn');
               $scope.timeLeft = diff;
               beginUpdateNowText(from.getTime(), 'open');
               return false;
@@ -133,7 +133,7 @@ export default angular
             to: $scope.today.items[i].from
           });
         }
-        $scope.today.label = 'Сегодня';
+        $scope.today.label = locale.getString('common.today');
         $scope.today.breaks = breaks;
 
         var compare = function (item) {
@@ -148,7 +148,7 @@ export default angular
         if (_(schedule).groupBy(compare).size() <= 1) {
           sch_item = schedule[0];
           $scope.today = {
-            label: 'Ежедневно',
+            label: locale.getString('common.everyday'),
             from: sch_item.from,
             to: sch_item.to
           };
@@ -158,14 +158,14 @@ export default angular
 
             sch_item = schedule[0];
             $scope.schedule.push({
-              label: 'Будние дни',
+              label: locale.getString('common.workingDays'),
               from: sch_item.from,
               to: sch_item.to
             });
 
             sch_item = schedule[5];
             $scope.schedule.push({
-              label: 'Суббота, воскресенье',
+              label: locale.getString('common.weekend'),
               from: sch_item.from,
               to: sch_item.to
             });
@@ -183,7 +183,7 @@ export default angular
         }
       }]
     };
-  }])
+  })
   .directive('scheduleTooltipPopup', [function () {
     return {
       restrict: 'EA',
@@ -224,15 +224,15 @@ export default angular
       return adr;
     };
   })
-  .filter('formatSchedule', function () {
-    return formatSchedule;
+  .filter('formatSchedule', function (locale) {
+    return formatSchedule(locale);
   })
-  .filter('formatToday', function () {
+  .filter('formatToday', function (locale) {
     return function (item) {
       var res = item.label + ': ';
-      res += formatSchedule(item);
+      res += formatSchedule(locale)(item);
       if (item.breaks && item.breaks.length) {
-        res += ', перерыв с ' + _.map(item.breaks, formatSchedule).join(', ');
+        res += ', ' + locale.getString('common.breakFrom') + ' ' + _.map(item.breaks, formatSchedule(locale)).join(', ');
       }
       return res;
     };

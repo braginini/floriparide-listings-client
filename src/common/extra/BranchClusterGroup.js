@@ -69,11 +69,11 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
 
     this._map = map;
 
-    _.each(this._layers, function (l, i) {
-      if (i % 20 === 0) {
-        l.paid = true;
-      }
-    }, this);
+    //_.each(this._layers, function (l, i) {
+    //  if (i % 20 === 0) {
+    //    l.paid = true;
+    //  }
+    //}, this);
 
     this.updateClusters();
     this._map.on('zoomend', this.updateClusters, this);

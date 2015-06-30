@@ -34,6 +34,9 @@ export var app = angular
     .module('app', [
       'seo',
       'flux',
+      'ngLocalize',
+      'ngLocalize.Config',
+      'ngLocalize.InstalledLanguages',
       'ui.router',
       'ui.bootstrap.buttons',
       'ui.bootstrap.dropdown',
@@ -64,6 +67,21 @@ export var app = angular
       //timezone: 'America/Sao_Paulo' // optional
     })
 
+    .value('localeConf', {
+      basePath: 'languages',
+      defaultLocale: 'pt-BR',
+      sharedDictionary: 'common',
+      fileExtension: '.lang.json',
+      persistSelection: true,
+      cookieName: 'COOKIE_LOCALE_LANG',
+      observableAttrs: new RegExp('^data-(?!ng-|i18n)'),
+      delimiter: '::'
+    })
+
+    .value('localeSupported', [
+      'pt-BR'
+    ])
+
     .config(($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
       fluxProvider.useCloning(false);
       $locationProvider
@@ -90,20 +108,23 @@ export var app = angular
       $urlRouterProvider.otherwise('/');
     })
 
-    .run(function (api, $q, $timeout, amMoment) {
+    .run(function (api, $q, $timeout, amMoment, locale) {
       amMoment.changeLocale('pt-br');
       initialDefer = $q.defer();
       api.projectList().then(function (res) {
         if (res && res.items.length) {
           config.project = res.items[0];
-          initialDefer.resolve(config);
-          $timeout(() => {
-            $('#loading-mask').remove();
-          }, 300);
         } else {
           initialDefer.reject();
         }
         return res;
+      }).then(function () {
+        return locale.ready('common');
+      }).then(function () {
+        initialDefer.resolve(config);
+        $timeout(() => {
+          $('#loading-mask').remove();
+        }, 300);
       });
     })
 
