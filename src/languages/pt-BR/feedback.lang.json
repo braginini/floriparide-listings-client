@@ -1,13 +1,13 @@
 {
-  "keepFeedback": "Оставить отзыв",
+  "keepFeedback": "Avalie",
   "bad": "Mal",
   "notGood": "Não é bom",
   "normal": "Normal",
   "good": "Tá bom",
   "excellent": "Ótimo",
   "name": "Nome",
-  "send": "Отправить",
-  "wishes": "Ваши пожелания и предложения по улучшению сервиса",
-  "successTitle": "Спасибо за сообщение",
-  "successBody": "Мы внимательно рассмотрим ваш отзыв и учтем в своей работе. Оставайтесь с нами!"
+  "send": "Enviar",
+  "wishes": "Seus comentários e sugestões para melhorar o serviço",
+  "successTitle": "Obrigado pela mensagem",
+  "successBody": "Vamos considerar cuidadosamente o seu feedback e terá em conta no seu trabalho!"
 }
