@@ -4,7 +4,10 @@
       <div class="schedule-table" ng-if="::schedule.length > 2">
           <div class="schedule-column" ng-class="{active: (item.dayIndex === todayIndex)}" ng-repeat="item in schedule">
               <div class="schedule-th">{{::item.label}}</div>
-              <div class="schedule-td" ng-repeat="sch_item in item.items" ng-if="::item.items.length">
+              <div class="schedule-td"
+                   title={{::sch_item.description}}
+                   ng-repeat="sch_item in item.items"
+                   ng-if="::item.items.length">
                   <div>{{::sch_item.from}}</div>
                   <div>{{::sch_item.to}}</div>
               </div>
@@ -13,7 +16,10 @@
               </div>
           </div>
       </div>
-      <div class="schedule-item" ng-repeat="item in schedule" ng-if="::schedule.length < 3">
+      <div class="schedule-item"
+           title={{::item.description}}
+           ng-repeat="item in schedule"
+           ng-if="::schedule.length < 3">
           {{::item.label}}: <span>{{::item|formatSchedule}}</span>
       </div>
   </div>

@@ -95,8 +95,12 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, $q, $timeout, $interva
 
     // when we call show first time dom elements are not exists
     if (dlgBodyEl) {
+      imgEl.hide();
       syncSizeNow();
       imgEl[0].src = p.src;
+      img.deferred.promise.then(() => {
+        imgEl.show();
+      });
     }
   };
 

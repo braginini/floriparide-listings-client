@@ -1,4 +1,4 @@
-var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'holidays'];
 var day_indexes = {
   monday: 0,
   tuesday: 1,
@@ -6,9 +6,10 @@ var day_indexes = {
   thursday: 3,
   friday: 4,
   saturday: 5,
-  sunday: 6
+  sunday: 6,
+  holidays: 7
 };
-var day_labels = ['1ª', '2ª', '3ª', '4ª', '5ª', '6ª', '7ª'];
+var day_labels = ['2ª', '3ª', '4ª', '5ª', '6ª', '7ª', '1ª', 'Feriados'];
 
 var formatSchedule = _.curry(function (locale, item) {
   if (!item.from || !item.to) {
@@ -42,7 +43,7 @@ export default angular
 
       },
       controller: ['$scope', '$attrs', function ($scope, $attrs) {
-        $scope.schedule = $parse($attrs.branchSchedule)($scope);
+        $scope.schedule = _.clone($parse($attrs.branchSchedule)($scope));
         var today = days[(new Date()).getDay()];
         if (!$scope.schedule) {
           $scope.schedule = {};
@@ -58,6 +59,7 @@ export default angular
               items: []
             };
           } else {
+            items = _.sortBy(items, 'from');
             $scope.schedule[key] = {
               day: day,
               dayIndex: day_indexes[day],
@@ -172,6 +174,9 @@ export default angular
             schedule.splice(0);
           }
           _.each(schedule, function (item) {
+            if (item.dayIndex === 7 && !item.items.length) {
+              return;
+            }
             $scope.schedule.push({
               label: day_labels[item.dayIndex],
               from: item.from,
