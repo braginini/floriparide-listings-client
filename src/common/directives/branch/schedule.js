@@ -9,7 +9,7 @@ var day_indexes = {
   sunday: 6,
   holidays: 7
 };
-var day_labels = ['2ª', '3ª', '4ª', '5ª', '6ª', '7ª', '1ª', 'Feriados'];
+var day_labels = ['Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sab.', 'Dom.', 'Feriados'];
 
 var formatSchedule = _.curry(function (locale, item) {
   if (!item.from || !item.to) {
@@ -42,7 +42,7 @@ export default angular
       link: function ($scope, element, attrs) {
 
       },
-      controller: ['$scope', '$attrs', function ($scope, $attrs) {
+      controller: function ($scope, $attrs, $element) {
         $scope.schedule = _.clone($parse($attrs.branchSchedule)($scope));
         var today = days[(new Date()).getDay()];
         if (!$scope.schedule) {
@@ -186,10 +186,11 @@ export default angular
             });
           });
         }
-      }]
+      }
     };
   })
-  .directive('scheduleTooltipPopup', [function () {
+
+  .directive('scheduleTooltipPopup', function ($window) {
     return {
       restrict: 'EA',
       templateUrl: 'directives/branch/schedule-popup.tpl.html',
@@ -201,12 +202,32 @@ export default angular
         if ($scope.todayIndex < 0) {
           $scope.todayIndex = 6;
         }
+
+        var isOpen = false;
+        var onBody = (e) => {
+          var isLinkEl = angular.element(e.target).hasClass('today-text');
+          if (!angular.element(e.target).parents('div.tooltip').length && isOpen) {
+            isOpen = false;
+            if (!isLinkEl) {
+              angular.element('.schedule-tip').trigger('click');
+            }
+          } else {
+            isOpen = isLinkEl;
+          }
+        };
+        angular.element($window.document.body).on('click', onBody);
+        $scope.$on('$destroy', () => {
+          isOpen = false;
+          angular.element($window.document.body).off('click', onBody);
+        });
       }
     };
-  }])
-  .directive('scheduleTooltip', ['$tooltip', function ($tooltip) {
+  })
+
+  .directive('scheduleTooltip', function ($tooltip) {
     return $tooltip('scheduleTooltip', 'tooltip', 'click');
-  }])
+  })
+
   .filter('formatAddress', function () {
     return function (address) {
       var adr = '';

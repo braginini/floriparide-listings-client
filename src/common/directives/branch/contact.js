@@ -40,7 +40,7 @@ export default angular
       for (var i = 2; i < numbers.length; i += 4) {
         parts.push(numbers.substring(i, i + 4));
       }
-      return '(' + numbers.substring(0,2) + ')' + parts.join('-');
+      return '(' + numbers.substring(0,2) + ') ' + parts.join('-');
     };
   }])
 ;
