@@ -1,7 +1,7 @@
 var mapBranch = b => {
   b.fullname = b.name;
   if (b.headline) {
-    b.fullname += ', ' + b.headline;
+    b.fullname += ', ' + b.headline.toLowerCase();
   }
   return b;
 };

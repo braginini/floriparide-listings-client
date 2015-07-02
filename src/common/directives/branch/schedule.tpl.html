@@ -7,10 +7,10 @@
          tooltip-placement="bottom"
          tooltip-append-to-body="true"
          ng-if="schedule.length > 1">
-        <div class="today-text" ng-class="{'has-breaks': today.breaks.length}">{{::today|formatToday}}</div>
+        <div class="today-text" ng-class="{'has-breaks': today.breaks.length}" ng-bind-html="today|formatToday"></div>
     </a>
     <div class="today" ng-if="::schedule.length <= 1">
-        <div class="today-text">{{::today|formatToday}}</div>
+        <div class="today-text" ng-class="{'has-breaks': today.breaks.length}" ng-bind-html="today|formatToday"></div>
     </div>
     <div class="now">{{now}} <span ng-if="timeLeft">{{timeLeft}} мин.</span></div>
 </div>

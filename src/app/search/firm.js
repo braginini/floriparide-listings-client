@@ -69,18 +69,19 @@ export default angular
       return;
     }
 
-    if (!$stateParams.name) {
-      var name = branch.name + ' ';
-      if (branch.address.street) {
-        name += branch.address.street + ' ';
-      }
-      if (branch.address.street_number) {
-        name += branch.address.street_number;
-      }
-      name = name
-        .trim()
-        .replace(/\s+-\s+/, ' ')
-        .replace(/\s/g, '-');
+    var name = branch.name + ' ';
+    if (branch.address.street) {
+      name += branch.address.street + ' ';
+    }
+    if (branch.address.street_number) {
+      name += branch.address.street_number;
+    }
+    name = name
+      .trim()
+      .replace(/\s+-\s+/, ' ')
+      .replace(/\s/g, '-');
+
+    if (!$stateParams.name || $stateParams.name !== name) {
       $state.transitionTo($state.current.name, {name: name}, {
         location: true,
         inherit: true,

@@ -152,7 +152,8 @@ export default angular
           $scope.today = {
             label: locale.getString('common.everyday'),
             from: sch_item.from,
-            to: sch_item.to
+            to: sch_item.to,
+            breaks: breaks
           };
         } else {
           if (_(schedule).take(5).groupBy(compare).size() <= 1 &&
@@ -258,7 +259,8 @@ export default angular
       var res = item.label + ': ';
       res += formatSchedule(locale)(item);
       if (item.breaks && item.breaks.length) {
-        res += ', ' + locale.getString('common.breakFrom') + ' ' + _.map(item.breaks, formatSchedule(locale)).join(', ');
+        let joiner = item.breaks.length === 1 ? ', ' : ', <br>';
+        res += joiner + locale.getString('common.breakFrom') + ' ' + _.map(item.breaks, formatSchedule(locale)).join(', ');
       }
       return res;
     };

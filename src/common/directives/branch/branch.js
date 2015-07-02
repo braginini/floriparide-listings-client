@@ -83,8 +83,24 @@ export default angular
         return null;
       }
       if (a.value) {
-        if (a.value !== true) {
-          res += ' ' + a.value;
+        switch (a.input_type) {
+          case 'number':
+            let prefix = ' ';
+            let suffix = '';
+            if (a.suffix) {
+              if (a.suffix.substr(0, 1) === '^') {
+                prefix = a.suffix.substring(0);
+              } else {
+                suffix = a.suffix;
+              }
+            }
+            res +=  ' ' + prefix + a.value + ' ' + suffix;
+            break;
+          case 'timerange':
+            if (a.value.from && a.value.to) {
+              res += ' ' + a.value.from + ' - ' + a.value.to;
+            }
+            break;
         }
       }
       return res;
