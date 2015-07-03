@@ -1,6 +1,6 @@
 var config = {
   endpoints: {
-    api: 'http://104.236.215.234:8888/catalog/1.0',
+    api: 'http://api.ficaai.com.br/catalog/1.0',
     tileLayer: 'http://{s}.tiles.floriparide.com.br/v3/mbraginini.map-hvjt7s3e/{z}/{x}/{y}.png'
   },
   initPoint: {
