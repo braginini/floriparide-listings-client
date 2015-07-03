@@ -152,6 +152,19 @@ module.exports = function (grunt) {
           }
         ]
       },
+      compile_extra: {
+        files: [{
+          src: [ 'languages/**/*.lang.json' ],
+          dest: '<%= compile_dir %>/',
+          cwd: './src/',
+          expand: true
+        }, {
+          src: [ 'traceur_runtime.js' ],
+          dest: '<%= compile_dir %>/assets/js',
+          cwd: '<%= build_dir %>/vendor',
+          expand: true
+        }]
+      },
       compile_assets: {
         files: [
           {
@@ -257,9 +270,6 @@ module.exports = function (grunt) {
      * to code without the array syntax.
      */
     ngAnnotate: {
-      options: {
-
-      },
       compile: {
         files: [
           {
@@ -454,8 +464,9 @@ module.exports = function (grunt) {
       compile: {
         dir: '<%= compile_dir %>',
         src: [
+          '<%= compile_dir %>/assets/js/traceur_runtime.js',
           '<%= concat.compile_js.dest %>',
-          '<%= build_dir %>/assets/css/<%= pkg.name %>-<%= pkg.version %>.css'
+          '<%= compile_dir %>/assets/css/<%= pkg.name %>-<%= pkg.version %>.css'
         ]
       }
     },
@@ -621,7 +632,7 @@ module.exports = function (grunt) {
    * minifying your code.
    */
   grunt.registerTask('compile', [
-    'build', 'copy:compile_assets', 'dist-js', 'dist-css', /*'comments:compile',*/ 'index:compile'
+    'build', 'copy:compile_assets', 'dist-js', 'dist-css', 'copy:compile_extra', /*'comments:compile',*/ 'index:compile'
   ]);
 
   /**

@@ -181,6 +181,9 @@ export class SearchCtrl {
   }
 }
 
+SearchCtrl.$inject = ['$scope', '$injector', 'BranchActions', 'BranchStore', 'MarkerStore', 'SelectedBranchStore', 'BranchLoadingStore',
+  'TopAttributesStore'];
+
 export class RubricCtrl extends SearchCtrl {
   constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, BranchLoadingStore,
                TopAttributesStore) {
