@@ -2,7 +2,7 @@ import * as schedule from './schedule.js';
 
 var today = schedule.days[(new Date()).getDay()];
 
-var formatAttribute = function(a) {
+var formatAttribute = _.curry(function(locale, a) {
   var res = a.name;
   if (a.value === false) {
     return null;
@@ -12,9 +12,10 @@ var formatAttribute = function(a) {
 
     let d = a.timerange[today];
     if (!d) {
-      return null;
+      descr.push(locale.getString('common.todayUnavailable'));
+    } else {
+      descr.push(d.from + '-' + d.to);
     }
-    descr.push(d.from + '-' + d.to);
   }
   if (a.value) {
     switch (a.input_type) {
@@ -41,7 +42,7 @@ var formatAttribute = function(a) {
     res += ' (' + descr.join(', ') + ')';
   }
   return res;
-};
+});
 
 export const DisplayGroupIds = {
   'infra':1,
@@ -97,7 +98,7 @@ export default angular
       }
     };
   }])
-  .controller('BranchCardCtrl', function($scope, Gallery) {
+  .controller('BranchCardCtrl', function($scope, Gallery, locale) {
     $scope.b = $scope.branchCard;
     if ($scope.b.photos && $scope.b.photos.length) {
       $scope.b.photos = _.map($scope.b.photos, p => {
@@ -115,7 +116,7 @@ export default angular
       }
     }).mapValues(items => {
       return _(items).pluck('attributes').flatten().map(item => {
-        item.formatted = formatAttribute(item);
+        item.formatted = formatAttribute(locale)(item);
         return item;
       }).filter('formatted').value();
     }).value();
@@ -125,7 +126,7 @@ export default angular
     };
   })
 
-  .filter('formatAttribute', function () {
-    return formatAttribute;
+  .filter('formatAttribute', function (locale) {
+    return formatAttribute(locale);
   })
 ;
