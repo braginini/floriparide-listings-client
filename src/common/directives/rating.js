@@ -12,6 +12,9 @@ export default angular
       link: function ($scope, element, attrs) {
         var el = angular.element(element);
         $scope.rate = parseFloat($scope.rate);
+        if (isNaN($scope.rate) || $scope.rate === 0) {
+          $scope.rate = null;
+        }
         el.val($scope.rate);
         el.rating({
           min: 0,

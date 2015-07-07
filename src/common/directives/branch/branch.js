@@ -46,7 +46,8 @@ var formatAttribute = function(a) {
 export const DisplayGroupIds = {
   'infra':1,
   'payment': 1,
-  'cusine': 1
+  'cusine': 1,
+  'delivery': 1
 };
 
 export default angular
