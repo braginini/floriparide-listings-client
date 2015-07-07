@@ -27,7 +27,7 @@
     <div class="icon-container" ng-repeat="(name, attributes) in ::attrGroups" ng-if="::attrGroups">
         <i ng-class="'icon-' + name + ' left-icon'"></i>
         <ul class="card-list attributes">
-            <li ng-repeat="a in attributes track by $index" itemprop="{{::a.itemprop}}">{{::a|formatAttribute}}</li>
+            <li ng-repeat="a in attributes track by $index" itemprop="{{::a.itemprop}}">{{::a.formatted}}</li>
         </ul>
     </div>
     <div class="icon-container" ng-if="::b.rubrics.length">

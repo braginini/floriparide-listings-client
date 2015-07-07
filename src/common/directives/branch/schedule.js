@@ -1,4 +1,5 @@
-var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'holidays'];
+export const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'holidays'];
+
 var day_indexes = {
   monday: 0,
   tuesday: 1,

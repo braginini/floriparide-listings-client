@@ -1,3 +1,48 @@
+import * as schedule from './schedule.js';
+
+var today = schedule.days[(new Date()).getDay()];
+
+var formatAttribute = function(a) {
+  var res = a.name;
+  if (a.value === false) {
+    return null;
+  }
+  var descr = [];
+  if (a.timerange) {
+
+    let d = a.timerange[today];
+    if (!d) {
+      return null;
+    }
+    descr.push(d.from + '-' + d.to);
+  }
+  if (a.value) {
+    switch (a.input_type) {
+      case 'number':
+        let prefix = ' ';
+        let suffix = '';
+        if (a.suffix) {
+          if (a.suffix.substr(0, 1) === '^') {
+            prefix = a.suffix.substring(0);
+          } else {
+            suffix = a.suffix;
+          }
+        }
+        res +=  ' ' + prefix + a.value + ' ' + suffix;
+        break;
+    }
+  }
+
+  if (a.description) {
+    descr.push(a.description);
+  }
+
+  if (descr.length) {
+    res += ' (' + descr.join(', ') + ')';
+  }
+  return res;
+};
+
 export const DisplayGroupIds = {
   'infra':1,
   'payment': 1,
@@ -68,7 +113,10 @@ export default angular
         return 'tags';
       }
     }).mapValues(items => {
-      return _(items).pluck('attributes').flatten().value();
+      return _(items).pluck('attributes').flatten().map(item => {
+        item.formatted = formatAttribute(item);
+        return item;
+      }).filter('formatted').value();
     }).value();
 
     $scope.showGallery = function (index) {
@@ -77,33 +125,6 @@ export default angular
   })
 
   .filter('formatAttribute', function () {
-    return function(a) {
-      var res = a.name;
-      if (a.value === false) {
-        return null;
-      }
-      if (a.value) {
-        switch (a.input_type) {
-          case 'number':
-            let prefix = ' ';
-            let suffix = '';
-            if (a.suffix) {
-              if (a.suffix.substr(0, 1) === '^') {
-                prefix = a.suffix.substring(0);
-              } else {
-                suffix = a.suffix;
-              }
-            }
-            res +=  ' ' + prefix + a.value + ' ' + suffix;
-            break;
-          case 'timerange':
-            if (a.value.from && a.value.to) {
-              res += ' ' + a.value.from + ' - ' + a.value.to;
-            }
-            break;
-        }
-      }
-      return res;
-    };
+    return formatAttribute;
   })
 ;
