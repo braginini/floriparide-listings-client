@@ -21,7 +21,7 @@ var formatSchedule = _.curry(function (locale, item) {
 var parseTodayTime = function (time, checkTomorrow) {
   var parts = time.split(':');
   var date = new Date();
-  date.setHours(parts[0], parts[1]);
+  date.setHours(parts[0], parts[1], 0, 0);
   if (checkTomorrow && parts[0] <= 6) {
     date.setTime(date.getTime() + 24 * 3600 * 1000);
   }
@@ -59,7 +59,22 @@ export default angular
               items: []
             };
           } else {
-            items = _.sortBy(items, 'from');
+            items = _.sortByAll(items, item => parseTodayTime(item.from, false), item => parseTodayTime(item.to, true));
+            let mergeIdxs = {};
+            let prevFrom = parseTodayTime(items[0].from, false).getTime();
+            let prevTo = parseTodayTime(items[0].to, true).getTime();
+            _.forEach(items, (item, idx) => {
+              let from = parseTodayTime(item.from, false).getTime();
+              let to = parseTodayTime(item.to, true).getTime();
+              if (from === prevFrom && to >= prevTo && idx > 0) {
+                mergeIdxs[idx - 1] = idx - 1;
+              }
+              prevFrom = from;
+              prevTo = to;
+            });
+
+            items = _.filter(items, (item, idx) => !(idx in mergeIdxs));
+
             $scope.schedule[key] = {
               day: day,
               dayIndex: day_indexes[day],
