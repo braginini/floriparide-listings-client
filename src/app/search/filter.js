@@ -28,9 +28,20 @@ export default angular
 
   .controller('FilterCtrl', function ($scope, $state, TopAttributesStore) {
     var getGroups = function () {
-      return _.filter((TopAttributesStore.getTopAttributes() || []).slice(1), g => {
-        return g.attributes && g.attributes.length > 0;
+      var singletons = [];
+      var groups = _.filter((TopAttributesStore.getTopAttributes() || []).slice(1), g => {
+        if (g.attributes && g.attributes.length > 0) {
+          if (g.attributes.length > 1) {
+            return true;
+          }
+          singletons.push(g.attributes[0]);
+        }
+        return false;
       });
+      if (groups[0] && singletons.length) {
+        groups[0].attributes = groups[0].attributes.concat(singletons);
+      }
+      return groups;
     };
 
     $scope.goParent = function () {

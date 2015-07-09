@@ -13,7 +13,7 @@ export default angular
         showHeader: '@'
       },
       controller ($scope, util) {
-        $scope.bShowHeader = util.parseBoolean($scope.showHeader);
+        $scope.bShowHeader = util.parseBoolean($scope.showHeader) && $scope.g.attributes.length > 1;
         $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
       }
     };
