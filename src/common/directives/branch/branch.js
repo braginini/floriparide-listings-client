@@ -24,7 +24,7 @@ var formatAttribute = _.curry(function(locale, a) {
         let suffix = '';
         if (a.suffix) {
           if (a.suffix.substr(0, 1) === '^') {
-            prefix = a.suffix.substring(0);
+            prefix = a.suffix.substring(1);
           } else {
             suffix = a.suffix;
           }

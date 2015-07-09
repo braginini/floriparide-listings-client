@@ -65,6 +65,14 @@
         margin-top: 2px;
       }
 
+      &.disabled {
+        color: darken(#ffffff, 15%);
+        cursor: default;
+        .rubric-icon:hover {
+          transform: none !important;
+        }
+      }
+
       &:nth-child(1) .rubric-icon {
         background-color: #faaa64;
       }

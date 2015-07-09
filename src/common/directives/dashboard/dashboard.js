@@ -19,6 +19,9 @@ export default angular
 
         $scope.search = function (e) {
           var el = angular.element(e.target).parents('li');
+          if (el.hasClass('disabled')) {
+            return;
+          }
           var div = el.find('> div')[1];
           if (div) {
             if (angular.element(div).attr('data-rubrics') !== undefined) {
