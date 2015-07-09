@@ -11,7 +11,7 @@
     </div>
     <div class="icon-container branch-address" ng-if="::b.address.street">
         <i class="icon-location left-icon"></i>
-        <address>{{::b.address | formatAddress}}</address>
+        <address ng-click="locateToAddress()">{{::b.address | formatAddress}}</address>
     </div>
     <div class="card-hr"></div>
     <div branch-schedule="b.schedule" class="block-lg" ng-if="::b.schedule | isNonEmpty"></div>
