@@ -1,0 +1,22 @@
+{
+  "organizations": "Negócios",
+  "extendedSearch": "Busca avançada",
+  "errorHeader": "Um erro ocorreu!",
+  "unknownErrorMessage": "Já estamos tomando medidas para combatê-lo. Tente depois.",
+  "visibleOnMap": "Visível no mapa",
+  "open": "Aberto",
+  "openIn": "Abrirá em",
+  "close": "Fechado",
+  "closeIn": "Fecha em",
+  "today": "Hoje",
+  "everyday": "Diariamente",
+  "workingDays": "Dias úteis",
+  "weekend": "Sábado, Domingo",
+  "holidays": "Feriados",
+  "breakFrom": "parar",
+  "raiting": "Avaliação",
+  "readMore": "Leia completo",
+  "hide": "Esconder",
+  "shortMinute": "min.",
+  "todayUnavailable": "Disponível hoje"
+}

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>Fica ai - mapa de Florianópolis e de cidades próximas: ruas, casas e negócios na cidade.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="fragment" content="!" />
+
+    <meta name="description" content="">
+
+    <style type="text/css">
+        #loading-mask{
+            background-color:white;
+            height:100%;
+            position:absolute;
+            left:0;
+            top:0;
+            width:100%;
+            z-index:2000;
+        }
+
+        .loading-wrapper {
+            display: block;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            -webkit-transform: translateY(-50%) translateX(-50%);
+            -ms-transform: translateY(-50%) translateX(-50%);
+            transform: translateY(-50%) translateX(-50%);
+        }
+
+        .loading-title {
+            position: absolute;
+            top: 70px;
+            width: 60px;
+            text-align: center;
+        }
+
+        .loading {
+            bottom: 0;
+            left: 50%;
+            min-height: 100px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+        }
+
+        .loading::after {
+            -webkit-animation: 500ms linear 0s normal none infinite running preloader;
+            animation: 500ms linear 0s normal none infinite running preloader;
+            background: none repeat scroll 0 0 #57a9a8;
+            border-radius: 3px;
+            content: "";
+            height: 50px;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 50px;
+        }
+
+        .loading::before {
+            -webkit-animation: 500ms linear 0s normal none infinite running preloader-shadow;
+            animation: 500ms linear 0s normal none infinite running preloader-shadow;
+            background: none repeat scroll 0 0 #000;
+            border-radius: 50%;
+            content: "";
+            height: 5px;
+            left: 0;
+            opacity: 0.1;
+            position: absolute;
+            top: 59px;
+            width: 50px;
+        }
+
+        @-webkit-keyframes preloader {
+            17% {
+                border-bottom-right-radius: 3px;
+            }
+            25% {
+                -webkit-transform: translateY(9px) rotate(22.5deg);
+                transform: translateY(9px) rotate(22.5deg);
+            }
+            50% {
+                border-bottom-right-radius: 40px;
+                -webkit-transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+                transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+            }
+            75% {
+                -webkit-transform: translateY(9px) rotate(67.5deg);
+                transform: translateY(9px) rotate(67.5deg);
+            }
+            100% {
+                -webkit-transform: translateY(0px) rotate(90deg);
+                transform: translateY(0px) rotate(90deg);
+            }
+        }
+
+        @keyframes preloader {
+            17% {
+                border-bottom-right-radius: 3px;
+            }
+            25% {
+                -webkit-transform: translateY(9px) rotate(22.5deg);
+                transform: translateY(9px) rotate(22.5deg);
+            }
+            50% {
+                border-bottom-right-radius: 40px;
+                -webkit-transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+                transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+            }
+            75% {
+                -webkit-transform: translateY(9px) rotate(67.5deg);
+                transform: translateY(9px) rotate(67.5deg);
+            }
+            100% {
+                -webkit-transform: translateY(0px) rotate(90deg);
+                transform: translateY(0px) rotate(90deg);
+            }
+        }
+
+        @keyframes preloader {
+            17% {
+                border-bottom-right-radius: 3px;
+            }
+            25% {
+                -webkit-transform: translateY(9px) rotate(22.5deg);
+                transform: translateY(9px) rotate(22.5deg);
+            }
+            50% {
+                border-bottom-right-radius: 40px;
+                -webkit-transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+                transform: scale(1, 0.9) translateY(18px) rotate(45deg);
+            }
+            75% {
+                -webkit-transform: translateY(9px) rotate(67.5deg);
+                transform: translateY(9px) rotate(67.5deg);
+            }
+            100% {
+                -webkit-transform: translateY(0px) rotate(90deg);
+                transform: translateY(0px) rotate(90deg);
+            }
+        }
+
+        @-webkit-keyframes preloader-shadow {
+            50% {
+                -webkit-transform: scale(1.2, 1);
+                transform: scale(1.2, 1);
+            }
+        }
+
+        @keyframes preloader-shadow {
+            50% {
+                -webkit-transform: scale(1.2, 1);
+                transform: scale(1.2, 1);
+            }
+        }
+
+        @keyframes preloader-shadow {
+            50% {
+                -webkit-transform: scale(1.2, 1);
+                transform: scale(1.2, 1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div ui-view></div>
+
+<toaster-container toaster-options="{'position-class': 'toast-top-center'}"></toaster-container>
+
+<div id="loading-mask" style="">
+    <div class="loading-wrapper">
+        <div class="loading"></div>
+        <div class="loading-title">Loading ...</div>
+    </div>
+</div>
+
+<!-- compiled CSS -->
+
+<link rel="stylesheet" type="text/css" href="vendor/leaflet-dist/leaflet.css" />
+<link rel="stylesheet" type="text/css" href="vendor/bootstrap-star-rating/css/star-rating.css" />
+<link rel="stylesheet" type="text/css" href="vendor/ion.rangeSlider/css/ion.rangeSlider.css" />
+<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/css/perfect-scrollbar.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/listings-client-0.0.4.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
+
+<!-- compiled JavaScript -->
+
+<script type="text/javascript" src="vendor/traceur_runtime.js"></script>
+<script type="text/javascript" src="vendor/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="vendor/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="vendor/moment/moment.js"></script>
+<script type="text/javascript" src="vendor/moment/locale/pt-br.js"></script>
+<script type="text/javascript" src="vendor/angular/angular.js"></script>
+<script type="text/javascript" src="vendor/angular-fullscreen/src/angular-fullscreen.js"></script>
+<script type="text/javascript" src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+<script type="text/javascript" src="vendor/angular-sanitize/angular-sanitize.js"></script>
+<script type="text/javascript" src="vendor/angular-seo/angular-seo.js"></script>
+<script type="text/javascript" src="vendor/angular-cookie/angular-cookie.js"></script>
+<script type="text/javascript" src="vendor/angular-cookies/angular-cookies.js"></script>
+<script type="text/javascript" src="vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="vendor/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="vendor/angular-moment/angular-moment.js"></script>
+<script type="text/javascript" src="vendor/angular-localization/angular-localization.js"></script>
+<script type="text/javascript" src="vendor/ion.rangeSlider/js/ion.rangeSlider.js"></script>
+<script type="text/javascript" src="vendor/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+<script type="text/javascript" src="vendor/lodash/lodash.js"></script>
+<script type="text/javascript" src="vendor/AngularJS-Toaster/toaster.js"></script>
+<script type="text/javascript" src="vendor/leaflet-dist/leaflet-src.js"></script>
+<script type="text/javascript" src="vendor/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
+<script type="text/javascript" src="vendor/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+<script type="text/javascript" src="vendor/bootstrap-star-rating/js/star-rating.js"></script>
+<script type="text/javascript" src="vendor/bootstrap/js/tooltip.js"></script>
+<script type="text/javascript" src="vendor/flux-angular/release/flux-angular.js"></script>
+<script type="text/javascript" src="vendor/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+<script type="text/javascript" src="src/app/app.js"></script>
+<script type="text/javascript" src="src/app/search/filter.js"></script>
+<script type="text/javascript" src="src/app/search/firm.js"></script>
+<script type="text/javascript" src="src/app/search/search.js"></script>
+<script type="text/javascript" src="src/common/directives/branch-filter/branch-filter.js"></script>
+<script type="text/javascript" src="src/common/directives/branch/branch.js"></script>
+<script type="text/javascript" src="src/common/directives/branch/contact.js"></script>
+<script type="text/javascript" src="src/common/directives/branch/schedule.js"></script>
+<script type="text/javascript" src="src/common/directives/dashboard/dashboard.js"></script>
+<script type="text/javascript" src="src/common/directives/delegate.js"></script>
+<script type="text/javascript" src="src/common/directives/feedback/feedback.js"></script>
+<script type="text/javascript" src="src/common/directives/frames.js"></script>
+<script type="text/javascript" src="src/common/directives/gallery/gallery.js"></script>
+<script type="text/javascript" src="src/common/directives/ng-load.js"></script>
+<script type="text/javascript" src="src/common/directives/range-slider.js"></script>
+<script type="text/javascript" src="src/common/directives/rating.js"></script>
+<script type="text/javascript" src="src/common/directives/resizable.js"></script>
+<script type="text/javascript" src="src/common/directives/scrollbar.js"></script>
+<script type="text/javascript" src="src/common/extra/BranchClusterGroup.js"></script>
+<script type="text/javascript" src="src/common/services/api.js"></script>
+<script type="text/javascript" src="src/common/services/branches.js"></script>
+<script type="text/javascript" src="src/common/services/cache.js"></script>
+<script type="text/javascript" src="src/common/services/dialogs/dialogs.js"></script>
+<script type="text/javascript" src="src/common/services/rubrics.js"></script>
+<script type="text/javascript" src="src/common/services/util.js"></script>
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="templates-common.js"></script>
+<script type="text/javascript" src="templates-app.js"></script>
+<script>
+    System.get('src/app/app.js');
+</script>
+</body>
+</html>

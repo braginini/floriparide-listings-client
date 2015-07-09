@@ -1,0 +1,22 @@
+{
+  "organizations": "Организации",
+  "extendedSearch": "Расширенный поиск",
+  "errorHeader": "Произошла ошибка!",
+  "unknownErrorMessage": "Мы уже принимаем меры по ее устранению. Попробуйте немного позже.",
+  "visibleOnMap": "Видимые на карте",
+  "open": "Открыто",
+  "openIn": "Откроется через",
+  "close": "Закрыто",
+  "closeIn": "Закроется через",
+  "today": "Сегодня",
+  "everyday": "Ежедневно",
+  "workingDays": "Будние дни",
+  "weekend": "Суббота, воскресенье",
+  "holidays": "Праздники",
+  "breakFrom": "перерыв с",
+  "raiting": "Рейтинг",
+  "readMore": "Прочесть полностью",
+  "hide": "Скрыть",
+  "shortMinute": "мин.",
+  "todayUnavailable": "Сегодня недоступно"
+}
