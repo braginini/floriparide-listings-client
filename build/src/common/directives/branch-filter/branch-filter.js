@@ -11,7 +11,7 @@ System.registerModule("src/common/directives/branch-filter/branch-filter.js", []
         showHeader: '@'
       },
       controller: ["$scope", "util", function($scope, util) {
-        $scope.bShowHeader = util.parseBoolean($scope.showHeader);
+        $scope.bShowHeader = util.parseBoolean($scope.showHeader) && $scope.g.attributes.length > 1;
         $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
       }]
     };
