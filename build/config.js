@@ -3,7 +3,7 @@ System.registerModule("config.js", [], function() {
   var __moduleName = "config.js";
   var config = {
     endpoints: {
-      api: 'http://api.ficaai.com.br/catalog/1.0',
+      api: 'http://api.ruadebaixo.com.br/catalog/1.0',
       tileLayer: 'http://{s}.tiles.floriparide.com.br/v3/mbraginini.map-hvjt7s3e/{z}/{x}/{y}.png'
     },
     initPoint: {

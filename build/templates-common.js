@@ -68,7 +68,7 @@ angular.module("directives/branch/branch-card.tpl.html", []).run(["$templateCach
     "    <div class=\"icon-container\" ng-if=\"::b.rubrics.length\">\n" +
     "        <ul class=\"card-list rubrics\">\n" +
     "            <li ng-repeat=\"r in b.rubrics track by $index\">\n" +
-    "                <a ng-href=\"#!/rubric/{{::r.id}}/{{::r.name|query:true}}\">{{::r.name}}</a>\n" +
+    "                <a ng-href=\"#!/rubric/{{::r.id}}/{{::r.name|query:false}}\">{{::r.name}}</a>\n" +
     "            </li>\n" +
     "        </ul>\n" +
     "    </div>\n" +

@@ -30,11 +30,26 @@ System.registerModule("src/common/services/branches.js", [], function() {
         }}
     };
   }).store('TopAttributesStore', function() {
+    var process_attr_group = function(groups) {
+      _.forEach(groups, (function(g) {
+        _.forEach(g.attributes, (function(a) {
+          if (a.suffix) {
+            if (a.suffix.substr(0, 1) === '^') {
+              a.prefix = a.suffix.substr(1) + '&nbsp';
+              a.suffix = null;
+            } else {
+              a.suffix = '&nbsp' + a.suffix;
+            }
+          }
+        }));
+      }));
+    };
     return {
       attributes: [],
       handlers: {'branches.load.success': 'onBranchesLoadSuccess'},
       onBranchesLoadSuccess: function(res) {
         if (res.top_attributes) {
+          process_attr_group(res.top_attributes);
           this.attributes = res.top_attributes;
           this.emitChange();
         }

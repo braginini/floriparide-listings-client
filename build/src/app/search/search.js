@@ -31,7 +31,7 @@ System.registerModule("src/app/search/search.js", [], function() {
       this.eof = false;
       this.count = 0;
       this.branches = [];
-      this.attributeGroups = [];
+      this.attributeGroups = TopAttributesStore.getTopAttributes();
       this.selectedId = SelectedBranchStore.getSelectedId();
       this.isLoading = BranchLoadingStore.isLoading();
       this.isFirstTimeSpinnerShow = true;

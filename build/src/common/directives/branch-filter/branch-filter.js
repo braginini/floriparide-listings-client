@@ -13,6 +13,9 @@ System.registerModule("src/common/directives/branch-filter/branch-filter.js", []
       controller: ["$scope", "util", function($scope, util) {
         $scope.bShowHeader = util.parseBoolean($scope.showHeader) && $scope.g.attributes.length > 1;
         $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
+        $scope.$watch('g', (function() {
+          $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
+        }));
       }]
     };
   }).directive('generalAttributeGroupFilters', ["BranchActions", "BranchStore", "leafletData", function(BranchActions, BranchStore, leafletData) {
@@ -85,12 +88,13 @@ System.registerModule("src/common/directives/branch-filter/branch-filter.js", []
   }]).directive('attributeSlider', ["$parse", "BranchActions", function($parse, BranchActions) {
     return {
       restrict: 'EAC',
-      template: '<div class="title">{{::a.name}}:</div>' + '<div range-slider min="0" max="100" type="double" postfix="&nbspR$" rg-change="onChange($state)"></div>',
+      template: '<div class="title">{{::a.name}}:</div>' + '<div range-slider min="0" max="{{a.max}}" type="double" prefix="{{a.prefix}}" postfix="{{a.suffix}}" rg-change="onChange($state)"></div>',
       replace: false,
       link: function($scope, element, attrs) {
-        $scope.min = 0;
-        $scope.max = 100;
         var a = $parse(attrs.attributeSlider)($scope);
+        if (!a.max) {
+          a.max = 100;
+        }
         $scope.onChange = (function(state) {
           var f = {};
           f[a.id] = [state.from, state.to];
