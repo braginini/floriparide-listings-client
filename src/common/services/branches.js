@@ -36,6 +36,20 @@ export default
   })
 
   .store('TopAttributesStore', function () {
+    var process_attr_group = function(groups) {
+      _.forEach(groups, g => {
+        _.forEach(g.attributes, a => {
+          if (a.suffix) {
+            if (a.suffix.substr(0, 1) === '^') {
+              a.prefix = a.suffix.substr(1) + '&nbsp';
+              a.suffix = null;
+            } else {
+              a.suffix = '&nbsp' + a.suffix;
+            }
+          }
+        });
+      });
+    };
     return {
       attributes: [],
       handlers: {
@@ -44,6 +58,7 @@ export default
       },
       onBranchesLoadSuccess: function (res) {
         if (res.top_attributes) {
+          process_attr_group(res.top_attributes);
           this.attributes = res.top_attributes;
           this.emitChange();
         }

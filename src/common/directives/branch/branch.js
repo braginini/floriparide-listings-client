@@ -9,7 +9,6 @@ var formatAttribute = _.curry(function(locale, a) {
   }
   var descr = [];
   if (a.timerange) {
-
     let d = a.timerange[today];
     if (!d) {
       descr.push(locale.getString('common.todayUnavailable'));

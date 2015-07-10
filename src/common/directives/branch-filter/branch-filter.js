@@ -15,6 +15,10 @@ export default angular
       controller ($scope, util) {
         $scope.bShowHeader = util.parseBoolean($scope.showHeader) && $scope.g.attributes.length > 1;
         $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
+
+        $scope.$watch('g', () => {
+          $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
+        });
       }
     };
   })
@@ -101,14 +105,13 @@ export default angular
       restrict: 'EAC',
       template:
         '<div class="title">{{::a.name}}:</div>' +
-        '<div range-slider min="0" max="100" type="double" postfix="&nbspR$" rg-change="onChange($state)"></div>',
+        '<div range-slider min="0" max="{{a.max}}" type="double" prefix="{{a.prefix}}" postfix="{{a.suffix}}" rg-change="onChange($state)"></div>',
       replace: false,
       link: function ($scope, element, attrs) {
-        $scope.min = 0;
-        $scope.max = 100;
-
         var a = $parse(attrs.attributeSlider)($scope);
-
+        if (!a.max) {
+          a.max = 100;
+        }
         $scope.onChange = state => {
           var f = {};
           f[a.id] = [state.from, state.to];

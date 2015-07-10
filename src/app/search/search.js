@@ -31,7 +31,7 @@ export class SearchCtrl {
     this.eof = false;
     this.count = 0;
     this.branches = [];
-    this.attributeGroups = [];
+    this.attributeGroups = TopAttributesStore.getTopAttributes();
     this.selectedId = SelectedBranchStore.getSelectedId();
     this.isLoading = BranchLoadingStore.isLoading();
     // have to add additional field because of nextPage method
