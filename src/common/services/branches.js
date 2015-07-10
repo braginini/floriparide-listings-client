@@ -88,7 +88,7 @@ export default
         'branches.clear': 'onBranchesClear'
       },
       onBranchesLoad: function (params) {
-        this.params = params;
+        this.params = _.clone(params);
         this.emit('params');
       },
       onBranchesLoadSuccess: function (res) {
@@ -115,7 +115,7 @@ export default
           return this.totalCount;
         },
         getParams: function () {
-          return this.params;
+          return _.clone(this.params);
         },
         isEof: function () {
           return this.eof;

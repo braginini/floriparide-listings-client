@@ -36,13 +36,20 @@ export default angular
           rating: false
         };
 
-        $scope.$listenTo(BranchStore, 'params', function () {
+        var syncParams = function () {
           var params = BranchStore.getParams();
           var filters = params.filters || {};
           $scope.filters = _.mapValues($scope.filters, (value, key) => {
             return filters[key] ? true : false;
           });
-        });
+
+          var sort = params.sort || {};
+          $scope.sort = _.mapValues($scope.sort, (value, key) => {
+            return sort[key] ? true : false;
+          });
+        };
+        syncParams();
+        $scope.$listenTo(BranchStore, 'params', syncParams);
 
         leafletData.getMap().then(map => {
           var doFilter = function () {
@@ -76,8 +83,12 @@ export default angular
           });
         });
 
-        $scope.$watch('sort.raiting', function () {
-          BranchActions.sort('raiting', Boolean($scope.sort.raiting));
+        var prevReting = $scope.sort.rating;
+        $scope.$watch('sort.rating', function () {
+          if (prevReting !== $scope.sort.rating) {
+            prevReting = Boolean($scope.sort.rating);
+            BranchActions.sort('rating', Boolean($scope.sort.rating));
+          }
         });
       }
     };
