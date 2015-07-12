@@ -173,7 +173,7 @@ export default angular
           };
         } else {
           if (_(schedule).take(5).groupBy(compare).size() <= 1 &&
-            _(schedule).takeRight(2).groupBy(compare).size() <= 1) {
+            _(schedule).take(7).takeRight(2).groupBy(compare).size() <= 1) {
 
             sch_item = schedule[0];
             $scope.schedule.push({

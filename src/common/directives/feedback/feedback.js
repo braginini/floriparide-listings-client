@@ -7,6 +7,7 @@ export default angular
       replace: true,
       scope: true,
       link: ($scope, $element) => {
+        $element.removeClass('hidden');
         $scope.rootClassName = $element[0].className;
         $element.removeClass();
       },
