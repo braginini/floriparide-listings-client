@@ -169,7 +169,8 @@ export default angular
             label: locale.getString('common.everyday'),
             from: sch_item.from,
             to: sch_item.to,
-            breaks: breaks
+            breaks: breaks,
+            items: sch_item.items
           };
         } else {
           if (_(schedule).take(5).groupBy(compare).size() <= 1 &&
@@ -262,6 +263,9 @@ export default angular
             adr += ',';
           }
           adr += ' ' + address.neighborhood;
+        }
+        if (address.additional) {
+          adr += ' (' + address.additional + ')';
         }
       }
       return adr;

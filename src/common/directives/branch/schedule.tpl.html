@@ -12,5 +12,5 @@
     <div class="today" ng-if="::schedule.length <= 1">
         <div class="today-text" ng-class="{'has-breaks': today.breaks.length}" ng-bind-html="today|formatToday"></div>
     </div>
-    <div class="now">{{now}} <span ng-if="timeLeft">{{timeLeft}} {{'common.shortMinute' | i18n}}</span></div>
+    <div class="now" ng-if="::today.items.length">{{now}} <span ng-if="timeLeft">{{timeLeft}} {{'common.shortMinute' | i18n}}</span></div>
 </div>
