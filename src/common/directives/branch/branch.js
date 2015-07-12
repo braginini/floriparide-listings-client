@@ -127,14 +127,14 @@ export default angular
     $scope.locateToAddress = function() {
       leafletData.getMap().then(map => {
         let b = $scope.b;
-        let zoom = map.getZoom(),
-          p = map.project(L.latLng(b.geometry.point.lat, b.geometry.point.lng), zoom);
-        p.x -= 150;
-        map.panTo(map.unproject(p, zoom));
-        if (zoom < 13) {
-          map.setZoom(13);
+        let zoom = map.getZoom();
+        if (zoom < 16) {
+          //map.setZoom(16);
+          zoom = 16;
         }
-        //map.panTo(L.latLng(b.geometry.point.lat, b.geometry.point.lng));
+        let p = map.project(L.latLng(b.geometry.point.lat, b.geometry.point.lng), zoom);
+        p.x -= 150;
+        map.setView(map.unproject(p, zoom), zoom);
       });
     };
   })

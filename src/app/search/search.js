@@ -137,13 +137,15 @@ export class SearchCtrl {
         var frameLeft = frameEl.offset().left + frameEl.width();
         if ((pos.left - frameLeft) <= 20 || (winEl.width() - frameLeft) <= 20 || pos.top < 20 || pos.top > winEl.height() - 20) {
           this.map.then(map => {
-            let zoom = map.getZoom(),
-              p = map.project(sl._latlng, zoom);
-            p.x -= 150;
-            map.panTo(map.unproject(p, zoom));
+            let zoom = map.getZoom();
             if (zoom < 13) {
-              map.setZoom(13);
+              //map.setZoom(13);
+              zoom = 13;
             }
+            let p = map.project(sl._latlng, zoom);
+            p.x -= 150;
+            map.setView(map.unproject(p, zoom), zoom);
+
           });
         }
       }
