@@ -184,15 +184,19 @@ export class SearchCtrl {
 }
 
 SearchCtrl.$inject = ['$scope', '$injector', 'BranchActions', 'BranchStore', 'MarkerStore', 'SelectedBranchStore', 'BranchLoadingStore',
-  'TopAttributesStore'];
+  'TopAttributesStore', 'RubricStore'];
 
 export class RubricCtrl extends SearchCtrl {
   constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, BranchLoadingStore,
-               TopAttributesStore) {
+               TopAttributesStore,RubricStore) {
+    var ps = $injector.get('$stateParams');
+    if (!ps.query && ps.id) {
+      let r = _.find(RubricStore.getRubrics(), {id: ps.id});
+      ps.query = r ? r.name : ps.id;
+    }
     super($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, BranchLoadingStore,
       TopAttributesStore);
-
-    var rubricId = $injector.get('$stateParams').id;
+    var rubricId = ps.id;
     if (!rubricId) {
       $injector.get('$location').path('/');
       this.isLoading = true;
@@ -290,8 +294,15 @@ export default angular
       templateUrl: 'search/search.tpl.html'
     });
 
+    $stateProvider.state('main.rubric2', {
+      url: 'rubric/{id:int}',
+      controller: 'RubricCtrl',
+      controllerAs: 'self',
+      templateUrl: 'search/search.tpl.html'
+    });
+
     $stateProvider.state('main.rubrics', {
-      url: 'rubrics/{parent:int}',
+      url: 'rubrics/{parent:int}/:query',
       controller: 'RubricsCtrl',
       controllerAs: 'self',
       templateUrl: 'search/rubrics.tpl.html',
