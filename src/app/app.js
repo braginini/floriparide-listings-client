@@ -42,6 +42,8 @@ export var app = angular
       'ui.bootstrap.dropdown',
       'ui.bootstrap.tooltip',
       'ui.bootstrap.tabs',
+      'angulartics',
+      'angulartics.google.analytics',
       'leaflet-directive',
       'infinite-scroll',
       'angularMoment',
@@ -175,9 +177,22 @@ export var app = angular
 
 var injector = angular.injector(['ng']);
 var $http = injector.get('$http');
-$http.get(config.endpoints.api + '/project/list').then(res => {
-  if (res && res.data && res.data.result.items.length) {
-    config.project = res.data.result.items[0];
+var ss = window.sessionStorage;
+if (ss) {
+  let project = ss.getItem('project');
+  if (project) {
+    project = angular.fromJson(project);
+    config.project = project;
+    angular.bootstrap(document, ['app']);
   }
-  angular.bootstrap(document, ['app']);
-});
+}
+
+if (!config.project) {
+  $http.get(config.endpoints.api + '/project/list').then(res => {
+    if (res && res.data && res.data.result.items.length) {
+      config.project = res.data.result.items[0];
+      ss.setItem('project', angular.toJson(config.project));
+    }
+    angular.bootstrap(document, ['app']);
+  });
+}
