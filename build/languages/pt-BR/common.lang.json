@@ -14,9 +14,9 @@
   "weekend": "Sábado, Domingo",
   "holidays": "Feriados",
   "breakFrom": "parar",
-  "raiting": "Avaliação",
+  "rating": "Avaliação",
   "readMore": "Leia completo",
   "hide": "Esconder",
   "shortMinute": "min.",
-  "todayUnavailable": "Disponível hoje"
+  "todayUnavailable": "Nao disponível hoje"
 }

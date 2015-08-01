@@ -18,11 +18,11 @@ System.registerModule("src/common/services/rubrics.js", [], function() {
   }]).factory('RubricActions', ["api", "flux", function(api, flux) {
     return {load: function() {
         flux.dispatch('rubrics.load');
-        api.rubricList().then((function(res) {
+        api.rubricList().then(function(res) {
           flux.dispatch('rubrics.load.success', res);
-        }), (function(err) {
+        }, function(err) {
           flux.dispatch('rubrics.load.failed', err);
-        }));
+        });
       }};
   }]);
   return {get default() {

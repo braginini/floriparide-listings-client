@@ -19,7 +19,7 @@ System.registerModule("src/app/search/filter.js", [], function() {
   }]).controller('FilterCtrl', ["$scope", "$state", "TopAttributesStore", function($scope, $state, TopAttributesStore) {
     var getGroups = function() {
       var singletons = [];
-      var groups = _.filter((TopAttributesStore.getTopAttributes() || []).slice(1), (function(g) {
+      var groups = _.filter((TopAttributesStore.getTopAttributes() || []).slice(1), function(g) {
         if (g.attributes && g.attributes.length > 0) {
           if (g.attributes.length > 1) {
             return true;
@@ -27,7 +27,7 @@ System.registerModule("src/app/search/filter.js", [], function() {
           singletons.push(g.attributes[0]);
         }
         return false;
-      }));
+      });
       if (groups[0] && singletons.length) {
         groups[0].attributes = groups[0].attributes.concat(singletons);
       }
@@ -41,9 +41,9 @@ System.registerModule("src/app/search/filter.js", [], function() {
       $scope.attributeGroups = getGroups();
     });
     $scope.$emit('filter.show');
-    $scope.$on('$destroy', (function() {
+    $scope.$on('$destroy', function() {
       $scope.$emit('filter.hide');
-    }));
+    });
   }]);
   ;
   return {get default() {

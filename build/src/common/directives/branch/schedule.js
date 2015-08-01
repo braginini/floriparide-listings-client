@@ -50,15 +50,15 @@ System.registerModule("src/common/directives/branch/schedule.js", [], function()
               items: []
             };
           } else {
-            items = _.sortByAll(items, (function(item) {
+            items = _.sortByAll(items, function(item) {
               return parseTodayTime(item.from, false);
-            }), (function(item) {
+            }, function(item) {
               return parseTodayTime(item.to, true);
-            }));
+            });
             var mergeIdxs = {};
             var prevFrom = parseTodayTime(items[0].from, false).getTime();
             var prevTo = parseTodayTime(items[0].to, true).getTime();
-            _.forEach(items, (function(item, idx) {
+            _.forEach(items, function(item, idx) {
               var from = parseTodayTime(item.from, false).getTime();
               var to = parseTodayTime(item.to, true).getTime();
               if (from === prevFrom && to >= prevTo && idx > 0) {
@@ -66,10 +66,10 @@ System.registerModule("src/common/directives/branch/schedule.js", [], function()
               }
               prevFrom = from;
               prevTo = to;
-            }));
-            items = _.filter(items, (function(item, idx) {
+            });
+            items = _.filter(items, function(item, idx) {
               return !(idx in mergeIdxs);
-            }));
+            });
             $scope.schedule[key] = {
               day: day,
               dayIndex: day_indexes[day],
@@ -152,10 +152,11 @@ System.registerModule("src/common/directives/branch/schedule.js", [], function()
             label: locale.getString('common.everyday'),
             from: sch_item.from,
             to: sch_item.to,
-            breaks: breaks
+            breaks: breaks,
+            items: sch_item.items
           };
         } else {
-          if (_(schedule).take(5).groupBy(compare).size() <= 1 && _(schedule).takeRight(2).groupBy(compare).size() <= 1) {
+          if (_(schedule).take(5).groupBy(compare).size() <= 1 && _(schedule).take(7).takeRight(2).groupBy(compare).size() <= 1) {
             sch_item = schedule[0];
             $scope.schedule.push({
               label: locale.getString('common.workingDays'),
@@ -172,7 +173,7 @@ System.registerModule("src/common/directives/branch/schedule.js", [], function()
           }
           _.each(schedule, function(item) {
             if (item.dayIndex === 7 && !item.items.length) {
-              return ;
+              return;
             }
             $scope.schedule.push({
               label: day_labels[item.dayIndex],
@@ -203,7 +204,7 @@ System.registerModule("src/common/directives/branch/schedule.js", [], function()
           $scope.todayIndex = 6;
         }
         var isOpen = false;
-        var onBody = (function(e) {
+        var onBody = function(e) {
           var isLinkEl = angular.element(e.target).hasClass('today-text');
           if (!angular.element(e.target).parents('div.tooltip').length && isOpen) {
             isOpen = false;
@@ -213,12 +214,12 @@ System.registerModule("src/common/directives/branch/schedule.js", [], function()
           } else {
             isOpen = isLinkEl;
           }
-        });
+        };
         angular.element($window.document.body).on('click', onBody);
-        $scope.$on('$destroy', (function() {
+        $scope.$on('$destroy', function() {
           isOpen = false;
           angular.element($window.document.body).off('click', onBody);
-        }));
+        });
       }
     };
   }]).directive('scheduleTooltip', ["$tooltip", function($tooltip) {
@@ -238,6 +239,9 @@ System.registerModule("src/common/directives/branch/schedule.js", [], function()
             adr += ',';
           }
           adr += ' ' + address.neighborhood;
+        }
+        if (address.additional) {
+          adr += ' (' + address.additional + ')';
         }
       }
       return adr;

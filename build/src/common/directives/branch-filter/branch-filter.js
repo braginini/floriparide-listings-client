@@ -13,9 +13,9 @@ System.registerModule("src/common/directives/branch-filter/branch-filter.js", []
       controller: ["$scope", "util", function($scope, util) {
         $scope.bShowHeader = util.parseBoolean($scope.showHeader) && $scope.g.attributes.length > 1;
         $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
-        $scope.$watch('g', (function() {
+        $scope.$watch('g', function() {
           $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
-        }));
+        });
       }]
     };
   }).directive('generalAttributeGroupFilters', ["BranchActions", "BranchStore", "leafletData", function(BranchActions, BranchStore, leafletData) {
@@ -29,16 +29,22 @@ System.registerModule("src/common/directives/branch-filter/branch-filter.js", []
           open: false
         };
         $scope.sort = {rating: false};
-        $scope.$listenTo(BranchStore, 'params', function() {
+        var syncParams = function() {
           var params = BranchStore.getParams();
           var filters = params.filters || {};
-          $scope.filters = _.mapValues($scope.filters, (function(value, key) {
+          $scope.filters = _.mapValues($scope.filters, function(value, key) {
             return filters[key] ? true : false;
-          }));
-        });
-        leafletData.getMap().then((function(map) {
+          });
+          var sort = params.sort || {};
+          $scope.sort = _.mapValues($scope.sort, function(value, key) {
+            return sort[key] ? true : false;
+          });
+        };
+        syncParams();
+        $scope.$listenTo(BranchStore, 'params', syncParams);
+        leafletData.getMap().then(function(map) {
           var doFilter = function() {
-            BranchActions.filter(_.mapValues($scope.filters, (function(value, key) {
+            BranchActions.filter(_.mapValues($scope.filters, function(value, key) {
               switch (key) {
                 case 'visible':
                   if (value) {
@@ -50,13 +56,13 @@ System.registerModule("src/common/directives/branch-filter/branch-filter.js", []
                   break;
               }
               return Boolean(value);
-            })));
+            }));
           };
-          var filterVisible = _.debounce((function() {
+          var filterVisible = _.debounce(function() {
             if ($scope.filters.visible) {
               doFilter();
             }
-          }), 500);
+          }, 500);
           $scope.$watch('filters', doFilter, true);
           map.on('moveend', filterVisible);
           map.on('zoomend', filterVisible);
@@ -64,9 +70,13 @@ System.registerModule("src/common/directives/branch-filter/branch-filter.js", []
             map.off('moveend', filterVisible);
             map.off('zoomend', filterVisible);
           });
-        }));
-        $scope.$watch('sort.raiting', function() {
-          BranchActions.sort('raiting', Boolean($scope.sort.raiting));
+        });
+        var prevReting = $scope.sort.rating;
+        $scope.$watch('sort.rating', function() {
+          if (prevReting !== $scope.sort.rating) {
+            prevReting = Boolean($scope.sort.rating);
+            BranchActions.sort('rating', Boolean($scope.sort.rating));
+          }
         });
       }]
     };
@@ -95,11 +105,11 @@ System.registerModule("src/common/directives/branch-filter/branch-filter.js", []
         if (!a.max) {
           a.max = 100;
         }
-        $scope.onChange = (function(state) {
+        $scope.onChange = function(state) {
           var f = {};
           f[a.id] = [state.from, state.to];
           BranchActions.filter(f);
-        });
+        };
       },
       controller: function() {}
     };

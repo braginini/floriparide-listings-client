@@ -21,7 +21,7 @@ angular.module("directives/branch-filter/general-attribute-group-filters.tpl.htm
     "    <div class=\"filter-checkbox-container\">\n" +
     "        <div class=\"filter-checkbox btn-group\">\n" +
     "            <button class=\"btn btn-default btn-150\" btn-checkbox ng-model=\"filters.visible\">{{'common.visibleOnMap' | i18n}}</button>\n" +
-    "            <button class=\"btn btn-default btn-90\" btn-checkbox ng-model=\"sort.raiting\">{{'common.raiting' | i18n}}</button>\n" +
+    "            <button class=\"btn btn-default btn-90\" btn-checkbox ng-model=\"sort.rating\">{{'common.rating' | i18n}}</button>\n" +
     "        </div>\n" +
     "        <div class=\"filter-checkbox\">\n" +
     "            <button class=\"btn btn-default\" btn-checkbox ng-model=\"filters.open\">{{'common.open' | i18n}}</button>\n" +
@@ -68,7 +68,8 @@ angular.module("directives/branch/branch-card.tpl.html", []).run(["$templateCach
     "    <div class=\"icon-container\" ng-if=\"::b.rubrics.length\">\n" +
     "        <ul class=\"card-list rubrics\">\n" +
     "            <li ng-repeat=\"r in b.rubrics track by $index\">\n" +
-    "                <a ng-href=\"#!/rubric/{{::r.id}}/{{::r.name|query:false}}\">{{::r.name}}</a>\n" +
+    "                <!--<a ng-href=\"#!/rubric/{{::r.id}}/{{::r.name|query:false}}\">{{::r.name}}</a>-->\n" +
+    "                <a ng-href=\"{{::getRubricUrl(r)}}\">{{::r.name}}</a>\n" +
     "            </li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
@@ -196,7 +197,7 @@ angular.module("directives/branch/schedule.tpl.html", []).run(["$templateCache",
     "    <div class=\"today\" ng-if=\"::schedule.length <= 1\">\n" +
     "        <div class=\"today-text\" ng-class=\"{'has-breaks': today.breaks.length}\" ng-bind-html=\"today|formatToday\"></div>\n" +
     "    </div>\n" +
-    "    <div class=\"now\">{{now}} <span ng-if=\"timeLeft\">{{timeLeft}} {{'common.shortMinute' | i18n}}</span></div>\n" +
+    "    <div class=\"now\" ng-if=\"::today.items.length\">{{now}} <span ng-if=\"timeLeft\">{{timeLeft}} {{'common.shortMinute' | i18n}}</span></div>\n" +
     "</div>");
 }]);
 
@@ -251,7 +252,7 @@ angular.module("directives/dashboard/dashboard.tpl.html", []).run(["$templateCac
     "           </div>\n" +
     "           <div class=\"caption\">ATM</div>\n" +
     "       </li>\n" +
-    "       <li class=\"rubric disabled\" title=\"Em breve\">\n" +
+    "       <li class=\"rubric\" title=\"Em breve\">\n" +
     "           <div class=\"rubric-icon\">\n" +
     "               <i class=\"icon fa fa-bed\"></i>\n" +
     "           </div>\n" +
@@ -263,7 +264,7 @@ angular.module("directives/dashboard/dashboard.tpl.html", []).run(["$templateCac
 
 angular.module("directives/feedback/feedback.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("directives/feedback/feedback.tpl.html",
-    "<div>\n" +
+    "<div class=\"hidden\">\n" +
     "    <button class=\"btn btn-primary\"\n" +
     "            ng-class=\"rootClassName\"\n" +
     "            ng-click=\"toggleForm()\"\n" +

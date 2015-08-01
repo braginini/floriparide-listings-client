@@ -19,7 +19,7 @@ System.registerModule("src/common/directives/dashboard/dashboard.js", [], functi
         $scope.search = function(e) {
           var el = angular.element(e.target).parents('li');
           if (el.hasClass('disabled')) {
-            return ;
+            return;
           }
           var div = el.find('> div')[1];
           if (div) {

@@ -1,13 +1,13 @@
 System.registerModule("src/common/services/branches.js", [], function() {
   "use strict";
   var __moduleName = "src/common/services/branches.js";
-  var mapBranch = (function(b) {
+  var mapBranch = function(b) {
     b.fullname = b.name;
     if (b.headline) {
       b.fullname += ', ' + b.headline.toLowerCase();
     }
     return b;
-  });
+  };
   var $__default = angular.module('services.branches', ['services.api']).store('MarkerStore', function() {
     return {
       markers: [],
@@ -31,8 +31,8 @@ System.registerModule("src/common/services/branches.js", [], function() {
     };
   }).store('TopAttributesStore', function() {
     var process_attr_group = function(groups) {
-      _.forEach(groups, (function(g) {
-        _.forEach(g.attributes, (function(a) {
+      _.forEach(groups, function(g) {
+        _.forEach(g.attributes, function(a) {
           if (a.suffix) {
             if (a.suffix.substr(0, 1) === '^') {
               a.prefix = a.suffix.substr(1) + '&nbsp';
@@ -41,8 +41,8 @@ System.registerModule("src/common/services/branches.js", [], function() {
               a.suffix = '&nbsp' + a.suffix;
             }
           }
-        }));
-      }));
+        });
+      });
     };
     return {
       attributes: [],
@@ -74,7 +74,7 @@ System.registerModule("src/common/services/branches.js", [], function() {
         'branches.clear': 'onBranchesClear'
       },
       onBranchesLoad: function(params) {
-        this.params = params;
+        this.params = _.clone(params);
         this.emit('params');
       },
       onBranchesLoadSuccess: function(res) {
@@ -100,7 +100,7 @@ System.registerModule("src/common/services/branches.js", [], function() {
           return this.totalCount;
         },
         getParams: function() {
-          return this.params;
+          return _.clone(this.params);
         },
         isEof: function() {
           return this.eof;
@@ -164,7 +164,7 @@ System.registerModule("src/common/services/branches.js", [], function() {
       },
       search: function(params) {
         var clear = arguments[1] !== (void 0) ? arguments[1] : false;
-        var $__0 = this;
+        var $__2 = this;
         var oldParams = BranchStore.getParams();
         delete params.send_attrs;
         var method = 'branchSearch';
@@ -180,21 +180,21 @@ System.registerModule("src/common/services/branches.js", [], function() {
           }
         }
         flux.dispatch('branches.load', params);
-        api[method](params).then((function(res) {
+        api[method](params).then(function(res) {
           if (clear) {
-            $__0.clear();
+            $__2.clear();
           }
           flux.dispatch('branches.load.success', res);
           return res;
-        }), (function(err) {
+        }, function(err) {
           flux.dispatch('branches.load.failed', err);
           return err;
-        }));
+        });
       },
       select: function(id) {
         if (id === null) {
           flux.dispatch('branches.select.success', null);
-          return ;
+          return;
         }
         id = parseInt(id);
         var b = _.find(BranchStore.getBranches(), {id: id});
@@ -215,20 +215,20 @@ System.registerModule("src/common/services/branches.js", [], function() {
         var params = update ? BranchStore.getParams() : {};
         var old = params.filters ? params.filters : {};
         var filters = _.clone(old);
-        _.forEach(new_filters, (function(value, key) {
+        _.forEach(new_filters, function(value, key) {
           if (value === false) {
             delete filters[key];
           } else {
             filters[key] = value;
           }
-        }));
+        });
         if (!_.isEqual(filters, old)) {
           params.filters = filters;
-          _.forEach(params, (function(value, key) {
+          _.forEach(params, function(value, key) {
             if (!_.isNumber(value) && _.isEmpty(value)) {
               delete params[key];
             }
-          }));
+          });
           this.search(params, true);
         }
       },

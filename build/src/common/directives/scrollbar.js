@@ -15,12 +15,12 @@ System.registerModule("src/common/directives/scrollbar.js", [], function() {
         };
         winEl.on('resize', update);
         $scope.$on('layoutUpdated', update);
-        $scope.$on('$destroy', (function() {
+        $scope.$on('$destroy', function() {
           winEl.off('resize', update);
           Ps.destroy(domEl);
           domEl = null;
           winEl = null;
-        }));
+        });
       }
     };
   }]);

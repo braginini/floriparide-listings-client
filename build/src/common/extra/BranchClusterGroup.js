@@ -72,7 +72,7 @@ System.registerModule("src/common/extra/BranchClusterGroup.js", [], function() {
     },
     updateClusters: function() {
       if (!this._map) {
-        return ;
+        return;
       }
       var zoom = this._map.getZoom();
       if (this._zoom !== zoom) {

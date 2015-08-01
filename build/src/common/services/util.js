@@ -48,7 +48,7 @@ System.registerModule("src/common/services/util.js", [], function() {
         angular.forEach(value.match(urlPattern), function(url) {
           var split_parts = url.split('.');
           if (split_parts[split_parts.length - 1].match(/^\d+$/)) {
-            return ;
+            return;
           }
           var href = url;
           if (url.indexOf('http') !== 0) {

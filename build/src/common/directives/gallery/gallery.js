@@ -8,7 +8,7 @@ System.registerModule("src/common/directives/gallery/gallery.js", [], function()
         mediaEl,
         spinnerEl,
         imgEl;
-    $scope.images = _.map(images, (function(item) {
+    $scope.images = _.map(images, function(item) {
       var d = $q.defer();
       if (_.isString(item)) {
         return {
@@ -18,7 +18,7 @@ System.registerModule("src/common/directives/gallery/gallery.js", [], function()
       }
       item.deferred = d;
       return item;
-    }));
+    });
     $scope.preloads = [];
     $scope.isLoading = false;
     $scope.collapse = true;
@@ -90,9 +90,9 @@ System.registerModule("src/common/directives/gallery/gallery.js", [], function()
         imgEl.hide();
         syncSizeNow();
         imgEl[0].src = p.src;
-        img.deferred.promise.then((function() {
+        img.deferred.promise.then(function() {
           imgEl.show();
-        }));
+        });
       }
     };
     $scope.cancel = function() {
@@ -104,7 +104,7 @@ System.registerModule("src/common/directives/gallery/gallery.js", [], function()
       var w = $scope.current.width,
           h = $scope.current.height;
       if (!w || !h) {
-        return ;
+        return;
       }
       if (maxSize[0] <= 300) {
         dlgMinWidth = 300;
@@ -207,10 +207,10 @@ System.registerModule("src/common/directives/gallery/gallery.js", [], function()
         mediaEl = dlgBodyEl.find('.modal-media');
         spinnerEl = dlgBodyEl.find('.spinner-wrapper');
         imgEl = dlgBodyEl.find('.media-wrapper img:first');
-        $scope.images[index].deferred.promise.then((function() {
+        $scope.images[index].deferred.promise.then(function() {
           syncSizeNow();
           $scope.readyUI = true;
-        }));
+        });
       }
     }, 10);
     var onResize = function() {

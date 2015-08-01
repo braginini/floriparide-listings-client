@@ -64,7 +64,7 @@ System.registerModule("src/common/directives/branch/branch.js", [], function() {
       scope: {branchCard: '='},
       link: function($scope, element) {
         $scope.collapseDescr = true;
-        var initDescrState = (function() {
+        var initDescrState = function() {
           var el = element.find('.description-text');
           if (el && el.length) {
             $scope.collapseDescr = (el[0].scrollHeight - el.height()) > 5;
@@ -72,47 +72,53 @@ System.registerModule("src/common/directives/branch/branch.js", [], function() {
               element.find('.card-description > button').show();
             }
           }
-        });
+        };
         initDescrState();
         $timeout(initDescrState, 0);
       }
     };
-  }]).controller('BranchCardCtrl', ["$scope", "Gallery", "locale", "leafletData", function($scope, Gallery, locale, leafletData) {
+  }]).controller('BranchCardCtrl', ["$scope", "Gallery", "locale", "leafletData", "queryFilter", "$state", function($scope, Gallery, locale, leafletData, queryFilter, $state) {
     $scope.b = $scope.branchCard;
     if ($scope.b.photos && $scope.b.photos.length) {
-      $scope.b.photos = _.map($scope.b.photos, (function(p) {
+      $scope.b.photos = _.map($scope.b.photos, function(p) {
         p.width = p.w;
         p.height = p.h;
         return p;
-      }));
+      });
     }
     var attrGroups = $scope.b.attribute_groups || [];
-    $scope.attrGroups = _(attrGroups).groupBy((function(g) {
+    $scope.attrGroups = _(attrGroups).groupBy(function(g) {
       if (DisplayGroupIds[g.icon]) {
         return g.icon;
       } else {
         return 'tags';
       }
-    })).mapValues((function(items) {
-      return _(items).pluck('attributes').flatten().map((function(item) {
+    }).mapValues(function(items) {
+      return _(items).pluck('attributes').flatten().map(function(item) {
         item.formatted = formatAttribute(locale)(item);
         return item;
-      })).filter('formatted').value();
-    })).value();
+      }).filter('formatted').value();
+    }).value();
     $scope.showGallery = function(index) {
       Gallery.create($scope.b.photos, index);
     };
+    $scope.getRubricUrl = function(r) {
+      return $state.href('main.rubric', {
+        id: r.id,
+        query: queryFilter(r.name, false)
+      });
+    };
     $scope.locateToAddress = function() {
-      leafletData.getMap().then((function(map) {
+      leafletData.getMap().then(function(map) {
         var b = $scope.b;
-        var zoom = map.getZoom(),
-            p = map.project(L.latLng(b.geometry.point.lat, b.geometry.point.lng), zoom);
-        p.x -= 150;
-        map.panTo(map.unproject(p, zoom));
-        if (zoom < 13) {
-          map.setZoom(13);
+        var zoom = map.getZoom();
+        if (zoom < 16) {
+          zoom = 16;
         }
-      }));
+        var p = map.project(L.latLng(b.geometry.point.lat, b.geometry.point.lng), zoom);
+        p.x -= 150;
+        map.setView(map.unproject(p, zoom), zoom);
+      });
     };
   }]).filter('formatAttribute', ["locale", function(locale) {
     return formatAttribute(locale);

@@ -17,7 +17,7 @@ System.registerModule("src/app/search/firm.js", [], function() {
     BranchActions.select($stateParams.firm_id);
     return d.promise;
   };
-  var $__default = angular.module('app.search.firm', ['ui.router', 'services.branches', 'directives.branch']).config((["$stateProvider", function($stateProvider) {
+  var $__default = angular.module('app.search.firm', ['ui.router', 'services.branches', 'directives.branch']).config(["$stateProvider", function($stateProvider) {
     var stateConfig = {
       url: '/firm/:firm_id/:name',
       resolve: {branch: branchResolver},
@@ -37,7 +37,7 @@ System.registerModule("src/app/search/firm.js", [], function() {
     $stateProvider.state('main.frames.firm', _.assign({}, stateConfig, {url: '/:firm_id/:name'}));
     $stateProvider.state('main.search.firm', _.clone(stateConfig));
     $stateProvider.state('main.rubric.firm', _.clone(stateConfig));
-  }])).controller('FirmCtrl', ["$scope", "$state", "$stateParams", "$timeout", "branch", function($scope, $state, $stateParams, $timeout, branch) {
+  }]).controller('FirmCtrl', ["$scope", "$state", "$stateParams", "$timeout", "branch", function($scope, $state, $stateParams, $timeout, branch) {
     $scope.b = branch;
     $scope.goParent = function() {
       if ($scope.isRoot) {
@@ -48,7 +48,7 @@ System.registerModule("src/app/search/firm.js", [], function() {
     };
     if (!$stateParams.firm_id) {
       $scope.goParent();
-      return ;
+      return;
     }
     var name = branch.name + ' ';
     if (branch.address.street) {

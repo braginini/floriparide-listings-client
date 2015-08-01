@@ -27,7 +27,7 @@ System.registerModule("src/app/app.js", [], function() {
   System.get("src/app/search/firm.js");
   System.get("src/app/search/filter.js");
   var initialDefer;
-  var app = angular.module('app', ['seo', 'flux', 'ngLocalize', 'ngLocalize.Config', 'ngLocalize.InstalledLanguages', 'ui.router', 'ui.bootstrap.buttons', 'ui.bootstrap.dropdown', 'ui.bootstrap.tooltip', 'ui.bootstrap.tabs', 'leaflet-directive', 'infinite-scroll', 'angularMoment', 'templates-app', 'templates-common', 'template/tooltip/tooltip-popup.html', 'template/tabs/tab.html', 'template/tabs/tabset.html', 'template/modal/backdrop.html', 'template/modal/window.html', 'services.api', 'services.branches', 'directives.resizable', 'directives.scrollbar', 'directives.dashboard', 'directives.feedback', 'app.search', 'app.search.filter']).constant('angularMomentConfig', {}).value('localeConf', {
+  var app = angular.module('app', ['seo', 'flux', 'ngLocalize', 'ngLocalize.Config', 'ngLocalize.InstalledLanguages', 'ui.router', 'ui.bootstrap.buttons', 'ui.bootstrap.dropdown', 'ui.bootstrap.tooltip', 'ui.bootstrap.tabs', 'angulartics', 'angulartics.google.analytics', 'leaflet-directive', 'infinite-scroll', 'angularMoment', 'templates-app', 'templates-common', 'template/tooltip/tooltip-popup.html', 'template/tabs/tab.html', 'template/tabs/tabset.html', 'template/modal/backdrop.html', 'template/modal/window.html', 'services.api', 'services.branches', 'directives.resizable', 'directives.scrollbar', 'directives.dashboard', 'directives.feedback', 'app.search', 'app.search.filter']).constant('angularMomentConfig', {}).value('localeConf', {
     basePath: 'languages',
     defaultLocale: 'pt-BR',
     sharedDictionary: 'common',
@@ -36,7 +36,7 @@ System.registerModule("src/app/app.js", [], function() {
     cookieName: 'COOKIE_LOCALE_LANG',
     observableAttrs: new RegExp('^data-(?!ng-|i18n)'),
     delimiter: '::'
-  }).value('localeSupported', ['pt-BR']).config((["$stateProvider", "$locationProvider", "$urlRouterProvider", "$compileProvider", "fluxProvider", function($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) {
+  }).value('localeSupported', ['pt-BR']).config(["$stateProvider", "$locationProvider", "$urlRouterProvider", "$compileProvider", "fluxProvider", function($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) {
     fluxProvider.useCloning(false);
     $locationProvider.html5Mode(false).hashPrefix('!');
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|skype):/);
@@ -49,29 +49,21 @@ System.registerModule("src/app/app.js", [], function() {
       };
       return $stateProvider.state(name, config);
     };
+    var rootUrl = '/' + config.project.string_id + '/';
     state('main', {
-      url: '/',
+      url: rootUrl,
       controller: 'MainCtrl',
       templateUrl: 'main.tpl.html'
     });
-    $urlRouterProvider.otherwise('/');
-  }])).run(["api", "$q", "$timeout", "amMoment", "locale", function(api, $q, $timeout, amMoment, locale) {
+    $urlRouterProvider.otherwise(rootUrl);
+  }]).run(["api", "$q", "$timeout", "amMoment", "locale", function(api, $q, $timeout, amMoment, locale) {
     amMoment.changeLocale('pt-br');
     initialDefer = $q.defer();
-    api.projectList().then(function(res) {
-      if (res && res.items.length) {
-        config.project = res.items[0];
-      } else {
-        initialDefer.reject();
-      }
-      return res;
-    }).then(function() {
-      return locale.ready('common');
-    }).then(function() {
+    locale.ready('common').then(function() {
       initialDefer.resolve(config);
-      $timeout((function() {
+      $timeout(function() {
         $('#loading-mask').remove();
-      }), 300);
+      }, 300);
     });
   }]).controller('MainCtrl', ["$scope", "$rootScope", "$stateParams", "$state", function($scope, $rootScope, $stateParams, $state) {
     $scope.query = $stateParams.q;
@@ -112,6 +104,26 @@ System.registerModule("src/app/app.js", [], function() {
     };
   }]);
   ;
+  var injector = angular.injector(['ng']);
+  var $http = injector.get('$http');
+  var ss = window.sessionStorage;
+  if (ss) {
+    var project = ss.getItem('project');
+    if (project) {
+      project = angular.fromJson(project);
+      config.project = project;
+      angular.bootstrap(document, ['app']);
+    }
+  }
+  if (!config.project) {
+    $http.get(config.endpoints.api + '/project/list').then(function(res) {
+      if (res && res.data && res.data.result.items.length) {
+        config.project = res.data.result.items[0];
+        ss.setItem('project', angular.toJson(config.project));
+      }
+      angular.bootstrap(document, ['app']);
+    });
+  }
   return {get app() {
       return app;
     }};
