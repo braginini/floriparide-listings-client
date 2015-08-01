@@ -33,7 +33,8 @@
     <div class="icon-container" ng-if="::b.rubrics.length">
         <ul class="card-list rubrics">
             <li ng-repeat="r in b.rubrics track by $index">
-                <a ng-href="#!/rubric/{{::r.id}}/{{::r.name|query:false}}">{{::r.name}}</a>
+                <!--<a ng-href="#!/rubric/{{::r.id}}/{{::r.name|query:false}}">{{::r.name}}</a>-->
+                <a ng-href="{{::getRubricUrl(r)}}">{{::r.name}}</a>
             </li>
         </ul>
     </div>

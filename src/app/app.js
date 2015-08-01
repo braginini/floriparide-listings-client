@@ -99,28 +99,20 @@ export var app = angular
         return $stateProvider.state(name, config);
       };
 
+      let rootUrl = '/' + config.project.string_id + '/';
       state('main', {
-        url: '/',
+        url: rootUrl,
         controller: 'MainCtrl',
         templateUrl: 'main.tpl.html'
       });
 
-      $urlRouterProvider.otherwise('/');
+      $urlRouterProvider.otherwise(rootUrl);
     })
 
     .run(function (api, $q, $timeout, amMoment, locale) {
       amMoment.changeLocale('pt-br');
       initialDefer = $q.defer();
-      api.projectList().then(function (res) {
-        if (res && res.items.length) {
-          config.project = res.items[0];
-        } else {
-          initialDefer.reject();
-        }
-        return res;
-      }).then(function () {
-        return locale.ready('common');
-      }).then(function () {
+      locale.ready('common').then(function () {
         initialDefer.resolve(config);
         $timeout(() => {
           $('#loading-mask').remove();
@@ -180,3 +172,12 @@ export var app = angular
       };
     })
 ;
+
+var injector = angular.injector(['ng']);
+var $http = injector.get('$http');
+$http.get(config.endpoints.api + '/project/list').then(res => {
+  if (res && res.data && res.data.result.items.length) {
+    config.project = res.data.result.items[0];
+  }
+  angular.bootstrap(document, ['app']);
+});

@@ -97,7 +97,7 @@ export default angular
       }
     };
   }])
-  .controller('BranchCardCtrl', function($scope, Gallery, locale, leafletData) {
+  .controller('BranchCardCtrl', function($scope, Gallery, locale, leafletData, queryFilter, $state) {
     $scope.b = $scope.branchCard;
     if ($scope.b.photos && $scope.b.photos.length) {
       $scope.b.photos = _.map($scope.b.photos, p => {
@@ -122,6 +122,13 @@ export default angular
 
     $scope.showGallery = function (index) {
       Gallery.create($scope.b.photos, index);
+    };
+
+    $scope.getRubricUrl = function (r) {
+      return $state.href('main.rubric', {
+        id: r.id,
+        query: queryFilter(r.name, false)
+      });
     };
 
     $scope.locateToAddress = function() {
