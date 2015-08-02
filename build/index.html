@@ -18,6 +18,22 @@
         //ga('send', 'pageview');
     </script>
 
+    <!-- Piwik -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//piwik.ruadebaixo.com.br/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 1]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <noscript><p><img src="//piwik.ruadebaixo.com.br/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
+
     <style type="text/css">
         #loading-mask{
             background-color:white;
@@ -192,7 +208,7 @@
 <link rel="stylesheet" type="text/css" href="vendor/bootstrap-star-rating/css/star-rating.css" />
 <link rel="stylesheet" type="text/css" href="vendor/ion.rangeSlider/css/ion.rangeSlider.css" />
 <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/css/perfect-scrollbar.css" />
-<link rel="stylesheet" type="text/css" href="assets/css/listings-client-0.0.7.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/listings-client-0.0.8.css" />
 <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css" />
 
 <!-- compiled JavaScript -->
@@ -204,6 +220,7 @@
 <script type="text/javascript" src="vendor/moment/locale/pt-br.js"></script>
 <script type="text/javascript" src="vendor/angular/angular.js"></script>
 <script type="text/javascript" src="vendor/angulartics/dist/angulartics.min.js"></script>
+<script type="text/javascript" src="vendor/angulartics/dist/angulartics-piwik.min.js"></script>
 <script type="text/javascript" src="vendor/angulartics-google-analytics/dist/angulartics-google-analytics.min.js"></script>
 <script type="text/javascript" src="vendor/angular-fullscreen/src/angular-fullscreen.js"></script>
 <script type="text/javascript" src="vendor/angular-ui-router/release/angular-ui-router.js"></script>

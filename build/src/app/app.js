@@ -27,11 +27,12 @@ System.registerModule("src/app/app.js", [], function() {
   System.get("src/app/search/firm.js");
   System.get("src/app/search/filter.js");
   var initialDefer;
-  var app = angular.module('app', ['seo', 'flux', 'ngLocalize', 'ngLocalize.Config', 'ngLocalize.InstalledLanguages', 'ui.router', 'ui.bootstrap.buttons', 'ui.bootstrap.dropdown', 'ui.bootstrap.tooltip', 'ui.bootstrap.tabs', 'angulartics', 'angulartics.google.analytics', 'leaflet-directive', 'infinite-scroll', 'angularMoment', 'templates-app', 'templates-common', 'template/tooltip/tooltip-popup.html', 'template/tabs/tab.html', 'template/tabs/tabset.html', 'template/modal/backdrop.html', 'template/modal/window.html', 'services.api', 'services.branches', 'directives.resizable', 'directives.scrollbar', 'directives.dashboard', 'directives.feedback', 'app.search', 'app.search.filter']).constant('angularMomentConfig', {}).value('localeConf', {
+  var cacheRandom = Math.round(Math.random() * 100000);
+  var app = angular.module('app', ['seo', 'flux', 'ngLocalize', 'ngLocalize.Config', 'ngLocalize.InstalledLanguages', 'ui.router', 'ui.bootstrap.buttons', 'ui.bootstrap.dropdown', 'ui.bootstrap.tooltip', 'ui.bootstrap.tabs', 'angulartics', 'angulartics.piwik', 'angulartics.google.analytics', 'leaflet-directive', 'infinite-scroll', 'angularMoment', 'templates-app', 'templates-common', 'template/tooltip/tooltip-popup.html', 'template/tabs/tab.html', 'template/tabs/tabset.html', 'template/modal/backdrop.html', 'template/modal/window.html', 'services.api', 'services.branches', 'directives.resizable', 'directives.scrollbar', 'directives.dashboard', 'directives.feedback', 'app.search', 'app.search.filter']).constant('angularMomentConfig', {}).value('localeConf', {
     basePath: 'languages',
     defaultLocale: 'pt-BR',
     sharedDictionary: 'common',
-    fileExtension: '.lang.json',
+    fileExtension: '.lang.json?dc=' + cacheRandom,
     persistSelection: true,
     cookieName: 'COOKIE_LOCALE_LANG',
     observableAttrs: new RegExp('^data-(?!ng-|i18n)'),
@@ -49,7 +50,7 @@ System.registerModule("src/app/app.js", [], function() {
       };
       return $stateProvider.state(name, config);
     };
-    var rootUrl = '/' + config.project.string_id + '/';
+    var rootUrl = '/' + config.project.string_id;
     state('main', {
       url: rootUrl,
       controller: 'MainCtrl',

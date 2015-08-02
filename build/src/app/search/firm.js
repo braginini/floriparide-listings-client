@@ -3,6 +3,11 @@ System.registerModule("src/app/search/firm.js", [], function() {
   var __moduleName = "src/app/search/firm.js";
   var branchResolver = function(config, $stateParams, $q, flux, BranchActions, SelectedBranchStore) {
     var d = $q.defer();
+    var b = SelectedBranchStore.getSelected();
+    if (b && b.id === parseInt($stateParams.firm_id)) {
+      d.resolve(b);
+      return d.promise;
+    }
     var SelectedBranchStoreEmitter = flux.getStore(SelectedBranchStore);
     var onSelect = function() {
       var b = SelectedBranchStore.getSelected();
@@ -31,7 +36,7 @@ System.registerModule("src/app/search/firm.js", [], function() {
         }}
     };
     $stateProvider.state('main.frames', {
-      url: 'firm',
+      url: '/firm',
       template: '<div class="frames"><div ui-view="child_frame"></div></div>'
     });
     $stateProvider.state('main.frames.firm', _.assign({}, stateConfig, {url: '/:firm_id/:name'}));

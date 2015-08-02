@@ -245,25 +245,25 @@ System.registerModule("src/app/search/search.js", [], function() {
   }();
   var $__default = angular.module('app.search', ['ui.router', 'services.branches', 'services.rubrics', 'directives.frames', 'directives.branch', 'directives.branchFilter', 'app.search.firm', 'app.search.filter']).config(["$stateProvider", function($stateProvider) {
     $stateProvider.state('main.search', {
-      url: 'search/:query',
+      url: '/search/:query',
       controller: 'SearchCtrl',
       controllerAs: 'self',
       templateUrl: 'search/search.tpl.html'
     });
     $stateProvider.state('main.rubric', {
-      url: 'rubric/{id:int}/:query',
+      url: '/rubric/{id:int}/:query',
       controller: 'RubricCtrl',
       controllerAs: 'self',
       templateUrl: 'search/search.tpl.html'
     });
     $stateProvider.state('main.rubric2', {
-      url: 'rubric/{id:int}',
+      url: '/rubric/{id:int}',
       controller: 'RubricCtrl',
       controllerAs: 'self',
       templateUrl: 'search/search.tpl.html'
     });
     $stateProvider.state('main.rubrics', {
-      url: 'rubrics/{parent:int}/:query',
+      url: '/rubrics/{parent:int}/:query',
       controller: 'RubricsCtrl',
       controllerAs: 'self',
       templateUrl: 'search/rubrics.tpl.html',
