@@ -71,6 +71,7 @@ module.exports = {
       //'vendor/moment-timezone/builds/moment-timezone-with-data.min.js',
       'vendor/angular/angular.js',
       'vendor/angulartics/dist/angulartics.min.js',
+      'vendor/angulartics/dist/angulartics-piwik.min.js',
       'vendor/angulartics-google-analytics/dist/angulartics-google-analytics.min.js',
       'vendor/angular-fullscreen/src/angular-fullscreen.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',

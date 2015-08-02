@@ -44,6 +44,7 @@ export var app = angular
       'ui.bootstrap.tooltip',
       'ui.bootstrap.tabs',
       'angulartics',
+      'angulartics.piwik',
       'angulartics.google.analytics',
       'leaflet-directive',
       'infinite-scroll',
