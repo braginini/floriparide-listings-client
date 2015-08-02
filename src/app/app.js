@@ -29,6 +29,7 @@ import './search/firm.js';
 import './search/filter.js';
 
 var initialDefer;
+var cacheRandom = Math.round(Math.random() * 100000);
 
 export var app = angular
     .module('app', [
@@ -73,7 +74,7 @@ export var app = angular
       basePath: 'languages',
       defaultLocale: 'pt-BR',
       sharedDictionary: 'common',
-      fileExtension: '.lang.json',
+      fileExtension: '.lang.json?dc=' + cacheRandom,
       persistSelection: true,
       cookieName: 'COOKIE_LOCALE_LANG',
       observableAttrs: new RegExp('^data-(?!ng-|i18n)'),

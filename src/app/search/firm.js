@@ -1,5 +1,10 @@
 var branchResolver = function (config, $stateParams, $q, flux, BranchActions, SelectedBranchStore) {
   var d = $q.defer();
+  var b = SelectedBranchStore.getSelected();
+  if (b && b.id === parseInt($stateParams.firm_id)) {
+    d.resolve(b);
+    return d.promise;
+  }
   var SelectedBranchStoreEmitter = flux.getStore(SelectedBranchStore);
   var onSelect = function () {
     var b = SelectedBranchStore.getSelected();
