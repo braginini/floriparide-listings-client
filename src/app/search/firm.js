@@ -48,7 +48,7 @@ export default angular
     };
 
     $stateProvider.state('main.frames', {
-      url: 'firm',
+      url: '/firm',
       template: '<div class="frames"><div ui-view="child_frame"></div></div>'
     });
     $stateProvider.state('main.frames.firm', _.assign({}, stateConfig, {

@@ -102,7 +102,7 @@ export var app = angular
         return $stateProvider.state(name, config);
       };
 
-      let rootUrl = '/' + config.project.string_id + '/';
+      let rootUrl = '/' + config.project.string_id;
       state('main', {
         url: rootUrl,
         controller: 'MainCtrl',
