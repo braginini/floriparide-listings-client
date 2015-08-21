@@ -47,6 +47,7 @@ System.registerModule("src/app/search/search.js", [], function() {
         $__3.branches = BranchStore.getBranches();
         $__3.count = BranchStore.getCount();
         $__3.eof = BranchStore.isEof();
+        $__3.params = BranchStore.getParams();
         $scope.$broadcast('layoutUpdated');
       });
       $scope.$listenTo(TopAttributesStore, function() {

@@ -60,6 +60,7 @@ System.registerModule("src/app/app.js", [], function() {
   }]).run(["api", "$q", "$timeout", "amMoment", "locale", function(api, $q, $timeout, amMoment, locale) {
     amMoment.changeLocale('pt-br');
     initialDefer = $q.defer();
+    locale.setLocale('pt-BR');
     locale.ready('common').then(function() {
       initialDefer.resolve(config);
       $timeout(function() {
