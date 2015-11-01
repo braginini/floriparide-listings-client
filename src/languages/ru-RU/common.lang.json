@@ -1,6 +1,7 @@
 {
   "organizations": "Организации",
   "extendedSearch": "Расширенный поиск",
+  "searchPlaceholder": "организации, адреса, места",
   "errorHeader": "Произошла ошибка!",
   "unknownErrorMessage": "Мы уже принимаем меры по ее устранению. Попробуйте немного позже.",
   "visibleOnMap": "Видимые на карте",
@@ -18,5 +19,10 @@
   "readMore": "Прочесть полностью",
   "hide": "Скрыть",
   "shortMinute": "мин.",
-  "todayUnavailable": "Сегодня недоступно"
+  "todayUnavailable": "Сегодня недоступно",
+  "whereEat": "Где поесть",
+  "whereRest": "Где отдохнуть",
+  "hotels": "Гостиницы",
+  "allCategories": "Все категории",
+  "comingSoon": "Уже скоро!"
 }

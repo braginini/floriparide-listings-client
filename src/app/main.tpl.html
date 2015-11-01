@@ -5,7 +5,8 @@
 <div class="side_west">
     <form class="form-inline" ng-submit="search(query)">
         <div class="input-group push-down-10 search">
-            <input type="text" class="form-control" placeholder="search name, address or route..." ng-model="query">
+            <input type="text" class="form-control" placeholder="search name, address or route..."
+                   i18n-attr="{'placeholder': 'common.searchPlaceholder'}" ng-model="query">
             <div class="input-group-btn">
                 <button class="btn btn-primary" type="submit"><span class="icon-search"></span></button>
             </div>
@@ -17,7 +18,7 @@
 
 <div class="footer-items">
     <button class="footer-item btn btn-primary" ng-show="showDashboardButton" ng-click="goHome()">
-        <i class="fa fa-building-o"></i>  Florianópolis
+        <i class="fa fa-building-o"></i>  {{project.name}}
     </button>
 </div>
 

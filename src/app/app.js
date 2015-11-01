@@ -147,6 +147,7 @@ export var app = angular
     })
 
     .controller('MainCtrl', function ($scope, $rootScope, $stateParams, $state) {
+      $scope.project = config.project;
       $scope.query = $stateParams.q;
       $scope.showDashboard = $state.is('main');
       $scope.showDashboardButton = false;
