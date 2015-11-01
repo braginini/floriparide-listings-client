@@ -6,7 +6,7 @@ export default angular
       templateUrl: 'directives/dashboard/dashboard.tpl.html',
       replace: true,
       scope: true,
-      controller: function($scope, $state, $interval, $timeout) {
+      controller: function($scope, $state, $interval, $timeout, config) {
         $scope.currentTime = new Date();
 
         var intervalPromise;
@@ -16,6 +16,8 @@ export default angular
             $scope.currentTime = new Date();
           }, 1000);
         }, msLeft);
+
+        $scope.project = config.project;
 
         $scope.search = function (e) {
           var el = angular.element(e.target).parents('li');

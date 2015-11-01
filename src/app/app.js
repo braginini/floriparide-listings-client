@@ -73,7 +73,7 @@ export var app = angular
 
     .value('localeConf', {
       basePath: 'languages',
-      defaultLocale: 'pt-BR',
+      defaultLocale: 'en-US',
       sharedDictionary: 'common',
       fileExtension: '.lang.json?dc=' + cacheRandom,
       persistSelection: true,
@@ -83,8 +83,22 @@ export var app = angular
     })
 
     .value('localeSupported', [
-      'pt-BR'
+      'en-US',
+      'pt-BR',
+      'ru-RU',
+      'de-DE',
+      'lv-LV'
     ])
+
+    .value('localeFallbacks', {
+      'en': 'en-US',
+      'pt': 'pt-BR',
+      'ru': 'ru-RU',
+      'de': 'de-DE',
+      'lv': 'lv-LV'
+    })
+
+    .value('config', config)
 
     .config(($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
       fluxProvider.useCloning(false);
@@ -114,9 +128,16 @@ export var app = angular
     })
 
     .run(function (api, $q, $timeout, amMoment, locale) {
-      amMoment.changeLocale('pt-br');
+      api.locale = config.project.locale;
+      amMoment.changeLocale({
+        'en_Us': 'en_gb',
+        'pt_Br': 'pt_br',
+        'ru_Ru': 'ru',
+        'de_De': 'de',
+        'lv_Lv': 'lv'
+      }[config.project.locale]);
       initialDefer = $q.defer();
-      locale.setLocale('pt-BR');
+      locale.setLocale(config.project.lang);
       locale.ready('common').then(function () {
         initialDefer.resolve(config);
         $timeout(() => {
@@ -161,7 +182,10 @@ export var app = angular
         }
       };
 
-      $scope.defaults = config.map_defaults || {};
+      $scope.defaults = angular.extend(config.map_defaults || {}, {
+        maxZoom: config.project.zoom.max,
+        minZoom: config.project.zoom.min
+      });
 
       $scope.maxbounds = [];
       $scope.initPoint = config.project.default_position;
@@ -181,19 +205,33 @@ export var app = angular
 var injector = angular.injector(['ng']);
 var $http = injector.get('$http');
 var ss = window.sessionStorage;
+var browserLanguage = (navigator.language || navigator.browserLanguage).split('-')[0];
+var browserLocale = {
+  'en': 'en_Us',
+  'pt': 'pt_Br',
+  'ru': 'ru_Ru',
+  'de': 'de_De',
+  'lv': 'lv_Lv'
+}[browserLanguage] || 'en_Us';
+
 if (ss) {
   let project = ss.getItem('project');
   if (project) {
     project = angular.fromJson(project);
+    let lang = project.locale.split('_');
+    project.lang = lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase();
     config.project = project;
     angular.bootstrap(document, ['app']);
   }
 }
 
 if (!config.project) {
-  $http.get(config.endpoints.api + '/project/list').then(res => {
+  $http.get(config.endpoints.api + '/project/list?locale=' + browserLocale).then(res => {
     if (res && res.data && res.data.result.items.length) {
-      config.project = res.data.result.items[0];
+      let project = res.data.result.items[0];
+      let lang = project.locale.split('_');
+      project.lang = lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase();
+      config.project = project;
       ss.setItem('project', angular.toJson(config.project));
     }
     angular.bootstrap(document, ['app']);

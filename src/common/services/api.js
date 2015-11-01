@@ -17,6 +17,7 @@ export default angular
     let $rootScope = $injector.get('$rootScope');
 
     var me = {
+      locale: 'en_Us',
       getUrl: function(action) {
         return config.endpoints.api + action;
       },
@@ -25,7 +26,8 @@ export default angular
         opts = _.assign({
           auth: true,
           refresh: false,
-          method: 'GET'
+          method: 'GET',
+          locale: me.locale
         }, opts);
 
         params = _.transform(params || {}, function(res, v, k) {
