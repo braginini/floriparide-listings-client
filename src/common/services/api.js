@@ -26,8 +26,7 @@ export default angular
         opts = _.assign({
           auth: true,
           refresh: false,
-          method: 'GET',
-          locale: me.locale
+          method: 'GET'
         }, opts);
 
         params = _.transform(params || {}, function(res, v, k) {
@@ -35,6 +34,9 @@ export default angular
             res[k] = v;
           }
         });
+        params = _.assign({
+          locale: me.locale
+        }, params);
 
         $rootScope.$broadcast('api.request_start', action, params);
         var d = $q.defer();
