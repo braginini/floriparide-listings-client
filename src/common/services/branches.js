@@ -267,6 +267,7 @@ export default
 
       filter(new_filters, update = true) {
         var params = update ? BranchStore.getParams() : {};
+        params.start = 0;
         var old = params.filters ? params.filters : {};
         var filters = _.clone(old);
         _.forEach(new_filters, (value, key) => {

@@ -31,6 +31,7 @@
                  infinite-scroll-distance="0"
                  infinite-scroll-disabled='self.isLoading || self.eof || self.error'
                  infinite-scroll-container="'#branches_container'"
+                 infinite-scroll-listen-for-event="layoutUpdated"
                  infinite-scroll-parent >
                 <a ng-repeat="b in self.branches track by b.id"
                    class="list-group-item card"

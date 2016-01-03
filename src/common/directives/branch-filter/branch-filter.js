@@ -20,10 +20,6 @@ export default angular
         $scope.$watch('g', () => {
           $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
         });
-
-        $scope.$watch('enabledAttributes', () => {
-          console.log($scope.enabledAttributes);
-        });
       }
     };
   })

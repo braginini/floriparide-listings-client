@@ -4,6 +4,7 @@ export class SearchCtrl {
   constructor ($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, BranchLoadingStore,
                TopAttributesStore) {
 
+    var $timeout = $injector.get('$timeout');
     this.query = $injector.get('$stateParams').query;
     if (!this.query) {
       $injector.get('$location').path('/');
@@ -55,7 +56,8 @@ export class SearchCtrl {
       this.count = BranchStore.getCount();
       this.eof = BranchStore.isEof();
       this.params = BranchStore.getParams();
-      $scope.$broadcast('layoutUpdated');
+      //$scope.$broadcast('layoutUpdated');
+      $timeout(()=>$scope.$broadcast('layoutUpdated'), 100);
     });
 
     $scope.$listenTo(TopAttributesStore, () => {
