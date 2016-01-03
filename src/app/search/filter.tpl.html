@@ -14,7 +14,7 @@
                 <!--<div general-attribute-group-filters></div>-->
             <!--</div>-->
             <div class="attribute-group-filter-wrapper" ng-repeat="g in attributeGroups track by g.id">
-                <div attribute-group-filters="g" show-header="true"></div>
+                <div attribute-group-filters="g" show-header="true" enabled-attributes="availableAttributes"></div>
                 <div class="hr" ng-if="!$last"></div>
             </div>
         </div>

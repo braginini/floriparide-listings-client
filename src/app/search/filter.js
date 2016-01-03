@@ -26,7 +26,7 @@ export default angular
     });
   }])
 
-  .controller('FilterCtrl', function ($scope, $state, TopAttributesStore) {
+  .controller('FilterCtrl', function ($scope, $state, TopAttributesStore, AvailableAttributesStore) {
     var getGroups = function () {
       var singletons = [];
       var groups = _.filter((TopAttributesStore.getTopAttributes() || []).slice(1), g => {
@@ -51,6 +51,11 @@ export default angular
     $scope.attributeGroups = getGroups();
     $scope.$listenTo(TopAttributesStore, function () {
       $scope.attributeGroups = getGroups();
+    });
+
+    $scope.availableAttributes = AvailableAttributesStore.getAttributes();
+    $scope.$listenTo(AvailableAttributesStore, function () {
+      $scope.availableAttributes = AvailableAttributesStore.getAttributes();
     });
 
     $scope.$emit('filter.show');

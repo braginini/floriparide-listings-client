@@ -1,8 +1,11 @@
 <div class="attribute-group-filter">
     <div class="filter-header" ng-if="bShowHeader">{{::g.name}}</div>
     <div class="filter-checkbox-container">
-        <div class="filter-checkbox" ng-repeat="a in groups.checkbox" >
-            <div attribute-checkbox="a"></div>
+        <div class="filter-checkbox"
+             ng-repeat="a in groups.checkbox">
+            <div attribute-checkbox="a"
+                 ng-class="{'disabled': !(enabledAttributes == null || enabledAttributes.indexOf(a.id) > -1)}">
+            </div>
         </div>
     </div>
     <div class="filter-slider" ng-repeat="a in groups.slider" ng-if="groups.slider.length">

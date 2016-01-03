@@ -75,6 +75,31 @@ export default
     };
   })
 
+  .store('AvailableAttributesStore', function () {
+    return {
+      attributes: null,
+      handlers: {
+        'branches.load.success': 'onBranchesLoadSuccess',
+        'branches.clear': 'onBranchesClear'
+      },
+      onBranchesLoadSuccess: function (res) {
+        if (res.has_attributes) {
+          this.attributes = res.has_attributes;
+          this.emitChange();
+        }
+      },
+      onBranchesClear: function () {
+        this.attributes = null;
+        this.emitChange();
+      },
+      exports: {
+        getAttributes: function () {
+          return this.attributes;
+        }
+      }
+    };
+  })
+
   .store('BranchStore', function () {
     return {
       branches: [],

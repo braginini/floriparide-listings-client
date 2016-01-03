@@ -10,7 +10,8 @@ export default angular
       replace: true,
       scope: {
         g: '=attributeGroupFilters',
-        showHeader: '@'
+        showHeader: '@',
+        enabledAttributes: '='
       },
       controller ($scope, util) {
         $scope.bShowHeader = util.parseBoolean($scope.showHeader) && $scope.g.attributes.length > 1;
@@ -18,6 +19,10 @@ export default angular
 
         $scope.$watch('g', () => {
           $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
+        });
+
+        $scope.$watch('enabledAttributes', () => {
+          console.log($scope.enabledAttributes);
         });
       }
     };
