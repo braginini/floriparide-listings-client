@@ -128,16 +128,16 @@ export var app = angular
     })
 
     .run(function (api, $q, $timeout, amMoment, locale) {
-      api.locale = config.project.locale;
+      api.locale = config.project.clientLocale;
       amMoment.changeLocale({
         'en_Us': 'en_gb',
         'pt_Br': 'pt_br',
         'ru_Ru': 'ru',
         'de_De': 'de',
         'lv_Lv': 'lv'
-      }[config.project.locale]);
+      }[config.project.clientLocale]);
       initialDefer = $q.defer();
-      locale.setLocale(config.project.lang);
+      locale.setLocale(config.project.clientLang);
       locale.ready('common').then(function () {
         initialDefer.resolve(config);
         $timeout(() => {
@@ -221,6 +221,11 @@ if (ss) {
     project = angular.fromJson(project);
     let lang = project.locale.split('_');
     project.lang = lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase();
+
+    project.clientLocale = browserLocale;
+    lang = project.clientLocale.split('_');
+    project.clientLang = lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase();
+
     config.project = project;
     angular.bootstrap(document, ['app']);
   }
@@ -233,6 +238,7 @@ if (!config.project) {
       let lang = project.locale.split('_');
       project.lang = lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase();
       config.project = project;
+      project.clientLocale = browserLocale;
       ss.setItem('project', angular.toJson(config.project));
     }
     angular.bootstrap(document, ['app']);

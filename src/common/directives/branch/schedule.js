@@ -10,7 +10,7 @@ var day_indexes = {
   sunday: 6,
   holidays: 7
 };
-var day_labels = ['Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sab.', 'Dom.', 'Feriados'];
+//var day_labels = ['Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sab.', 'Dom.', 'Feriados'];
 
 var formatSchedule = _.curry(function (locale, item) {
   if (!item.from || !item.to) {
@@ -40,9 +40,6 @@ export default angular
       restrict: 'EA',
       templateUrl: 'directives/branch/schedule.tpl.html',
       replace: true,
-      link: function ($scope, element, attrs) {
-
-      },
       controller: function ($scope, $attrs, $element) {
         $scope.schedule = _.clone($parse($attrs.branchSchedule)($scope));
         var today = days[(new Date()).getDay()];
@@ -65,13 +62,20 @@ export default angular
             let prevFrom = parseTodayTime(items[0].from, false).getTime();
             let prevTo = parseTodayTime(items[0].to, true).getTime();
             _.forEach(items, (item, idx) => {
-              let from = parseTodayTime(item.from, false).getTime();
-              let to = parseTodayTime(item.to, true).getTime();
-              if (from === prevFrom && to >= prevTo && idx > 0) {
-                mergeIdxs[idx - 1] = idx - 1;
+              if (idx > 0) {
+                let from = parseTodayTime(item.from, false).getTime();
+                let to = parseTodayTime(item.to, true).getTime();
+                if (from === prevFrom && to >= prevTo) {
+                  mergeIdxs[idx - 1] = idx - 1;
+                  prevFrom = from;
+                  prevTo = to;
+                } else if ((prevFrom <= from && from <= prevTo) && (prevFrom <= to && to <= prevTo)) {
+                  mergeIdxs[idx] = idx;
+                } else {
+                  prevFrom = from;
+                  prevTo = to;
+                }
               }
-              prevFrom = from;
-              prevTo = to;
             });
 
             items = _.filter(items, (item, idx) => !(idx in mergeIdxs));
@@ -145,7 +149,7 @@ export default angular
           })
           .value();
         var breaks = [];
-        for (var i = 1; i < $scope.today.items.length; i++) {
+        for (let i = 1; i < $scope.today.items.length; i++) {
           breaks.push({
             from: $scope.today.items[i - 1].to,
             to: $scope.today.items[i].from
@@ -173,7 +177,8 @@ export default angular
             items: sch_item.items
           };
         } else {
-          if (_(schedule).take(5).groupBy(compare).size() <= 1 &&
+          if (breaks.length === 0 &&
+            _(schedule).take(5).groupBy(compare).size() <= 1 &&
             _(schedule).take(7).takeRight(2).groupBy(compare).size() <= 1) {
 
             sch_item = schedule[0];
@@ -191,6 +196,8 @@ export default angular
             });
             schedule.splice(0);
           }
+
+          let day_labels = locale.getString('common.weekDays').split(',');
           _.each(schedule, function (item) {
             if (item.dayIndex === 7 && !item.items.length) {
               return;
