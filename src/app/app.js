@@ -2,6 +2,7 @@ import config from '../../config.js';
 
 import '../common/services/util.js';
 import '../common/services/api.js';
+import '../common/services/locale.js';
 import '../common/services/branches.js';
 import '../common/services/rubrics.js';
 import '../common/services/cache.js';
@@ -30,11 +31,19 @@ import './search/filter.js';
 
 var initialDefer;
 var cacheRandom = Math.round(Math.random() * 100000);
+var availableLangs = {
+  'en': 'en_Us',
+  'pt': 'pt_Br',
+  'ru': 'ru_Ru',
+  'de': 'de_De',
+  'lv': 'lv_Lv'
+};
 
 export var app = angular
     .module('app', [
       'seo',
       'flux',
+      'ngCookies',
       'ngLocalize',
       'ngLocalize.Config',
       'ngLocalize.InstalledLanguages',
@@ -57,6 +66,7 @@ export var app = angular
       'template/modal/backdrop.html',
       'template/modal/window.html',
       'services.api',
+      'services.locale',
       'services.branches',
       'directives.resizable',
       'directives.scrollbar',
@@ -117,28 +127,33 @@ export var app = angular
         return $stateProvider.state(name, config);
       };
 
-      let rootUrl = '/' + config.project.string_id;
+      let lang = config.clientLocale.split('_')[0];
+      let rootUrl = '/' + lang + '/' + config.project.string_id;
       state('main', {
-        url: rootUrl,
+        url: '/:lang/' + config.project.string_id,
         controller: 'MainCtrl',
-        templateUrl: 'main.tpl.html'
+        templateUrl: 'main.tpl.html',
+        resolve: {
+          lang: function($stateParams, localeService, $window) {
+            var lang = $stateParams.lang;
+            if (!availableLangs[lang]) {
+              $window.location.href = $state.href($state.current, {lang: config.browserLocale.split('_')[0]});
+            }
+
+            if (availableLangs[lang] !== config.clientLocale) {
+                return localeService.setLocale(availableLangs[lang]).then(()=> lang);
+            }
+            return $stateParams.lang;
+          }
+        }
       });
 
       $urlRouterProvider.otherwise(rootUrl);
     })
 
-    .run(function (api, $q, $timeout, amMoment, locale) {
-      api.locale = config.project.clientLocale;
-      amMoment.changeLocale({
-        'en_Us': 'en_gb',
-        'pt_Br': 'pt_br',
-        'ru_Ru': 'ru',
-        'de_De': 'de',
-        'lv_Lv': 'lv'
-      }[config.project.clientLocale]);
+    .run(function ($q, $timeout, localeService) {
       initialDefer = $q.defer();
-      locale.setLocale(config.project.clientLang);
-      locale.ready('common').then(function () {
+      localeService.setLocale(config.clientLocale).then(function () {
         initialDefer.resolve(config);
         $timeout(() => {
           $('#loading-mask').remove();
@@ -203,44 +218,34 @@ export var app = angular
     })
 ;
 
-var injector = angular.injector(['ng']);
-var $http = injector.get('$http');
-var ss = window.sessionStorage;
-var browserLanguage = (navigator.language || navigator.browserLanguage).split('-')[0];
-var browserLocale = {
-  'en': 'en_Us',
-  'pt': 'pt_Br',
-  'ru': 'ru_Ru',
-  'de': 'de_De',
-  'lv': 'lv_Lv'
-}[browserLanguage] || 'en_Us';
+(function() {
+  var injector = angular.injector(['ng', 'ngCookies']);
+  var $http = injector.get('$http');
+  var $cookies = injector.get('$cookies');
 
-if (ss) {
-  let project = ss.getItem('project');
-  if (project) {
-    project = angular.fromJson(project);
-    let lang = project.locale.split('_');
-    project.lang = lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase();
+  var ss = window.sessionStorage;
+  var browserLanguage = (navigator.language || navigator.browserLanguage).split('-')[0];
+  var browserLocale = availableLangs[browserLanguage] || 'en_Us';
 
-    project.clientLocale = browserLocale;
-    lang = project.clientLocale.split('_');
-    project.clientLang = lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase();
+  config.browserLocale = browserLocale;
+  config.clientLocale = $cookies.locale || browserLocale;
 
-    config.project = project;
-    angular.bootstrap(document, ['app']);
-  }
-}
-
-if (!config.project) {
-  $http.get(config.endpoints.api + '/project/list?locale=' + browserLocale).then(res => {
-    if (res && res.data && res.data.result.items.length) {
-      let project = res.data.result.items[0];
-      let lang = project.locale.split('_');
-      project.lang = lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase();
+  if (ss) {
+    let project = ss.getItem('project');
+    if (project) {
+      project = angular.fromJson(project);
       config.project = project;
-      project.clientLocale = browserLocale;
-      ss.setItem('project', angular.toJson(config.project));
+      angular.bootstrap(document, ['app']);
     }
-    angular.bootstrap(document, ['app']);
-  });
-}
+  }
+
+  if (!config.project) {
+    $http.get(config.endpoints.api + '/project/list?locale=' + config.clientLocale).then(res => {
+      if (res && res.data && res.data.result.items.length) {
+        config.project = res.data.result.items[0];
+        ss.setItem('project', angular.toJson(config.project));
+      }
+      angular.bootstrap(document, ['app']);
+    });
+  }
+})();
