@@ -81,6 +81,7 @@ module.exports = {
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-sanitize/angular-sanitize.js',
       'vendor/angular-seo/angular-seo.js',
+      'vendor/angular-simple-logger/dist/angular-simple-logger.light.js',
       //'vendor/angular-cookie/angular-cookie.js',
       'vendor/angular-cookies/angular-cookies.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.js',

@@ -10,11 +10,8 @@ export default angular
       scope: {
         c: '=branchContact'
       },
-      link: function ($scope, element, attrs) {
-
-      },
       controller: ['$scope', '$sce', function($scope, $sce) {
-        if (_.contains(['website', 'facebook', 'twitter', 'instagram'], $scope.c.contact)) {
+        if (_.some(['website', 'facebook', 'twitter', 'instagram'], $scope.c.contact)) {
           $scope.c.url = $sce.trustAsUrl($scope.c.value);
         }
 

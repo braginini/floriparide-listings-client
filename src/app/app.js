@@ -55,16 +55,17 @@ export var app = angular
       'angulartics',
       'angulartics.piwik',
       'angulartics.google.analytics',
+      'nemLogging',
       'leaflet-directive',
       'infinite-scroll',
       'angularMoment',
       'templates-app',
       'templates-common',
-      'template/tooltip/tooltip-popup.html',
-      'template/tabs/tab.html',
-      'template/tabs/tabset.html',
-      'template/modal/backdrop.html',
-      'template/modal/window.html',
+      //'uib/template/tooltip/tooltip-popup.html',
+      //'uib/template/tabs/tab.html',
+      //'uib/template/tabs/tabset.html',
+      'uib/template/modal/backdrop.html',
+      'uib/template/modal/window.html',
       'services.api',
       'services.locale',
       'services.branches',
@@ -151,7 +152,11 @@ export var app = angular
       $urlRouterProvider.otherwise(rootUrl);
     })
 
-    .run(function ($q, $timeout, localeService) {
+    .config(function($provide, nemSimpleLoggerProvider) {
+      return $provide.decorator.apply(null, nemSimpleLoggerProvider.decorator);
+    })
+
+    .run(function ($q, $timeout, $log, localeService) {
       initialDefer = $q.defer();
       localeService.setLocale(config.clientLocale).then(function () {
         initialDefer.resolve(config);
@@ -159,6 +164,7 @@ export var app = angular
           $('#loading-mask').remove();
         }, 300);
       });
+      $log.currentLevel = $log.LEVELS.error;
     })
 
     .controller('MainCtrl', function ($scope, $rootScope, $stateParams, $state) {

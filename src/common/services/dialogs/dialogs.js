@@ -4,7 +4,7 @@ export default angular
     'template/modal/backdrop.html',
     'template/modal/window.html'
   ])
-  .factory('dialogs', ['$modal', function ($modal) {
+  .factory('dialogs', function ($uibModal) {
     var me = {
       open: function (config) {
         config = _.assign({
@@ -12,8 +12,7 @@ export default angular
           controller: 'DialogCtrl',
           windowClass: 'dialogs'
         }, config);
-        var modalInstance = $modal.open(config);
-        return modalInstance;
+        return $uibModal.open(config);
       },
 
       confirm: function (message, title) {
@@ -51,24 +50,24 @@ export default angular
       }
     };
     return me;
-  }])
+  })
 
-  .controller('DialogCtrl', ['$scope', '$modalInstance', 'params', function ($scope, $modalInstance, params) {
+  .controller('DialogCtrl', function ($scope, $uibModalInstance, params) {
     $scope.btnOk = params.btnOk;
     $scope.btnCancel = params.btnCancel;
     $scope.isButtons = $scope.btnOk || $scope.btnCancel;
     $scope.title = params.title;
     $scope.message = params.message;
     $scope.ok = function () {
-      $modalInstance.close(true);
+      $uibModalInstance.close(true);
     };
 
     $scope.cancel = function () {
-      $modalInstance.dismiss(false);
+      $uibModalInstance.dismiss(false);
     };
-  }])
+  })
 
-  .controller('WaitDialogCtrl', ['$scope', '$modalInstance', '$interval', 'params', function ($scope, $modalInstance, $interval, params) {
+  .controller('WaitDialogCtrl', function ($scope, $uibModalInstance, $interval, params) {
     $scope.title = params.title;
     $scope.message = params.message;
     $scope.progress = 20;
@@ -79,8 +78,8 @@ export default angular
       }
     }, 1000);
 
-    $modalInstance.result['catch'](function() {
+    $uibModalInstance.result['catch'](function() {
       $interval.cancel(task);
     });
-  }])
+  })
 ;

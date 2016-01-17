@@ -31,9 +31,9 @@ var parseTodayTime = function (time, checkTomorrow) {
 
 export default angular
   .module('directives.branchSchedule', [
-    'ui.bootstrap.tooltip',
-    'template/tooltip/tooltip-popup.html',
-    'template/tooltip/tooltip-html-unsafe-popup.html'
+    'ui.bootstrap.tooltip'
+    //'template/tooltip/tooltip-popup.html',
+    //'template/tooltip/tooltip-html-unsafe-popup.html'
   ])
   .directive('branchSchedule', function ($interval, $timeout, $parse, locale) {
     return {
@@ -57,7 +57,7 @@ export default angular
               items: []
             };
           } else {
-            items = _.sortByAll(items, item => parseTodayTime(item.from, false), item => parseTodayTime(item.to, true));
+            items = _.sortBy(items, item => parseTodayTime(item.from, false), item => parseTodayTime(item.to, true));
             let mergeIdxs = {};
             let prevFrom = parseTodayTime(items[0].from, false).getTime();
             let prevTo = parseTodayTime(items[0].to, true).getTime();
@@ -249,8 +249,8 @@ export default angular
     };
   })
 
-  .directive('scheduleTooltip', function ($tooltip) {
-    return $tooltip('scheduleTooltip', 'tooltip', 'click');
+  .directive('scheduleTooltip', function ($uibTooltip) {
+    return $uibTooltip('scheduleTooltip', 'tooltip', 'click');
   })
 
   .filter('formatAddress', function () {

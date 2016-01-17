@@ -114,7 +114,7 @@ export default angular
         return 'tags';
       }
     }).mapValues(items => {
-      return _(items).pluck('attributes').flatten().map(item => {
+      return _(items).map('attributes').flatten().map(item => {
         item.formatted = formatAttribute(locale)(item);
         return item;
       }).filter('formatted').value();

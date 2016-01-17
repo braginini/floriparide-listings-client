@@ -1,4 +1,4 @@
-var ModalInstanceCtrl = function ($scope, $modalInstance, $q, $timeout, $interval, $window, Fullscreen, images, index) {
+var ModalInstanceCtrl = function ($scope, $uibModalInstance, $q, $timeout, $interval, $window, Fullscreen, images, index) {
   var winEl = angular.element($window);
   var dlgEl, dlgBodyEl, mediaEl, spinnerEl, imgEl;
 
@@ -105,7 +105,7 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, $q, $timeout, $interva
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 
   var syncSizeNow = function () {
@@ -265,10 +265,10 @@ export default angular
     'FBAngular',
     'directives.ngLoad'
   ])
-  .factory('Gallery', function ($modal) {
+  .factory('Gallery', function ($uibModal) {
     return {
       create: function(images, index = 0) {
-        return $modal.open({
+        return $uibModal.open({
           templateUrl: 'directives/gallery/gallery.tpl.html',
           controller: ModalInstanceCtrl,
           windowClass: 'gallery',
