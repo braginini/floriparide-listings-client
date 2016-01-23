@@ -38,7 +38,7 @@ export default angular
         };
 
         var syncParams = function () {
-          var params = BranchStore.getParams();
+          var params = BranchStore.params;
           var filters = params.filters || {};
           $scope.filters = _.mapValues($scope.filters, (value, key) => {
             return filters[key] ? true : false;
@@ -97,7 +97,7 @@ export default angular
   .directive('attributeCheckbox', function (BranchActions) {
     return {
       restrict: 'EAC',
-      template: '<button class="btn btn-default" ng-model="state" ng-change="onChange()" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">{{::a.name}}</button>',
+      template: '<button class="btn btn-default" ng-model="state" ng-change="onChange()" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">{{::a.name}}</button>',
       replace: true,
       scope: {
         a: '=attributeCheckbox'

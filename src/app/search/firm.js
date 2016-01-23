@@ -1,21 +1,22 @@
 var branchResolver = function (config, $stateParams, $q, flux, BranchActions, SelectedBranchStore) {
   var d = $q.defer();
-  var b = SelectedBranchStore.getSelected();
+  var b = SelectedBranchStore.selected;
   if (b && b.id === parseInt($stateParams.firm_id)) {
     d.resolve(b);
     return d.promise;
   }
-  var SelectedBranchStoreEmitter = flux.getStore(SelectedBranchStore);
+  //var SelectedBranchStoreEmitter = flux.getStore(SelectedBranchStore);
   var onSelect = function () {
-    var b = SelectedBranchStore.getSelected();
+    var b = SelectedBranchStore.selected;
     if (b && b.id === parseInt($stateParams.firm_id)) {
       d.resolve(b);
     } else {
       d.reject('Invalid branch. Expected id: ' + $stateParams.firm_id + ', actual: ' + b ? b.id : 'unknown');
     }
-    SelectedBranchStoreEmitter.off('*', onSelect);
+    //SelectedBranchStoreEmitter.off('*', onSelect);
   };
-  SelectedBranchStoreEmitter.on('*', onSelect);
+  //SelectedBranchStoreEmitter.on('*', onSelect);
+  SelectedBranchStore.wait().then(onSelect);
   BranchActions.select($stateParams.firm_id);
   return d.promise;
 };

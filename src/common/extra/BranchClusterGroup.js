@@ -79,17 +79,6 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
     this._map.on('zoomend', this.updateClusters, this);
 
     this.eachLayer(map.addLayer, map);
-
-    _.each(this._layers, function (l, i) {
-      l.on('mouseover', function () {
-        var iconEl = $(l._icon);
-        iconEl.tooltip({
-          html: true,
-          title: l.html_title
-        });
-        iconEl.tooltip('show');
-      });
-    }, this);
   },
 
   updateClusters: function () {
@@ -156,5 +145,19 @@ L.BranchClusterGroup = L.FeatureGroup.extend({
     if (this._activeId) {
       this.setActiveId(this._activeId);
     }
+
+    _.each(this._layers, function (l, i) {
+      if (!l.__hasTooltipListener) {
+        l.on('mouseover', function () {
+          var iconEl = $(l._icon);
+          iconEl.tooltip({
+            html: true,
+            title: l.html_title
+          });
+          iconEl.tooltip('show');
+        });
+        l.__hasTooltipListener = true;
+      }
+    }, this);
   }
 });

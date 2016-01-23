@@ -12,24 +12,26 @@ export default
   ])
   .store('MarkerStore', function () {
     return {
-      markers: [],
+      initialize() {
+        this.state = this.immutable({
+          markers: []
+        });
+      },
       handlers: {
         'branches.load.success': 'onBranchesLoadSuccess',
         'branches.clear': 'onBranchesClear'
       },
-      onBranchesLoadSuccess: function (res) {
+      onBranchesLoadSuccess(res) {
         if (res.markers) {
-          this.markers = res.markers;
-          this.emitChange();
+          this.state.set('markers', res.markers);
         }
       },
-      onBranchesClear: function () {
-        this.markers = [];
-        this.emitChange();
+      onBranchesClear() {
+        this.state.set('markers', []);
       },
       exports: {
-        getMarkers: function () {
-          return this.markers;
+        get markers() {
+          return this.state.get('markers');
         }
       }
     };
@@ -51,25 +53,27 @@ export default
       });
     };
     return {
-      attributes: [],
+      initialize() {
+        this.state = this.immutable({
+          attributes: []
+        });
+      },
       handlers: {
         'branches.load.success': 'onBranchesLoadSuccess'
         //'branches.clear': 'onBranchesClear'
       },
-      onBranchesLoadSuccess: function (res) {
+      onBranchesLoadSuccess(res) {
         if (res.top_attributes) {
           process_attr_group(res.top_attributes);
-          this.attributes = res.top_attributes;
-          this.emitChange();
+          this.state.set('attributes', res.top_attributes);
         }
       },
-      onBranchesClear: function () {
-        this.attributes = [];
-        this.emitChange();
+      onBranchesClear() {
+        this.state.set('attributes', []);
       },
       exports: {
-        getTopAttributes: function () {
-          return this.attributes;
+        get topAttributes() {
+          return this.state.get('attributes');
         }
       }
     };
@@ -77,24 +81,26 @@ export default
 
   .store('AvailableAttributesStore', function () {
     return {
-      attributes: null,
+      initialize() {
+        this.state = this.immutable({
+          attributes: null
+        });
+      },
       handlers: {
         'branches.load.success': 'onBranchesLoadSuccess',
         'branches.clear': 'onBranchesClear'
       },
-      onBranchesLoadSuccess: function (res) {
+      onBranchesLoadSuccess(res) {
         if (res.has_attributes) {
-          this.attributes = res.has_attributes;
-          this.emitChange();
+          this.state.set('attributes', res.has_attributes);
         }
       },
-      onBranchesClear: function () {
-        this.attributes = null;
-        this.emitChange();
+      onBranchesClear() {
+        this.state.set('attributes', null);
       },
       exports: {
-        getAttributes: function () {
-          return this.attributes;
+        get attributes() {
+          return this.state.get('attributes');
         }
       }
     };
@@ -102,48 +108,50 @@ export default
 
   .store('BranchStore', function () {
     return {
-      branches: [],
-      totalCount: 0,
-      eof: false,
-      params: {},
+      initialize() {
+        this.state = this.immutable({
+          branches: [],
+          totalCount: 0,
+          eof: false,
+          params: {}
+        });
+      },
 
       handlers: {
         'branches.load': 'onBranchesLoad',
         'branches.load.success': 'onBranchesLoadSuccess',
         'branches.clear': 'onBranchesClear'
       },
-      onBranchesLoad: function (params) {
-        this.params = _.clone(params);
-        this.emit('params');
+      onBranchesLoad(params) {
+        this.state.set('params',_.clone(params));
       },
-      onBranchesLoadSuccess: function (res) {
-        this.totalCount = res.total;
-        this.branches = this.branches.concat(_.map(res.items, mapBranch));
-        if (this.branches.length >= this.totalCount || !res.items.length) {
-          this.eof = true;
+      onBranchesLoadSuccess(res) {
+        this.state.set('totalCount', res.total);
+        this.state.concat('branches', _.map(res.items, mapBranch));
+        if (this.state.get('branches').length >= res.total || !res.items.length) {
+          this.state.set('eof', true);
         }
-        this.emit('branches');
       },
-      onBranchesClear: function () {
-        this.state = null;
-        this.branches = [];
-        this.totalCount = 0;
-        this.eof = false;
+      onBranchesClear() {
+        this.state.merge({
+          branches: [],
+          totalCount: 0,
+          eof: false
+        });
         //this.params = {};
-        this.emitChange();
       },
       exports: {
-        getBranches: function () {
-          return this.branches;
+        get branches() {
+          return this.state.get('branches');
         },
-        getCount: function () {
-          return this.totalCount;
+        get count() {
+          return this.state.get('totalCount');
         },
-        getParams: function () {
-          return _.clone(this.params);
+        get params() {
+          return _.clone(this.state.get('params'));
         },
-        isEof: function () {
-          return this.eof;
+        get isEof() {
+          return this.state.get('eof');
         }
       }
     };
@@ -151,57 +159,72 @@ export default
 
   .store('BranchLoadingStore', function () {
     return {
-      _isLoading: false,
-      _lastError: null,
+      initialize() {
+        this.state = this.immutable({
+          isLoading: false,
+          lastError: null
+        });
+      },
 
       handlers: {
         'branches.load': 'onBranchesLoad',
         'branches.load.success': 'onBranchesLoadSuccess',
         'branches.load.failed': 'onBranchesLoadFailed'
       },
-      onBranchesLoad: function () {
-        this._isLoading = true;
-        this._lastError = null;
-        this.emitChange();
+      onBranchesLoad() {
+        this.state.set('isLoading', true);
+        this.state.set('lastError', null);
       },
-      onBranchesLoadSuccess: function () {
-        this._isLoading = false;
-        this._lastError = null;
-        this.emitChange();
+      onBranchesLoadSuccess() {
+        this.state.set('isLoading', false);
+        this.state.set('lastError', null);
       },
-      onBranchesLoadFailed: function (e) {
-        this._isLoading = false;
-        this._lastError = e;
-        this.emitChange();
+      onBranchesLoadFailed(error) {
+        this.state.set('isLoading', false);
+        this.state.set('lastError', error);
       },
       exports: {
-        isLoading: function () {
-          return this._isLoading;
+        get isLoading() {
+          return this.state.get('isLoading');
         },
-        getLastError: function () {
-          return this._lastError;
+        get lastError() {
+          return this.state.get('lastError');
         }
       }
     };
   })
 
-  .store('SelectedBranchStore', function () {
+  .store('SelectedBranchStore', function ($q) {
+    var listeners = [];
     return {
-      selected: null,
+      initialize() {
+        this.state = this.immutable({
+          selected: null
+        });
+      },
 
       handlers: {
         'branches.select.success': 'onBranchesSelectSuccess'
       },
-      onBranchesSelectSuccess: function (branch) {
-        this.selected = branch;
-        this.emitChange();
+      onBranchesSelectSuccess(branch) {
+        this.state.set('selected', branch);
+        if (listeners.length) {
+          _.forEach(listeners, l=> l.resolve(branch));
+          listeners = [];
+        }
       },
       exports: {
-        getSelected: function () {
-          return this.selected;
+        get selected() {
+          return this.state.get('selected');
         },
-        getSelectedId: function () {
-          return this.selected ? this.selected.id : null;
+        get selectedId() {
+          var selected = this.state.get('selected');
+          return selected ? selected.id : null;
+        },
+        wait() {
+          var d = $q.defer();
+          listeners.push(d);
+          return d.promise;
         }
       }
     };
@@ -209,14 +232,14 @@ export default
 
   .factory('BranchActions', function (api, flux, $q, BranchStore/*, BranchLoadingStore*/) {
     return {
-      clear: function () {
+      clear() {
         flux.dispatch('branches.clear');
       },
-      search: function (params, clear=false) {
+      search(params, clear=false) {
         //if (BranchLoadingStore.isLoading()) {
         //  return;
         //}
-        var oldParams = BranchStore.getParams();
+        var oldParams = BranchStore.params;
         // we need full_response to get attributes
         delete params.send_attrs;
         var method = 'branchSearch';
@@ -245,13 +268,13 @@ export default
         });
       },
 
-      select: function (id) {
+      select(id) {
         if (id === null) {
           flux.dispatch('branches.select.success', null);
           return;
         }
         id = parseInt(id);
-        var b = _.find(BranchStore.getBranches(), {id: id});
+        var b = _.find(BranchStore.branches, {id: id});
         if (b) {
           flux.dispatch('branches.select.success', b);
         } else {
@@ -266,7 +289,7 @@ export default
       },
 
       filter(new_filters, update = true) {
-        var params = update ? BranchStore.getParams() : {};
+        var params = update ? BranchStore.params : {};
         params.start = 0;
         var old = params.filters ? params.filters : {};
         var filters = _.clone(old);
@@ -290,7 +313,7 @@ export default
       },
 
       sort(field, order) {
-        var params = BranchStore.getParams();
+        var params = BranchStore.params;
         var sortParam = {};
         if (order !== false) {
           sortParam[field] = order;

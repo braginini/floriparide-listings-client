@@ -115,8 +115,9 @@ export default angular
       }
     }).mapValues(items => {
       return _(items).map('attributes').flatten().map(item => {
-        item.formatted = formatAttribute(locale)(item);
-        return item;
+        return _.assign({
+          formatted: formatAttribute(locale)(item)
+        }, item);
       }).filter('formatted').value();
     }).value();
 

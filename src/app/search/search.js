@@ -33,8 +33,8 @@ export class SearchCtrl {
     this.count = 0;
     this.branches = [];
     this.attributeGroups = [];//TopAttributesStore.getTopAttributes();
-    this.selectedId = SelectedBranchStore.getSelectedId();
-    this.isLoading = BranchLoadingStore.isLoading();
+    this.selectedId = SelectedBranchStore.selectedId;
+    this.isLoading = BranchLoadingStore.isLoading;
     // have to add additional field because of nextPage method
     this.isFirstTimeSpinnerShow = true;
 
@@ -52,22 +52,26 @@ export class SearchCtrl {
     this.onBranchSelectDefer = _.debounce(this.onBranchSelect.bind(this), 100, this);
 
     $scope.$listenTo(BranchStore, 'branches', () => {
-      this.branches = BranchStore.getBranches();
-      this.count = BranchStore.getCount();
-      this.eof = BranchStore.isEof();
-      this.params = BranchStore.getParams();
+      this.branches = BranchStore.branches;
+      this.count = BranchStore.count;
+      this.eof = BranchStore.isEof;
+      this.params = _.assign({
+        q: this.query,
+        start: -20,
+        limit: 20
+      }, BranchStore.params);
       //$scope.$broadcast('layoutUpdated');
       $timeout(()=>$scope.$broadcast('layoutUpdated'), 100);
     });
 
     $scope.$listenTo(TopAttributesStore, () => {
-      this.attributeGroups = TopAttributesStore.getTopAttributes();
+      this.attributeGroups = TopAttributesStore.topAttributes;
     });
 
     $scope.$listenTo(BranchLoadingStore, () => {
       this.isFirstTimeSpinnerShow = false;
-      this.isLoading = BranchLoadingStore.isLoading();
-      this.error = BranchLoadingStore.getLastError();
+      this.isLoading = BranchLoadingStore.isLoading;
+      this.error = BranchLoadingStore.lastError;
     });
 
     $scope.$listenTo(SelectedBranchStore, this.onBranchSelectDefer);
@@ -128,7 +132,7 @@ export class SearchCtrl {
   }
 
   onBranchSelect() {
-    this.selectedId = this.selectedBranchStore.getSelectedId();
+    this.selectedId = this.selectedBranchStore.selectedId;
     if (this.selectedId) {
       this.cluster.setActiveId(this.selectedId);
       var sl = _.find(this.cluster._layers, {branch_id: this.selectedId});
@@ -158,7 +162,7 @@ export class SearchCtrl {
 
   onMarkers() {
     var m, marker;
-    var res_markers = this.markerStore.getMarkers();
+    var res_markers = this.markerStore.markers;
     var tmp = [];
     for (var i = 0; i < res_markers.length; i++) {
       m = res_markers[i];
@@ -194,7 +198,7 @@ export class RubricCtrl extends SearchCtrl {
                TopAttributesStore,RubricStore) {
     var ps = $injector.get('$stateParams');
     if (!ps.query && ps.id) {
-      let r = _.find(RubricStore.getRubrics(), {id: ps.id});
+      let r = _.find(RubricStore.rubrics, {id: ps.id});
       ps.query = r ? r.name : ps.id;
     }
     super($scope, $injector, BranchActions, BranchStore, MarkerStore, SelectedBranchStore, BranchLoadingStore,
@@ -223,14 +227,14 @@ export class RubricsCtrl {
   constructor($scope, RubricStore, RubricActions, $injector) {
     this.$injector = $injector;
     this.items = [];
-    this.rubrics = RubricStore.getRubrics();
+    this.rubrics = RubricStore.rubrics;
     if (!this.rubrics.length) {
       RubricActions.load();
     } else {
       this.applyRubrics();
     }
     $scope.$listenTo(RubricStore, ()=> {
-      this.rubrics = RubricStore.getRubrics();
+      this.rubrics = RubricStore.rubrics;
       this.applyRubrics();
     });
   }

@@ -36,7 +36,7 @@
     "lodash": "^4.0.0",
     "moment-timezone": "^0.5.0",
     "ngInfiniteScroll": "~1.2.1",
-    "flux-angular": "^2.3.2",
+    "flux-angular": "^3.0.0",
     "perfect-scrollbar": "^0.6.8"
   },
   "dependencies": {},

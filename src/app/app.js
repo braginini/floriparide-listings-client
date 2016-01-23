@@ -112,7 +112,7 @@ export var app = angular
     .value('config', config)
 
     .config(($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
-      fluxProvider.useCloning(false);
+      //fluxProvider.useCloning(false);
       $locationProvider
         .html5Mode(false)
         .hashPrefix('!');
@@ -150,6 +150,10 @@ export var app = angular
       });
 
       $urlRouterProvider.otherwise(rootUrl);
+    })
+
+    .config(function (fluxProvider) {
+      fluxProvider.setImmutableDefaults({ immutable: false });
     })
 
     .config(function($provide, nemSimpleLoggerProvider) {

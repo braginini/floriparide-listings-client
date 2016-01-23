@@ -20,11 +20,11 @@
     </div>
     <div class="card-hr"></div>
     <div class="photos" ng-class="{'more': b.photos.length > 3}" ng-if="::b.photos.length">
-        <a href="#" ng-repeat="photo in b.photos" ng-click="$event.preventDefault();showGallery($index);">
+        <a href="#" ng-repeat="photo in b.photos track by $index" ng-click="$event.preventDefault();showGallery($index);">
             <img ng-src="{{::photo.src}}">
         </a>
     </div>
-    <div class="icon-container" ng-repeat="(name, attributes) in ::attrGroups" ng-if="::attrGroups">
+    <div class="icon-container" ng-repeat="(name, attributes) in ::attrGroups track by $index" ng-if="::attrGroups">
         <i ng-class="'icon-' + name + ' left-icon'"></i>
         <ul class="card-list attributes">
             <li ng-repeat="a in attributes track by $index" itemprop="{{::a.itemprop}}">{{::a.formatted}}</li>

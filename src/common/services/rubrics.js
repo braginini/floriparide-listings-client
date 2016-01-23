@@ -4,19 +4,24 @@ export default angular
   ])
   .store('RubricStore', function (sessionStorage) {
     return {
+      initialize() {
+        var rubrics = sessionStorage.get('rubrics');
+        this.state = this.immutable({
+          rubrics: rubrics ? rubrics : []
+        });
+      },
       handlers: {
         'rubrics.load.success': 'onRubricsLoadSuccess'
       },
       onRubricsLoadSuccess: function (res) {
         if (res.items) {
           sessionStorage.put('rubrics', res.items);
-          this.emitChange();
+          this.state.set('rubrics');
         }
       },
       exports: {
-        getRubrics: function () {
-          var res = sessionStorage.get('rubrics');
-          return res ? res : [];
+        get rubrics() {
+          return this.state.get('rubrics');
         }
       }
     };

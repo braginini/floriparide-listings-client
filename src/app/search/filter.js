@@ -29,7 +29,7 @@ export default angular
   .controller('FilterCtrl', function ($scope, $state, TopAttributesStore, AvailableAttributesStore) {
     var getGroups = function () {
       var singletons = [];
-      var groups = _.filter((TopAttributesStore.getTopAttributes() || []).slice(1), g => {
+      var groups = _.filter((TopAttributesStore.topAttributes || []).slice(1), g => {
         if (g.attributes && g.attributes.length > 0) {
           if (g.attributes.length > 1) {
             return true;
@@ -53,9 +53,9 @@ export default angular
       $scope.attributeGroups = getGroups();
     });
 
-    $scope.availableAttributes = AvailableAttributesStore.getAttributes();
+    $scope.availableAttributes = AvailableAttributesStore.attributes;
     $scope.$listenTo(AvailableAttributesStore, function () {
-      $scope.availableAttributes = AvailableAttributesStore.getAttributes();
+      $scope.availableAttributes = AvailableAttributesStore.attributes;
     });
 
     $scope.$emit('filter.show');
