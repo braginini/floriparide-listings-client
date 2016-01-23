@@ -13,7 +13,9 @@ export default angular
         });
 
         var update = function () {
+          if (domEl) {
             Ps.update(domEl);
+          }
         };
         winEl.on('resize', update);
 

@@ -106,7 +106,7 @@ export default
     };
   })
 
-  .store('BranchStore', function () {
+  .store('BranchStore', function (config) {
     return {
       initialize() {
         this.state = this.immutable({
@@ -120,10 +120,13 @@ export default
       handlers: {
         'branches.load': 'onBranchesLoad',
         'branches.load.success': 'onBranchesLoadSuccess',
-        'branches.clear': 'onBranchesClear'
+        'branches.clear': 'onBranchesClear',
+        'locale.changed': 'onLocaleChanged'
       },
       onBranchesLoad(params) {
-        this.state.set('params',_.clone(params));
+        this.state.set('params',_.assign({
+          locale: config.clientLocale
+        }, params));
       },
       onBranchesLoadSuccess(res) {
         this.state.set('totalCount', res.total);
@@ -139,6 +142,10 @@ export default
           eof: false
         });
         //this.params = {};
+      },
+      onLocaleChanged() {
+        this.onBranchesClear();
+        this.state.set('params', {});
       },
       exports: {
         get branches() {
@@ -204,7 +211,8 @@ export default
       },
 
       handlers: {
-        'branches.select.success': 'onBranchesSelectSuccess'
+        'branches.select.success': 'onBranchesSelectSuccess',
+        'locale.changed': 'onLocaleChanged'
       },
       onBranchesSelectSuccess(branch) {
         this.state.set('selected', branch);
@@ -212,6 +220,9 @@ export default
           _.forEach(listeners, l=> l.resolve(branch));
           listeners = [];
         }
+      },
+      onLocaleChanged() {
+        this.state.set('selected', null);
       },
       exports: {
         get selected() {

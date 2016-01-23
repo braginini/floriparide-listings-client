@@ -39,6 +39,14 @@ var availableLangs = {
   'lv': 'lv_Lv'
 };
 
+var localeNames = {
+  'en_Us': 'EN',
+  'pt_Br': 'PT(BR)',
+  'ru_Ru': 'RU',
+  'de_De': 'DE',
+  'lv_Lv': 'LV'
+};
+
 export var app = angular
     .module('app', [
       'seo',
@@ -113,6 +121,7 @@ export var app = angular
 
     .config(($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
       //fluxProvider.useCloning(false);
+      fluxProvider.autoInjectStores(true);
       $locationProvider
         .html5Mode(false)
         .hashPrefix('!');
@@ -133,20 +142,7 @@ export var app = angular
       state('main', {
         url: '/:lang/' + config.project.string_id,
         controller: 'MainCtrl',
-        templateUrl: 'main.tpl.html',
-        resolve: {
-          lang: function($stateParams, localeService, $window) {
-            var lang = $stateParams.lang;
-            if (!availableLangs[lang]) {
-              $window.location.href = $state.href($state.current, {lang: config.browserLocale.split('_')[0]});
-            }
-
-            if (availableLangs[lang] !== config.clientLocale) {
-                return localeService.setLocale(availableLangs[lang]).then(()=> lang);
-            }
-            return $stateParams.lang;
-          }
-        }
+        templateUrl: 'main.tpl.html'
       });
 
       $urlRouterProvider.otherwise(rootUrl);
@@ -160,7 +156,7 @@ export var app = angular
       return $provide.decorator.apply(null, nemSimpleLoggerProvider.decorator);
     })
 
-    .run(function ($q, $timeout, $log, localeService) {
+    .run(function ($q, $timeout, $log, $state, $rootScope, localeService) {
       initialDefer = $q.defer();
       localeService.setLocale(config.clientLocale).then(function () {
         initialDefer.resolve(config);
@@ -169,9 +165,24 @@ export var app = angular
         }, 300);
       });
       $log.currentLevel = $log.LEVELS.error;
+
+      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        var lang = toParams.lang;
+        if (!availableLangs[lang]) {
+          event.preventDefault();
+          $window.location.href = $state.href($state.current, {lang: config.browserLocale.split('_')[0]});
+        } else {
+          if (availableLangs[lang] !== config.clientLocale) {
+            event.preventDefault();
+            localeService.setLocale(availableLangs[lang]).then(() => {
+              $state.go(toState.name, toParams);
+            });
+          }
+        }
+      });
     })
 
-    .controller('MainCtrl', function ($scope, $rootScope, $stateParams, $state) {
+    .controller('MainCtrl', function ($scope, $rootScope, $stateParams, $state, $window) {
       $scope.project = config.project;
       $scope.query = $stateParams.q;
       $scope.showDashboard = $state.is('main');
@@ -179,6 +190,11 @@ export var app = angular
       $scope.$on('search.query', function (event, query) {
         $scope.query = query;
       });
+
+      var locales = _.filter(config.project.supportedLocales, l=> l!==config.clientLocale);
+      var langs = _.invert(availableLangs);
+      $scope.supportedLangs = _.zipObject(_.map(locales, l=> langs[l]), _.map(locales, l=> localeNames[l]));
+      $scope.currentLang = localeNames[config.clientLocale];
 
       $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
         if (toState.name === 'main') {
@@ -225,6 +241,10 @@ export var app = angular
         $scope.showDashboard = true;
         $scope.showDashboardButton = false;
       };
+
+      $scope.changeLang = function(l) {
+        $window.location.href = $state.href($state.current, {lang: l});
+      };
     })
 ;
 
@@ -238,12 +258,13 @@ export var app = angular
   var browserLocale = availableLangs[browserLanguage] || 'en_Us';
 
   config.browserLocale = browserLocale;
-  config.clientLocale = $cookies.locale || browserLocale;
+  config.clientLocale = $cookies.get('locale') || browserLocale;
 
   if (ss) {
     let project = ss.getItem('project');
     if (project) {
       project = angular.fromJson(project);
+      project.supportedLocales = ['ru_Ru', 'en_Us', 'lv_Lv'];
       config.project = project;
       angular.bootstrap(document, ['app']);
     }

@@ -1,6 +1,6 @@
 export default angular
   .module('services.locale', [])
-  .factory('localeService', function($cookies, api, amMoment, locale, config) {
+  .factory('localeService', function($q, $cookies, api, amMoment, locale, config, flux) {
     return {
       getLocale() {
         return config.clientLocale;
@@ -8,7 +8,7 @@ export default angular
       setLocale(value) {
         config.clientLocale = value;
         this.locale = value;
-        $cookies.locale = value;
+        $cookies.put('locale', value);
         api.locale = value;
         amMoment.changeLocale({
           'en_Us': 'en_gb',
@@ -21,7 +21,9 @@ export default angular
         let lang = value.split('_');
         locale.setLocale(lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase());
 
-        return locale.ready('common');
+        flux.dispatch('locale.changed');
+
+        return $q.all(locale.ready('common'), locale.ready('feedback'));
       }
     };
   });

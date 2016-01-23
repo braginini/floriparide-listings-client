@@ -2,6 +2,19 @@
          resizable ng-style="{ width: windowWidth, height: windowHeight}">
 </leaflet>
 
+<div class="header-items">
+    <div class="btn-group lang-btn" uib-dropdown>
+        <button type="button" class="header-item btn btn-primary" uib-dropdown-toggle>
+            {{::currentLang}}
+        </button>
+        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button">
+            <li role="menuitem" ng-repeat="(lang,name) in ::supportedLangs">
+                <a href="#" ng-click="changeLang(lang);$event.preventDefault();">{{::name}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <div class="side_west">
     <form class="form-inline" ng-submit="search(query)">
         <div class="input-group push-down-10 search">
