@@ -15,9 +15,14 @@
     </div>
     <div class="card-hr"></div>
     <div branch-schedule="b.schedule" class="block-lg" ng-if="::b.schedule | isNonEmpty"></div>
-    <div ng-if="b.contacts" ng-repeat="contact in b.contacts track by $index">
+    <div ng-if="::b.nonSNContacts" ng-repeat="contact in ::b.nonSNContacts track by $index">
         <div branch-contact="contact" class="block-lg"></div>
     </div>
+    <ul class="branch-sns" ng-if="::b.snContacts">
+        <li ng-repeat="contact in ::b.snContacts track by $index">
+            <div branch-contact-sn="contact"></div>
+        </li>
+    </ul>
     <div class="card-hr"></div>
     <div class="photos" ng-class="{'more': b.photos.length > 3}" ng-if="::b.photos.length">
         <a href="#" ng-repeat="photo in b.photos track by $index" ng-click="$event.preventDefault();showGallery($index);">

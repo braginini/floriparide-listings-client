@@ -145,6 +145,10 @@ export default angular
         map.setView(map.unproject(p, zoom), zoom);
       });
     };
+
+    let sns = ['facebook', 'twitter', 'instagram', 'draugiem'];
+    $scope.b.nonSNContacts = _($scope.b.contacts).filter(c=> sns.indexOf(c.contact) < 0).sortBy(c=> c.contact).value();
+    $scope.b.snContacts = _($scope.b.contacts).filter(c=> sns.indexOf(c.contact) > -1).sortBy(c=> c.contact).value();
   })
 
   .filter('formatAttribute', function (locale) {

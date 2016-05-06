@@ -1,19 +1,19 @@
 <div class="branch-contact icon-container">
     <div ng-if="c.contact === 'website'">
         <i class="icon-ie left-icon"></i>
-        <a ng-href="{{c.url}}" target="_blank">{{c.url|host}}</a>
+        <a ng-href="{{c.url}}" target="_blank">{{c.value|host}}</a>
     </div>
     <div ng-if="c.contact === 'facebook'">
         <i class="icon-facebook left-icon"></i>
-        <a ng-href="{{c.url}}" target="_blank">{{c.url|host}}</a>
+        <a ng-href="{{c.url}}" target="_blank">{{c.value|host}}</a>
     </div>
     <div ng-if="c.contact === 'twitter'">
         <i class="icon-twitter left-icon"></i>
-        <a ng-href="{{c.url}}" target="_blank">{{c.url|host}}</a>
+        <a ng-href="{{c.url}}" target="_blank">{{c.value|host}}</a>
     </div>
     <div ng-if="c.contact === 'instagram'">
         <i class="icon-instagramm left-icon"></i>
-        <a ng-href="{{c.url}}" target="_blank">{{c.url|host}}</a>
+        <a ng-href="{{c.url}}" target="_blank">{{c.value|host}}</a>
     </div>
     <div ng-if="c.contact === 'email'">
         <i class="icon-mail left-icon"></i>
@@ -21,11 +21,11 @@
     </div>
     <div ng-if="c.contact === 'phone'">
         <i class="icon-phone left-icon"></i>
-        {{c.value|phone}}
+        <a ng-href="tel:{{c.value|phone}}">{{c.value|phone}}</a>
     </div>
     <div ng-if="c.contact === 'fax'">
         <i class="icon-fax left-icon"></i>
-        {{c.value|phone}}
+        <a ng-href="tel:{{c.value|phone}}">{{c.value|phone}}</a>
     </div>
     <div ng-if="c.contact === 'skype'">
         <i class="icon-skype left-icon"></i>

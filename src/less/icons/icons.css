@@ -1,10 +1,11 @@
 @font-face {
   font-family: 'icons';
-  src: url('../font/icons.eot?61975910');
-  src: url('../font/icons.eot?61975910#iefix') format('embedded-opentype'),
-       url('../font/icons.woff?61975910') format('woff'),
-       url('../font/icons.ttf?61975910') format('truetype'),
-       url('../font/icons.svg?61975910#icons') format('svg');
+  src: url('../font/icons.eot?24953500');
+  src: url('../font/icons.eot?24953500#iefix') format('embedded-opentype'),
+       url('../font/icons.woff2?24953500') format('woff2'),
+       url('../font/icons.woff?24953500') format('woff'),
+       url('../font/icons.ttf?24953500') format('truetype'),
+       url('../font/icons.svg?24953500#icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'icons';
-    src: url('../font/icons.svg?61975910#icons') format('svg');
+    src: url('../font/icons.svg?24953500#icons') format('svg');
   }
 }
 */
@@ -109,3 +110,4 @@
 .icon-food:before { content: '\e834'; } /* '' */
 .icon-fast-food:before { content: '\e835'; } /* '' */
 .icon-truck:before { content: '\e836'; } /* '' */
+.icon-draugiem:before { content: '\e837'; } /* '' */

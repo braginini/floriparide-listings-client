@@ -11,7 +11,7 @@ export default angular
         c: '=branchContact'
       },
       controller: ['$scope', '$sce', function($scope, $sce) {
-        if (_.some(['website', 'facebook', 'twitter', 'instagram'], $scope.c.contact)) {
+        if (_.some(['website', 'facebook', 'twitter', 'instagram', 'draugiem'], v=> v === $scope.c.contact)) {
           $scope.c.url = $sce.trustAsUrl($scope.c.value);
         }
 
@@ -21,23 +21,36 @@ export default angular
       }]
     };
   }])
-  .filter('phone', [function () {
+  .directive('branchContactSn', [function () {
+    return {
+      restrict: 'EA',
+      templateUrl: 'directives/branch/contact-sn.tpl.html',
+      replace: true,
+      scope: {
+        c: '=branchContactSn'
+      },
+      controller: ['$scope', '$sce', function($scope, $sce) {
+        if (_.some(['website', 'facebook', 'twitter', 'instagram', 'draugiem'], v=> v === $scope.c.contact)) {
+          $scope.c.url = $sce.trustAsUrl($scope.c.value);
+        }
+      }]
+    };
+  }])
+  .filter('phone', function (config) {
     return function (phone) {
       if (!phone) {
         return null;
       }
+
       var numbers = phone.match(/\d+/g, '').join('');
-      if (numbers.length < 10) {
-        if (numbers.indexOf('48') !== 0) {
-          numbers = '48' + numbers;
-        }
-      }
+      var code = config.project.phone_codes.find(c=> numbers.startsWith(c));
 
       var parts = [];
-      for (var i = 2; i < numbers.length; i += 4) {
-        parts.push(numbers.substring(i, i + 4));
+      numbers = numbers.substring(code.length).split('').reverse().join('');
+      for (var i = 0; i < numbers.length; i += 3) {
+        parts.push(numbers.substring(i, i + 3));
       }
-      return '(' + numbers.substring(0,2) + ') ' + parts.join('-');
+      return '+' + code + ' ' + parts.reverse().join('-');
     };
-  }])
+  })
 ;
