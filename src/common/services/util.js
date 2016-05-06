@@ -5,6 +5,9 @@ export default angular
   .factory('util', [function () {
     var me = {
       parseUrl: function (url) {
+        if (url.indexOf('http') !== 0 && url.indexOf('ftp') !== 0) {
+          url = 'http://' + url;
+        }
         var a = document.createElement('a');
         a.href = url;
         return {
@@ -91,7 +94,11 @@ export default angular
 
   .filter('host', ['util', function(util) {
     return function (url) {
-      return util.parseUrl(url).host;
+      var host = util.parseUrl(url).host;
+      if (host.startsWith('www.')) {
+        host = host.substring(4);
+      }
+      return host;
     };
   }])
 
