@@ -84,8 +84,10 @@ export default angular
     }
     name = name
       .trim()
+      .replace(/"/g, '')
       .replace(/\s+-\s+/, ' ')
-      .replace(/\s/g, '-');
+      .replace(/\s/g, '-')
+      .replace(/[-]{2,}/g, '-');
 
     if (!$stateParams.name || $stateParams.name !== name) {
       $state.transitionTo($state.current.name, {name: name}, {

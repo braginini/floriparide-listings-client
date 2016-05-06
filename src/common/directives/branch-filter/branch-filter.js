@@ -15,6 +15,8 @@ export default angular
       },
       controller ($scope, util) {
         $scope.bShowHeader = util.parseBoolean($scope.showHeader) && $scope.g.attributes.length > 1;
+
+        $scope.g.attributes = _.uniqBy($scope.g.attributes, 'id');
         $scope.groups = _.groupBy($scope.g.attributes, 'filter_type');
 
         $scope.$watch('g', () => {
