@@ -135,12 +135,17 @@ export default
           this.state.set('eof', true);
         }
       },
-      onBranchesClear() {
+      onBranchesClear(full) {
         this.state.merge({
           branches: [],
           totalCount: 0,
           eof: false
         });
+        if (full) {
+          this.state.merge({
+            params: {start: 0}
+          });
+        }
         //this.params = {};
       },
       onLocaleChanged() {
@@ -243,8 +248,12 @@ export default
 
   .factory('BranchActions', function (api, flux, $q, BranchStore/*, BranchLoadingStore*/) {
     return {
-      clear() {
-        flux.dispatch('branches.clear');
+      /**
+       * Clear branches
+       * @param full boolean if true - clear also params, default false
+       */
+      clear(full=false) {
+        flux.dispatch('branches.clear', full);
       },
       search(params, clear=false) {
         //if (BranchLoadingStore.isLoading()) {

@@ -274,6 +274,7 @@ export var app = angular
     $http.get(config.endpoints.api + '/project/list?locale=' + config.clientLocale).then(res => {
       if (res && res.data && res.data.result.items.length) {
         config.project = res.data.result.items[0];
+        config.project.supportedLocales = ['ru_Ru', 'en_Us', 'lv_Lv'];
         ss.setItem('project', angular.toJson(config.project));
       }
       angular.bootstrap(document, ['app']);

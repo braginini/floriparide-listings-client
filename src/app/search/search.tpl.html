@@ -13,7 +13,7 @@
         <div class="panel-heading">
             <ul class="panel-controls">
                 <li class="pc-collapse"><a class="panel-collapse" href="#"><span class="icon-minus-1"></span></a></li>
-                <li class="pc-close"><a class="panel-remove" href="#!/"><span class="icon-times"></span></a></li>
+                <li class="pc-close"><a class="panel-remove" href="#" ng-click="$event.preventDefault();goMain();"><span class="icon-times"></span></a></li>
             </ul>
             <h3 class="panel-title">
                 {{'common.organizations' | i18n}} <span class="count" ng-show="self.count">{{self.count}}</span>

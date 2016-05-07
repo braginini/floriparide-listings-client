@@ -26,7 +26,7 @@ export default angular
     });
   }])
 
-  .controller('FilterCtrl', function ($scope, $state, TopAttributesStore, AvailableAttributesStore) {
+  .controller('FilterCtrl', function ($scope, $state, $stateParams, TopAttributesStore, AvailableAttributesStore) {
     var getGroups = function () {
       var singletons = [];
       var groups = _.filter((TopAttributesStore.topAttributes || []).slice(1), g => {

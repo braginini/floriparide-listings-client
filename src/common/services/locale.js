@@ -16,7 +16,7 @@ export default angular
           'ru_Ru': 'ru',
           'de_De': 'de',
           'lv_Lv': 'lv'
-        }[locale]);
+        }[value]);
 
         let lang = value.split('_');
         locale.setLocale(lang[0].toLocaleLowerCase() + '-' + lang[1].toUpperCase());

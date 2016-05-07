@@ -92,9 +92,13 @@ export class SearchCtrl {
       this.map.then(map => {
         map.removeLayer(this.cluster);
       });
-      BranchActions.clear();
+      BranchActions.clear(true);
       $scope.$emit('search.query', null);
     });
+
+    $scope.goMain = ()=> {
+      $injector.get('state').go('main');
+    };
   }
 
   $get(name) {
@@ -274,6 +278,10 @@ export class RubricsCtrl {
   }
 }
 
+const onExit = (BranchActions) => {
+  BranchActions.clear(true);
+};
+
 export default angular
   .module('app.search', [
     'ui.router',
@@ -291,14 +299,16 @@ export default angular
       url: '/search/:query',
       controller: 'SearchCtrl',
       controllerAs: 'self',
-      templateUrl: 'search/search.tpl.html'
+      templateUrl: 'search/search.tpl.html',
+      onExit: onExit
     });
 
     $stateProvider.state('main.rubric', {
       url: '/rubric/{id:int}/:query',
       controller: 'RubricCtrl',
       controllerAs: 'self',
-      templateUrl: 'search/search.tpl.html'
+      templateUrl: 'search/search.tpl.html',
+      onExit: onExit
     });
 
     $stateProvider.state('main.rubric2', {
@@ -313,6 +323,7 @@ export default angular
       controller: 'RubricsCtrl',
       controllerAs: 'self',
       templateUrl: 'search/rubrics.tpl.html',
+      onExit: onExit,
       params: {
         parent: {
           value: null,
