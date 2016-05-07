@@ -97,7 +97,7 @@ export class SearchCtrl {
     });
 
     $scope.goMain = ()=> {
-      $injector.get('state').go('main');
+      $injector.get('$state').go('main');
     };
   }
 
