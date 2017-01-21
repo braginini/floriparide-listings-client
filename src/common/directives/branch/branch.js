@@ -122,7 +122,7 @@ export default angular
     }).value();
 
     $scope.showGallery = function (index) {
-      Gallery.create($scope.b.photos, index);
+      Gallery.create(_.map($scope.b.photos, p=> p.o), index);
     };
 
     $scope.getRubricUrl = function (r) {

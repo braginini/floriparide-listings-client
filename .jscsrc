@@ -11,7 +11,6 @@
     "requireOperatorBeforeLineBreak": true,
     "validateIndentation": 2,
     "validateQuoteMarks": true,
-    "esnext": true,
 
     "disallowMultipleLineStrings": true,
     "disallowMixedSpacesAndTabs": true,
@@ -30,7 +29,6 @@
       "catch"
     ],
     "requireSpaceAfterBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", "<", ">=", "<="],
-    "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch"],
     "requireSpaceBeforeBinaryOperators": ["+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", "<", ">=", "<="],
     "requireSpacesInConditionalExpression": true,
     "requireSpaceBeforeBlockStatements": true,
@@ -38,7 +36,7 @@
     "requireSpacesInFunctionExpression": {
         "beforeOpeningCurlyBrace": true
     },
-    "validateJSDoc": {
+    "jsDoc": {
         "checkParamNames": true,
         "requireParamTypes": true
     },

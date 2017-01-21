@@ -26,7 +26,7 @@
     <div class="card-hr"></div>
     <div class="photos" ng-class="{'more': b.photos.length > 3}" ng-if="::b.photos.length">
         <a href="#" ng-repeat="photo in b.photos track by $index" ng-click="$event.preventDefault();showGallery($index);">
-            <img ng-src="{{::photo.src}}">
+            <img ng-src="{{::photo.m.src}}">
         </a>
     </div>
     <div class="icon-container" ng-repeat="(name, attributes) in ::attrGroups track by $index" ng-if="::attrGroups">

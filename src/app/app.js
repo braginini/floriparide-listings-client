@@ -48,207 +48,207 @@ var localeNames = {
 };
 
 export var app = angular
-    .module('app', [
-      'seo',
-      'flux',
-      'ngCookies',
-      'ngLocalize',
-      'ngLocalize.Config',
-      'ngLocalize.InstalledLanguages',
-      'ui.router',
-      'ui.bootstrap.buttons',
-      'ui.bootstrap.dropdown',
-      'ui.bootstrap.tooltip',
-      'ui.bootstrap.tabs',
-      'angulartics',
-      'angulartics.piwik',
-      'angulartics.google.analytics',
-      'nemLogging',
-      'leaflet-directive',
-      'infinite-scroll',
-      'angularMoment',
-      'templates-app',
-      'templates-common',
-      //'uib/template/tooltip/tooltip-popup.html',
-      //'uib/template/tabs/tab.html',
-      //'uib/template/tabs/tabset.html',
-      'uib/template/modal/backdrop.html',
-      'uib/template/modal/window.html',
-      'services.api',
-      'services.locale',
-      'services.branches',
-      'directives.resizable',
-      'directives.scrollbar',
-      'directives.dashboard',
-      'directives.feedback',
-      'app.search',
-      'app.search.filter'
-    ])
+  .module('app', [
+    'seo',
+    'flux',
+    'ngCookies',
+    'ngLocalize',
+    'ngLocalize.Config',
+    'ngLocalize.InstalledLanguages',
+    'ui.router',
+    'ui.bootstrap.buttons',
+    'ui.bootstrap.dropdown',
+    'ui.bootstrap.tooltip',
+    'ui.bootstrap.tabs',
+    'angulartics',
+    'angulartics.piwik',
+    'angulartics.google.analytics',
+    'nemLogging',
+    'leaflet-directive',
+    'infinite-scroll',
+    'angularMoment',
+    'templates-app',
+    'templates-common',
+    //'uib/template/tooltip/tooltip-popup.html',
+    //'uib/template/tabs/tab.html',
+    //'uib/template/tabs/tabset.html',
+    'uib/template/modal/backdrop.html',
+    'uib/template/modal/window.html',
+    'services.api',
+    'services.locale',
+    'services.branches',
+    'directives.resizable',
+    'directives.scrollbar',
+    'directives.dashboard',
+    'directives.feedback',
+    'app.search',
+    'app.search.filter'
+  ])
 
-    .constant('angularMomentConfig', {
-      //preprocess: 'unix', // optional
-      //timezone: 'America/Sao_Paulo' // optional
-    })
+  // .constant('angularMomentConfig', {
+  //   //preprocess: 'unix', // optional
+  //   //timezone: 'America/Sao_Paulo' // optional
+  // })
 
-    .value('localeConf', {
-      basePath: 'languages',
-      defaultLocale: 'en-US',
-      sharedDictionary: 'common',
-      fileExtension: '.lang.json?dc=' + cacheRandom,
-      persistSelection: true,
-      cookieName: 'COOKIE_LOCALE_LANG',
-      observableAttrs: new RegExp('^data-(?!ng-|i18n)'),
-      delimiter: '::'
-    })
+  .value('localeConf', {
+    basePath: 'languages',
+    defaultLocale: 'en-US',
+    sharedDictionary: 'common',
+    fileExtension: '.lang.json?dc=' + cacheRandom,
+    persistSelection: true,
+    cookieName: 'COOKIE_LOCALE_LANG',
+    observableAttrs: new RegExp('^data-(?!ng-|i18n)'),
+    delimiter: '::'
+  })
 
-    .value('localeSupported', [
-      'en-US',
-      'pt-BR',
-      'ru-RU',
-      'de-DE',
-      'lv-LV'
-    ])
+  .value('localeSupported', [
+    'en-US',
+    'pt-BR',
+    'ru-RU',
+    'de-DE',
+    'lv-LV'
+  ])
 
-    .value('localeFallbacks', {
-      'en': 'en-US',
-      'pt': 'pt-BR',
-      'ru': 'ru-RU',
-      'de': 'de-DE',
-      'lv': 'lv-LV'
-    })
+  .value('localeFallbacks', {
+    'en': 'en-US',
+    'pt': 'pt-BR',
+    'ru': 'ru-RU',
+    'de': 'de-DE',
+    'lv': 'lv-LV'
+  })
 
-    .value('config', config)
+  .value('config', config)
 
-    .config(($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
-      //fluxProvider.useCloning(false);
-      fluxProvider.autoInjectStores(true);
-      $locationProvider
-        .html5Mode(false)
-        .hashPrefix('!');
+  .config(($stateProvider, $locationProvider, $urlRouterProvider, $compileProvider, fluxProvider) => {
+    //fluxProvider.useCloning(false);
+    fluxProvider.autoInjectStores(true);
+    $locationProvider
+    .html5Mode(false)
+    .hashPrefix('!');
 
-      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|skype):/);
-      var state = function (name, config) {
-        if (!config.resolve) {
-          config.resolve = {};
-        }
-        config.resolve.config = function () {
-          return initialDefer.promise;
-        };
-        return $stateProvider.state(name, config);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|skype):/);
+    var state = function (name, config) {
+      if (!config.resolve) {
+        config.resolve = {};
+      }
+      config.resolve.config = function () {
+        return initialDefer.promise;
       };
+      return $stateProvider.state(name, config);
+    };
 
-      let lang = config.clientLocale.split('_')[0];
-      let rootUrl = '/' + lang + '/' + config.project.string_id;
-      state('main', {
-        url: '/:lang/' + config.project.string_id,
-        controller: 'MainCtrl',
-        templateUrl: 'main.tpl.html'
-      });
+    let lang = config.clientLocale.split('_')[0];
+    let rootUrl = '/' + lang + '/' + config.project.string_id;
+    state('main', {
+      url: '/:lang/' + config.project.string_id,
+      controller: 'MainCtrl',
+      templateUrl: 'main.tpl.html'
+    });
 
-      $urlRouterProvider.otherwise(rootUrl);
-    })
+    $urlRouterProvider.otherwise(rootUrl);
+  })
 
-    .config(function (fluxProvider) {
-      fluxProvider.setImmutableDefaults({ immutable: false });
-    })
+  .config(function (fluxProvider) {
+    fluxProvider.setImmutableDefaults({immutable: false});
+  })
 
-    .config(function($provide, nemSimpleLoggerProvider) {
-      return $provide.decorator.apply(null, nemSimpleLoggerProvider.decorator);
-    })
+  .config(function ($provide, nemSimpleLoggerProvider) {
+    return $provide.decorator.apply(null, nemSimpleLoggerProvider.decorator);
+  })
 
-    .run(function ($q, $timeout, $log, $state, $rootScope, localeService) {
-      initialDefer = $q.defer();
-      localeService.setLocale(config.clientLocale).then(function () {
-        initialDefer.resolve(config);
-        $timeout(() => {
-          $('#loading-mask').remove();
-        }, 300);
-      });
-      $log.currentLevel = $log.LEVELS.error;
+  .run(function ($q, $timeout, $log, $state, $rootScope, localeService) {
+    initialDefer = $q.defer();
+    localeService.setLocale(config.clientLocale).then(function () {
+      initialDefer.resolve(config);
+      $timeout(() => {
+        $('#loading-mask').remove();
+      }, 300);
+    });
+    $log.currentLevel = $log.LEVELS.error;
 
-      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-        var lang = toParams.lang;
-        if (!availableLangs[lang]) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      var lang = toParams.lang;
+      if (!availableLangs[lang]) {
+        event.preventDefault();
+        $window.location.href = $state.href($state.current, {lang: config.browserLocale.split('_')[0]});
+      } else {
+        if (availableLangs[lang] !== config.clientLocale) {
           event.preventDefault();
-          $window.location.href = $state.href($state.current, {lang: config.browserLocale.split('_')[0]});
-        } else {
-          if (availableLangs[lang] !== config.clientLocale) {
-            event.preventDefault();
-            localeService.setLocale(availableLangs[lang]).then(() => {
-              $state.go(toState.name, toParams);
-            });
-          }
+          localeService.setLocale(availableLangs[lang]).then(() => {
+            $state.go(toState.name, toParams);
+          });
         }
-      });
-    })
+      }
+    });
+  })
 
-    .controller('MainCtrl', function ($scope, $rootScope, $stateParams, $state, $window) {
-      $scope.project = config.project;
-      $scope.query = $stateParams.q;
-      $scope.showDashboard = $state.is('main');
-      $scope.showDashboardButton = false;
-      $scope.$on('search.query', function (event, query) {
-        $scope.query = query;
-      });
+  .controller('MainCtrl', function ($scope, $rootScope, $stateParams, $state, $window) {
+    $scope.project = config.project;
+    $scope.query = $stateParams.q;
+    $scope.showDashboard = $state.is('main');
+    $scope.showDashboardButton = false;
+    $scope.$on('search.query', function (event, query) {
+      $scope.query = query;
+    });
 
-      var locales = _.filter(config.project.supportedLocales, l=> l!==config.clientLocale);
-      var langs = _.invert(availableLangs);
-      $scope.supportedLangs = _.zipObject(_.map(locales, l=> langs[l]), _.map(locales, l=> localeNames[l]));
-      $scope.currentLang = localeNames[config.clientLocale];
+    var locales = _.filter(config.project.supportedLocales, l => l !== config.clientLocale);
+    var langs = _.invert(availableLangs);
+    $scope.supportedLangs = _.zipObject(_.map(locales, l => langs[l]), _.map(locales, l => localeNames[l]));
+    $scope.currentLang = localeNames[config.clientLocale];
 
-      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-        if (toState.name === 'main') {
-          $scope.showDashboard = true;
-          $scope.showDashboardButton = false;
-        } else {
-          $scope.showDashboard = false;
-          $scope.showDashboardButton = false;
-        }
-      });
-
-      $scope.$on('dashboard.close', function () {
-        $scope.showDashboard = false;
-        $scope.showDashboardButton = true;
-      });
-
-      $scope.layers = {
-        baselayers: {
-          osm: {
-            name: 'OpenStreetMap',
-            type: 'xyz',
-            url: config.endpoints.tileLayer,
-            layerOptions: {
-              subdomains: ['a', 'b', 'c']
-            }
-          }
-        }
-      };
-
-      $scope.defaults = angular.extend(config.map_defaults || {}, {
-        maxZoom: config.project.zoom.max,
-        minZoom: config.project.zoom.min
-      });
-
-      $scope.maxbounds = [];
-      $scope.initPoint = config.project.default_position;
-
-      $scope.search = function (q) {
-        $state.go('main.search', {query: q});
-      };
-
-      $scope.goHome = function () {
-        $state.go('main');
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+      if (toState.name === 'main') {
         $scope.showDashboard = true;
         $scope.showDashboardButton = false;
-      };
+      } else {
+        $scope.showDashboard = false;
+        $scope.showDashboardButton = false;
+      }
+    });
 
-      $scope.changeLang = function(l) {
-        $window.location.href = $state.href($state.current, {lang: l});
-      };
-    })
-;
+    $scope.$on('dashboard.close', function () {
+      $scope.showDashboard = false;
+      $scope.showDashboardButton = true;
+    });
 
-(function() {
+    $scope.layers = {
+      baselayers: {
+        osm: {
+          name: 'OpenStreetMap',
+          type: 'xyz',
+          url: config.endpoints.tileLayer,
+          layerOptions: {
+            subdomains: ['a', 'b', 'c']
+          }
+        }
+      }
+    };
+
+    $scope.defaults = angular.extend(config.map_defaults || {}, {
+      maxZoom: config.project.zoom.max,
+      minZoom: config.project.zoom.min
+    });
+
+    $scope.maxbounds = [];
+    $scope.initPoint = config.project.default_position;
+
+    $scope.search = function (q) {
+      $state.go('main.search', {query: q});
+    };
+
+    $scope.goHome = function () {
+      $state.go('main');
+      $scope.showDashboard = true;
+      $scope.showDashboardButton = false;
+    };
+
+    $scope.changeLang = function (l) {
+      $window.location.href = $state.href($state.current, {lang: l});
+    };
+  })
+  ;
+
+(function () {
   var injector = angular.injector(['ng', 'ngCookies']);
   var $http = injector.get('$http');
   var $cookies = injector.get('$cookies');
